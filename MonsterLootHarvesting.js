@@ -5,21 +5,27 @@
 /// It will then send a chat on how well the player succeeds or fails
 /// It will also send the targeted creature's "[Monster name] Harvest" item to chat
 
-if (game.user.targets.size !== 1)
-    ui.notifications.warn(`Please target one token to harvest.`) /// Gotta target a token to harvest it
-else{
+if(game.user.targets.size < 1) return ui.notifications.warn(`Please target one token to harvest.`) /// Gotta target a token to harvest it
+if(!actor) return ui.notifications.warn(`You need a selected actor to perform the harvesting.`);
 
-let actors = canvas.tokens.controlled.map(({ actor }) => actor); /// Might be a better option out there?
-const arc = 'arc'//actor.data.data.skills.arc.total;
-const rel = 'rel'//actor.data.data.skills.rel.total;
-const sur = 'sur'//actor.data.data.skills.sur.total;
-const nat = 'nat'//actor.data.data.skills.nat.total;
 const [target] = game.user.targets;
-const targetDc = target.actor.data.data.details.cr;
-const targetType = target.actor.data.data.details.type.value;
-const targetSize = target.actor.data.data.traits.size;
-const harvestItem = target.actor.items.getName(`${target.actor.name} Harvest`) ///Grabs the harvest item with the Actor's name, rather than token name
+const traits = {
+	name: target.data.name,
+	cr: target.actor.data.data.details.cr,
+	type: target.actor.data.data.details.type.value,
+	size: target.actor.data.data.traits.size,
+	harvest: target.actor.items.getName(`${target.actor.name} Harvest`)?.data.data.description.value
+};
+if(!traits.harvest) return ui.notifications.info(`The target has nothing to harvest.`);
+const targetValue = Math.min(30, Math.floor(10+traits.cr));
 let adv = 0; // modifier for disadv (-1), normal (0), adv (1)
+
+const harvestStr = {
+	success: `${actor.data.name} succeeds, harvesting all items! `,
+	fail: `${actor.data.name} fails, harvesting no items.`,
+	partial: `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`
+}
+
 
 /// Define check type based on creature type
 const checkTypes = {
@@ -38,7 +44,7 @@ const checkTypes = {
     fey: 'Arcana',
     ooze: 'Arcana'
 };
-let checkSkill = checkTypes[targetType]
+let checkSkill = checkTypes[traits.type]
 
 /// Define harvest time based on creature size
 const harvestSize = {
@@ -49,77 +55,70 @@ const harvestSize = {
     huge: '4 hours',
     grg: '8+ hours'
 };
-let harvestTime = harvestSize[targetSize]
+let harvestTime = harvestSize[traits.size]
 
 /// Send the GM a whisper for the Target information, Check Type, and DC once the player uses the macro
 ChatMessage.create({
-    content: `<b>${actor.data.name} is harvesting:</b> ${target.data.name} <p><b>Type:</b> ${targetType} <b>Harvest Skill:</b> ${checkSkill}  <p><b>DC:</b> ${Math.floor(10+targetDc)} <b>Harvest Time:</b> ${harvestTime}</p>`, ///need to set max of 30?
+    content: `
+		<b>${actor.data.name} is harvesting:</b> ${traits.name} <br>
+		<b>Type:</b> ${traits.type} <b>Harvest Skill:</b> ${checkSkill} <br>
+		<b>DC:</b> ${targetValue} <b>Harvest Time:</b> ${harvestTime}`, // DC between 10-30
 })
 
-/// Let's start building the rolls, these will "pre-roll" the d20s and send a the chat message to the DM for success level
-/// There might be a better way to build this rather than having three of them, but I dont know how to simplify it because the d20 roll type is determined in the dialog
-
+/* Request skill check and create ChatMessages */
 async function skillRoll(skillCheck) {
-    let xroll = await actor.rollSkill(skillCheck, {fastForward: true, advantage: adv > 0, disadvantage: adv < 0, flavor: `<em>${actor.data.name} attempts to harvest the ${target.data.name}.</em><br>${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.data.name}`})
-	xroll = xroll.total;
-    let messageContent;
-    if (xroll > 9+targetDc) { messageContent = `${actor.data.name} succeeds, harvesting all items! `} // Edit this content for success.
-    else if (xroll <= 4+targetDc) { messageContent = `${actor.data.name} fails, harvesting no items.`} // Edit this content for failure.
-    else if (xroll <= 9+targetDc) { messageContent = `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`} // Edit this content for partial success.
-    //xroll.toMessage({ flavor: `${actor.data.name} attempts to harvest the ${target.data.name}`})
-    let chatData = {
+    let harvestRoll = (await actor.rollSkill(skillCheck, {
+		targetValue,
+		fastForward: true,
+		advantage: adv > 0,
+		disadvantage: adv < 0,
+		flavor: `
+		<em>${actor.data.name} attempts to harvest the ${traits.name}.</em> <br>
+		${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.data.name}`
+	})).total;
+    let messageContent = (harvestRoll > 9 + traits.cr) ? harvestStr.success : (harvestRoll <= 4 + traits.cr) ? harvestStr.fail : harvestStr.partial;
+    
+    const chatData = {
         user: game.data.userId,
-        content: messageContent,
+        content: `${messageContent}<hr>${traits.harvest}`,
         blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
     await ChatMessage.create(chatData, {});
 };
 
-/// This will create the dialog for the player to select the check type and add it to the roll with Dis/Adv/Normal as appropriate, 
-/// Will also send the Harvest Item from the target to chat, whispered to GM, once they have rolled
+/// This will create the dialog for the player to select the check type and add it to the roll with Dis/Adv/Normal as appropriate.
 let d = new Dialog({
-    title: 'Harvest Check',
-    content: `
+	title: `Harvest Check: ${traits.name} (${traits.type})`,
+	content: `
       <form class="flexcol">
         <div class="form-group">
           <label for="exampleSelect">Select Harvest Type</label>
           <select id="exampleSelect">
-            <option value="${arc}">Arcana - Aberration, Construct, Elemental, Fey, Ooze</option>
-            <option value="${rel}">Religion - Celestial, Fiend, Undead</option>
-            <option value="${sur}">Survival - Humanoid</option>
-            <option value="${nat}">Nature - Beast, Dragon, Giant, Monstrosity, Plant</option>
+            <option value="arc">Arcana - Aberration, Construct, Elemental, Fey, Ooze</option>
+            <option value="rel">Religion - Celestial, Fiend, Undead</option>
+            <option value="sur">Survival - Humanoid</option>
+            <option value="nat">Nature - Beast, Dragon, Giant, Monstrosity, Plant</option>
           </select>
         </div>
       </form>
     `,
-    buttons: {
-      advantage:{
-          label: 'Advantage',
-          callback: async (html) => {
-			  adv = 1;
-			  await skillRoll(`${html.find("#exampleSelect")[0].value}`)
-        }
-      },
-      normal: {
-        label: 'Normal',
-        callback: async (html) => {
-			adv = 0;
-			await skillRoll(`${html.find("#exampleSelect")[0].value}`)
-        }
-      },
-      disadvantage: {
-        label: 'Disadvantage',
-        callback: async (html) => {
-			adv = -1;
-			await skillRoll(`${html.find("#exampleSelect")[0].value}`)
-        }
-      },
-    },
-    default: 'yes',
-    close: () => {
-      console.log('Dialog Closed'),
-      harvestItem.roll({rollMode: 'blindroll'}) ///Sends Harvest Item from Target to chat, Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
-    }
-  }).render(true)
-}
+	buttons: {
+		advantage:{
+			label: 'Advantage',
+			callback: () => { adv = 1 }
+		},
+		normal: {
+			label: 'Normal',
+			callback: () => { adv = 0 }
+		},
+		disadvantage: {
+			label: 'Disadvantage',
+			callback: () => { adv = -1 }
+		},
+	},
+	default: 'yes',
+	close: async (html) => {
+		await skillRoll(`${html.find("#exampleSelect")[0].value}`);
+	}
+}).render(true)
