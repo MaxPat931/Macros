@@ -1,16 +1,15 @@
 /// This macro is supposed to be used with Anne Gregersen's Monster Loot supplements
-/// It will send a whisper to the DM for the Targeted Creature, the Creature Type, the associated skill to harvest it, and the DC of the check
+/// It will send a public chat card for the Targeted Creature, the Creature Type, the associated skill to harvest it, and the DC of the check
 /// It provides a drop down for the player to select which type of Harvest check they will be doing
 /// And roll according to the Adv/Normal/Disadv buttons selected
 /// It will then send a chat on how well the player succeeds or fails
 /// It will also send the targeted creature's "[Monster name] Harvest" item to chat
 
 if (game.user.targets.size !== 1)
-    ui.notifications.warn(`Please target one token to harvest.`)
+    ui.notifications.warn(`Please target one token to harvest.`) ///Gotta target a token to harvest it
 else{
 
 let actors = canvas.tokens.controlled.map(({ actor }) => actor); ///probably a better option out there....
-const intMod = actor.data.data.abilities.int.mod;
 const arc = actor.data.data.skills.arc.total;
 const rel = actor.data.data.skills.rel.total;
 const sur = actor.data.data.skills.sur.total;
@@ -56,8 +55,8 @@ ChatMessage.create({
     content: `<b>${actor.data.name} is harvesting:</b> ${target.data.name} <p><b>Type:</b> ${targetType} <b>Harvest Skill:</b> ${checkSkill}  <p><b>DC:</b> [[floor(10+${targetDc})]] <b>Harvest Time:</b> ${harvestTime}</p>`, ///need to set max of 30?
   })
 
-///Let's start building the rolls, these will "pre-roll" the d20s and send a the chat message to the DM for success level
-/// There might be a better way to build this rather than having three of them, but I dont know how to simplify it because the roll type is determined in the dialog
+/// Let's start building the rolls, these will "pre-roll" the d20s and send a the chat message to the DM for success level
+/// There might be a better way to build this rather than having three of them, but I dont know how to simplify it because the d20 roll type is determined in the dialog
 
 function advRoll(skillCheck) {
     let xroll = new Roll(`2d20kh+${skillCheck}`).evaluate({async: false});
@@ -69,7 +68,7 @@ function advRoll(skillCheck) {
     let chatData = {
         user: game.data.userId,
         content: messageContent,
-        blind: true, ///this will hide the roll from the player if Actually Private Rolls is installed
+        blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
     ChatMessage.create(chatData, {});
@@ -85,7 +84,7 @@ function normalRoll(skillCheck) {
     let chatData = {
         user: game.data.userId,
         content: messageContent,
-        blind: true, ///this will hide the roll from the player if Actually Private Rolls is installed
+        blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
     ChatMessage.create(chatData, {});
@@ -101,7 +100,7 @@ function disRoll(skillCheck) {
     let chatData = {
         user: game.data.userId,
         content: messageContent,
-        blind: true, ///this will hide the roll from the player if Actually Private Rolls is installed
+        blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
     ChatMessage.create(chatData, {});
@@ -130,19 +129,19 @@ let d = new Dialog({
       advantage:{
           label: 'Advantage',
           callback: (html) => { advRoll(`${html.find("#exampleSelect")[0].value}`),
-          harvestItem.roll({rollMode: 'blindroll'}) ///Players will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+          harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
         }
       },
       normal: {
         label: 'Normal',
         callback: (html) => { normalRoll(`${html.find("#exampleSelect")[0].value}`),
-        harvestItem.roll({rollMode: 'blindroll'}) ///Players will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+        harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
         }
       },
       disadvantage: {
         label: 'Disadvantage',
         callback: (html) => { disRoll(`${html.find("#exampleSelect")[0].value}`),  
-        harvestItem.roll({rollMode: 'blindroll'}) ///Players will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+        harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
         }
       },
     },
