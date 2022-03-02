@@ -10,15 +10,16 @@ if (game.user.targets.size !== 1)
 else{
 
 let actors = canvas.tokens.controlled.map(({ actor }) => actor); /// Might be a better option out there?
-const arc = actor.data.data.skills.arc.total;
-const rel = actor.data.data.skills.rel.total;
-const sur = actor.data.data.skills.sur.total;
-const nat = actor.data.data.skills.nat.total;
+const arc = 'arc'//actor.data.data.skills.arc.total;
+const rel = 'rel'//actor.data.data.skills.rel.total;
+const sur = 'sur'//actor.data.data.skills.sur.total;
+const nat = 'nat'//actor.data.data.skills.nat.total;
 const [target] = game.user.targets;
 const targetDc = target.actor.data.data.details.cr;
 const targetType = target.actor.data.data.details.type.value;
 const targetSize = target.actor.data.data.traits.size;
 const harvestItem = target.actor.items.getName(`${target.actor.name} Harvest`) ///Grabs the harvest item with the Actor's name, rather than token name
+let adv = 0; // modifier for disadv (-1), normal (0), adv (1)
 
 /// Define check type based on creature type
 const checkTypes = {
@@ -52,58 +53,27 @@ let harvestTime = harvestSize[targetSize]
 
 /// Send the GM a whisper for the Target information, Check Type, and DC once the player uses the macro
 ChatMessage.create({
-    content: `<b>${actor.data.name} is harvesting:</b> ${target.data.name} <p><b>Type:</b> ${targetType} <b>Harvest Skill:</b> ${checkSkill}  <p><b>DC:</b> [[floor(10+${targetDc})]] <b>Harvest Time:</b> ${harvestTime}</p>`, ///need to set max of 30?
-  })
+    content: `<b>${actor.data.name} is harvesting:</b> ${target.data.name} <p><b>Type:</b> ${targetType} <b>Harvest Skill:</b> ${checkSkill}  <p><b>DC:</b> ${Math.floor(10+targetDc)} <b>Harvest Time:</b> ${harvestTime}</p>`, ///need to set max of 30?
+})
 
 /// Let's start building the rolls, these will "pre-roll" the d20s and send a the chat message to the DM for success level
 /// There might be a better way to build this rather than having three of them, but I dont know how to simplify it because the d20 roll type is determined in the dialog
 
-function advRoll(skillCheck) {
-    let xroll = new Roll(`2d20kh+${skillCheck}`).evaluate({async: false});
+async function skillRoll(skillCheck) {
+    let xroll = await actor.rollSkill(skillCheck, {fastForward: true, advantage: adv > 0, disadvantage: adv < 0, flavor: `<em>${actor.data.name} attempts to harvest the ${target.data.name}.</em><br>${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.data.name}`})
+	xroll = xroll.total;
     let messageContent;
-    if (xroll.total > 9+targetDc) { messageContent = `${actor.data.name} succeeds, harvesting all items! `} // Edit this content for success.
-    else if (xroll.total <= 4+targetDc) { messageContent = `${actor.data.name} fails, harvesting no items.`} // Edit this content for failure.
-    else if (xroll.total <= 9+targetDc) { messageContent = `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`} // Edit this content for partial success.
-    xroll.toMessage({ flavor: `${actor.data.name} attempts to harvest the ${target.data.name}`})
+    if (xroll > 9+targetDc) { messageContent = `${actor.data.name} succeeds, harvesting all items! `} // Edit this content for success.
+    else if (xroll <= 4+targetDc) { messageContent = `${actor.data.name} fails, harvesting no items.`} // Edit this content for failure.
+    else if (xroll <= 9+targetDc) { messageContent = `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`} // Edit this content for partial success.
+    //xroll.toMessage({ flavor: `${actor.data.name} attempts to harvest the ${target.data.name}`})
     let chatData = {
         user: game.data.userId,
         content: messageContent,
         blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
-    ChatMessage.create(chatData, {});
-};
-
-function normalRoll(skillCheck) {
-    let xroll = new Roll(`1d20+${skillCheck}`).evaluate({async: false});
-    let messageContent;
-    if (xroll.total > 9+targetDc) { messageContent = `${actor.data.name} succeeds, harvesting all items! `} // Edit this content for success.
-    else if (xroll.total <= 4+targetDc) { messageContent = `${actor.data.name} fails, harvesting no items.`} // Edit this content for failure.
-    else if (xroll.total <= 9+targetDc) { messageContent = `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`} // Edit this content for partial success.
-    xroll.toMessage({ flavor: `${actor.data.name} attempts to harvest the ${target.data.name}`})
-    let chatData = {
-        user: game.data.userId,
-        content: messageContent,
-        blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
-        whisper: ChatMessage.getWhisperRecipients('GM'),
-      }
-    ChatMessage.create(chatData, {});
-};
-
-function disRoll(skillCheck) {
-    let xroll = new Roll(`2d20kl+${skillCheck}`).evaluate({async: false});
-    let messageContent;
-    if (xroll.total > 9+targetDc) { messageContent = `${actor.data.name} succeeds, harvesting all items! `} // Edit this content for success.
-    else if (xroll.total <= 4+targetDc) { messageContent = `${actor.data.name} fails, harvesting no items.`} // Edit this content for failure.
-    else if (xroll.total <= 9+targetDc) { messageContent = `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`} // Edit this content for partial success.
-    xroll.toMessage({ flavor: `${actor.data.name} attempts to harvest the ${target.data.name}`})
-    let chatData = {
-        user: game.data.userId,
-        content: messageContent,
-        blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
-        whisper: ChatMessage.getWhisperRecipients('GM'),
-      }
-    ChatMessage.create(chatData, {});
+    await ChatMessage.create(chatData, {});
 };
 
 /// This will create the dialog for the player to select the check type and add it to the roll with Dis/Adv/Normal as appropriate, 
@@ -126,17 +96,23 @@ let d = new Dialog({
     buttons: {
       advantage:{
           label: 'Advantage',
-          callback: (html) => { advRoll(`${html.find("#exampleSelect")[0].value}`)
+          callback: async (html) => {
+			  adv = 1;
+			  await skillRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
       normal: {
         label: 'Normal',
-        callback: (html) => { normalRoll(`${html.find("#exampleSelect")[0].value}`)
+        callback: async (html) => {
+			adv = 0;
+			await skillRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
       disadvantage: {
         label: 'Disadvantage',
-        callback: (html) => { disRoll(`${html.find("#exampleSelect")[0].value}`)
+        callback: async (html) => {
+			adv = -1;
+			await skillRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
     },
