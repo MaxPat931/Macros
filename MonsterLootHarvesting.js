@@ -6,10 +6,10 @@
 /// It will also send the targeted creature's "[Monster name] Harvest" item to chat
 
 if (game.user.targets.size !== 1)
-    ui.notifications.warn(`Please target one token to harvest.`) ///Gotta target a token to harvest it
+    ui.notifications.warn(`Please target one token to harvest.`) /// Gotta target a token to harvest it
 else{
 
-let actors = canvas.tokens.controlled.map(({ actor }) => actor); ///probably a better option out there....
+let actors = canvas.tokens.controlled.map(({ actor }) => actor); /// Might be a better option out there?
 const arc = actor.data.data.skills.arc.total;
 const rel = actor.data.data.skills.rel.total;
 const sur = actor.data.data.skills.sur.total;
@@ -106,8 +106,6 @@ function disRoll(skillCheck) {
     ChatMessage.create(chatData, {});
 };
 
-
-
 /// This will create the dialog for the player to select the check type and add it to the roll with Dis/Adv/Normal as appropriate, 
 /// Will also send the Harvest Item from the target to chat, whispered to GM, once they have rolled
 let d = new Dialog({
@@ -128,26 +126,24 @@ let d = new Dialog({
     buttons: {
       advantage:{
           label: 'Advantage',
-          callback: (html) => { advRoll(`${html.find("#exampleSelect")[0].value}`),
-          harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+          callback: (html) => { advRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
       normal: {
         label: 'Normal',
-        callback: (html) => { normalRoll(`${html.find("#exampleSelect")[0].value}`),
-        harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+        callback: (html) => { normalRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
       disadvantage: {
         label: 'Disadvantage',
-        callback: (html) => { disRoll(`${html.find("#exampleSelect")[0].value}`),  
-        harvestItem.roll({rollMode: 'blindroll'}) ///Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
+        callback: (html) => { disRoll(`${html.find("#exampleSelect")[0].value}`)
         }
       },
     },
     default: 'yes',
     close: () => {
-      console.log('Dialog Closed');
+      console.log('Dialog Closed'),
+      harvestItem.roll({rollMode: 'blindroll'}) ///Sends Harvest Item from Target to chat, Player will see this card unless you have Actually Private Rolls, and Dice So Nice's "Enable 3d Dice on Inline Rolls" is OFF
     }
   }).render(true)
 }
