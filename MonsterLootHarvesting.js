@@ -9,14 +9,20 @@ if(game.user.targets.size < 1) return ui.notifications.warn(`Please target one t
 if(!actor) return ui.notifications.warn(`You need a selected actor to perform the harvesting.`);
 
 const [target] = game.user.targets;
+
+const pack = game.packs.get("monster-loot-vol-1-mm.harvest-items"); /// Point to the Monster Harvest Items Compendium
+const harvestId = pack.index.getName(`${target.actor.name} Harvest`)?._id; ///Grab the Harvest Item's id
+if(!harvestId) return ui.notifications.info(`The target has nothing to harvest.`); ///if no id, show warning
+const item = await pack.getDocument(harvestId);
+const harvestDescription = item.data.data.description.value;
+
 const traits = {
 	name: target.data.name,
 	cr: target.actor.data.data.details.cr,
 	type: target.actor.data.data.details.type.value,
 	size: target.actor.data.data.traits.size,
-	harvest: target.actor.items.getName(`${target.actor.name} Harvest`)?.data.data.description.value
 };
-if(!traits.harvest) return ui.notifications.info(`The target has nothing to harvest.`);
+
 const targetValue = Math.min(30, Math.floor(10+traits.cr));
 let adv = 0; // modifier for disadv (-1), normal (0), adv (1)
 
@@ -80,7 +86,7 @@ async function skillRoll(skillCheck) {
     
     const chatData = {
         user: game.data.userId,
-        content: `${messageContent}<hr>${traits.harvest}`,
+        content: `${messageContent}<hr>${harvestDescription}`,
         blind: true, ///this will hide the roll from the player if Actually Private Rolls is enabled
         whisper: ChatMessage.getWhisperRecipients('GM'),
       }
