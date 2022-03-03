@@ -11,8 +11,8 @@ if(!actor) return ui.notifications.warn(`You need a selected actor to perform th
 const [target] = game.user.targets;
 
 const pack = game.packs.get("monster-loot-vol-1-mm.harvest-items"); /// Point to the Monster Harvest Items Compendium
-const harvestId = pack.index.getName(`${target.actor.name} Harvest`)?._id; ///Grab the Harvest Item's id
-if(!harvestId) return ui.notifications.info(`The target has nothing to harvest.`); ///if no id, show warning
+const harvestId = pack.index.getName(`${target.actor.name} Harvest`)?._id; ///Look for the [Creature] Harvest Item's id
+if(!harvestId) return ui.notifications.info(`The ${target.actor.name} has nothing to harvest.`); ///if no id found, show warning
 const item = await pack.getDocument(harvestId);
 const harvestDescription = item.data.data.description.value;
 
