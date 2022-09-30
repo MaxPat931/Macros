@@ -112,6 +112,6 @@ lightAmplification
 
 `ATL.light.darkness.min/max` - Darkness Activation Ranges for Token light, but the scene must be dark enough for the light to be ON when effect is added for it to work
 
-`ATL.texture.offsetX/Y` - No clue what this does
+`ATL.texture.offsetX/Y` - No clue what this is supposed to do.
 
 
