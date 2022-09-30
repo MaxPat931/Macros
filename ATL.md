@@ -102,12 +102,16 @@ lightAmplification
 'seeAll'
 'senseAll'
 ```
-## Testing
-```
+## Testing Notes
+
 `ATL.detectionModes` - just not working, will add a line for a detection mode but values are null
+
 `ATL.elevation` - Upgrade/Downgrade/Override value does not revert when effect removed
+
 `ATL.hidden` - Does not "unhide" token when effect removed
+
 `ATL.light.darkness.min/max` - Darkness Activation Ranges for Token light, but the scene must be dark enough for the light to be ON when effect is added for it to work
+
 `ATL.texture.offsetX/Y` - No clue what this does
-```
+
 
