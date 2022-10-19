@@ -14,22 +14,22 @@ const pack = game.packs.get("monster-loot-vol-1-mm.harvest-items"); /// Point to
 const harvestId = pack.index.getName(`${target.actor.name} Harvest`)?._id; ///Look for the [Creature] Harvest Item's id
 if(!harvestId) return ui.notifications.info(`The ${target.actor.name} has nothing to harvest.`); ///if no id found, show warning
 const item = await pack.getDocument(harvestId);
-const harvestDescription = item.data.data.description.value;
+const harvestDescription = item.system.description.value;
 
 const traits = {
-	name: target.data.name,
-	cr: target.actor.data.data.details.cr,
-	type: target.actor.data.data.details.type.value,
-	size: target.actor.data.data.traits.size,
+	name: target.name,
+	cr: target.actor.system.details.cr,
+	type: target.actor.system.details.type.value,
+	size: target.actor.system.traits.size,
 };
 
 const targetValue = Math.min(30, Math.floor(10+traits.cr));
 let adv = 0; // modifier for disadv (-1), normal (0), adv (1)
 
 const harvestStr = {
-	success: `${actor.data.name} succeeds, harvesting all items! `,
-	fail: `${actor.data.name} fails, harvesting no items.`,
-	partial: `${actor.data.name} suffers a mishap during harvesting, only harvesting half of the items shown.`
+	success: `${actor.name} succeeds, harvesting all items! `,
+	fail: `${actor.name} fails, harvesting no items.`,
+	partial: `${actor.name} suffers a mishap during harvesting, only harvesting half of the items shown.`
 }
 
 
@@ -66,7 +66,7 @@ let harvestTime = harvestSize[traits.size]
 /// Send the GM a whisper for the Target information, Check Type, and DC once the player uses the macro
 ChatMessage.create({
     content: `
-		<b>${actor.data.name} is harvesting:</b> ${traits.name} <br>
+		<b>${actor.name} is harvesting:</b> ${traits.name} <br>
 		<b>Type:</b> ${traits.type} <b>Harvest Skill:</b> ${checkSkill} <br>
 		<b>DC:</b> ${targetValue} <b>Harvest Time:</b> ${harvestTime}`, // DC between 10-30
 })
@@ -79,8 +79,8 @@ async function skillRoll(skillCheck) {
 		advantage: adv > 0,
 		disadvantage: adv < 0,
 		flavor: `
-		<em>${actor.data.name} attempts to harvest the ${traits.name}.</em> <br>
-		${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.data.name}`
+		<em>${actor.name} attempts to harvest the ${traits.name}.</em> <br>
+		${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.name}`
 	})).total;
     let messageContent = (harvestRoll > 9 + traits.cr) ? harvestStr.success : (harvestRoll <= 4 + traits.cr) ? harvestStr.fail : harvestStr.partial;
     
