@@ -80,7 +80,7 @@ async function skillRoll(skillCheck) {
 		disadvantage: adv < 0,
 		flavor: `
 		<em>${actor.name} attempts to harvest the ${traits.name}.</em> <br>
-		${CONFIG.DND5E.skills[skillCheck]} Skill Check: ${actor.name}`
+		<b>${CONFIG.DND5E.skills[skillCheck].label}</b> Skill Check: ${actor.name}`
 	})).total;
     let messageContent = (harvestRoll > 9 + traits.cr) ? harvestStr.success : (harvestRoll <= 4 + traits.cr) ? harvestStr.fail : harvestStr.partial;
     
