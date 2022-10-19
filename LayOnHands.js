@@ -77,7 +77,7 @@ function loh_heal() {
                     ChatMessage.create({
                          user: game.user._id,
                          speaker: ChatMessage.getSpeaker({actor: actorD.name}),
-                         content: `${actorD.name} heals ${target.name} for [[/r ${number}]] Hit Points.`
+                         content: `${actorD.name} heals ${target.name} for <b>${number}</b> Hit Points.`
                      });                    
                 }
             }
