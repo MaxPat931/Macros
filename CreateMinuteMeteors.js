@@ -71,7 +71,12 @@ await actor.createEmbeddedDocuments("Item",
         "dc": null,
         "scaling": "spell"
       },
-      "consumableType": "ammo"
+      "consumableType": "ammo",
+        "illandril": {
+          "tooltips": {
+            "show": true
+          }
+        }
     },
     "img": "icons/magic/earth/projectiles-stone-salvo-red.webp",
     "effects": [
@@ -113,4 +118,10 @@ await actor.createEmbeddedDocuments("Item",
             "statusId": "y"
           }
         }
-}]}])
+}],
+"flags": {
+    "favtab": {
+      "isFavorite": true
+    }
+  }
+}])
