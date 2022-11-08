@@ -9,12 +9,13 @@ ATL.
     hidden                          | true/false
     rotation                        | 0:360
     detectionModes.
-          basic.range               | 
-          seeInvisibility.range     | 
-          senseInvisibility.range   | 
-          feelTremor.range          | 
-          seeAll.range              | 
-          senseAll.range            | 
+          basic.
+          seeInvisibility.
+          senseInvisibility.
+          feelTremor.
+          seeAll.
+          senseAll.
+                   range            | #
     light.
           alpha                     | 0.00:1.00
           angle                     | 0:360
