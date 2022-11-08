@@ -2,47 +2,53 @@
 
 ```
 ATL.
-    alpha               | 0.0:1.0
-    elevation           | #
-    height              | #
-    width               | #
-    hidden              | true/false
-    rotation            | 0:360
-    detectionModes      | {id: 'X', enabled: true/false, range: #}
+    alpha                           | 0.0:1.0
+    elevation                       | #
+    height                          | #
+    width                           | #
+    hidden                          | true/false
+    rotation                        | 0:360
+    detectionModes.
+          basic.range               | 
+          seeInvisibility.range     | 
+          senseInvisibility.range   | 
+          feelTremor.range          | 
+          seeAll.range              | 
+          senseAll.range            | 
     light.
-          alpha         | 0.00:1.00
-          angle         | 0:360
-          animation     | {intensity: 1:10, reverse: true/false, speed: 1:10, type: "X"}
-          attenuation   | 0.00:1.00
-          bright        | #
-          color         | #XXXXXX
-          coloration    | 0:10 (see below)
-          contrast      | -1.00:1.00
-          dim           | #
-          luminosity    | -1.00:1.00
-          saturation    | -1.00:1.00
-          shadows       | 0.00:1.00
+          alpha                     | 0.00:1.00
+          angle                     | 0:360
+          animation                 | {intensity: 1:10, reverse: true/false, speed: 1:10, type: "X"}
+          attenuation               | 0.00:1.00
+          bright                    | #
+          color                     | #XXXXXX
+          coloration                | 0:10 (see below)
+          contrast                  | -1.00:1.00
+          dim                       | #
+          luminosity                | -1.00:1.00
+          saturation                | -1.00:1.00
+          shadows                   | 0.00:1.00
           darkness.
-                   max  | 0:1 (Default 1)
-                   min  | 0:1 (Default 0)
+                   max              | 0:1 (Default 1)
+                   min              | 0:1 (Default 0)
     sight.
-          angle         | 0:360
-          attenuation   | 0.00:1.00
-          brightness    | -1.00:1.00
-          color         | #XXXXXX
-          contrast      | -1.00:1.00
-          enabled       | true/false
-          range         | #
-          saturation    | -1.00:1.00
-          visionMode    | X (see below)
+          angle                     | 0:360
+          attenuation               | 0.00:1.00
+          brightness                | -1.00:1.00
+          color                     | #XXXXXX
+          contrast                  | -1.00:1.00
+          enabled                   | true/false
+          range                     | #
+          saturation                | -1.00:1.00
+          visionMode                | X (see below)
     texture.
-          offsetX       | #?
-          offsetY       | #?
-          rotation      | 0:360
-          scaleX        | 0.2:3.0
-          scaleY        | 0.2:3.0
-          src           | img/path.webp
-          tint          | #XXXXXX
+          offsetX                   | #?
+          offsetY                   | #?
+          rotation                  | 0:360
+          scaleX                    | 0.2:3.0
+          scaleY                    | 0.2:3.0
+          src                       | img/path.webp
+          tint                      | #XXXXXX
 ```
 
 
@@ -104,7 +110,7 @@ lightAmplification
 ```
 ## Testing Notes
 
-`ATL.detectionModes` - just not working, will add a line for a detection mode but values are null
+`ATL.detectionModes` - NEW
 
 `ATL.elevation` - Upgrade/Downgrade/Override value does not revert when effect removed
 
