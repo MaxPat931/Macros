@@ -100,15 +100,6 @@ monochromatic
 tremorsense
 lightAmplification
 ```
-## ATL.detectionModes {id: }
-```
-'basic'
-'seeInvisibility'
-'senseInvisibility'
-'feelTremor'
-'seeAll'
-'senseAll'
-```
 ## Testing Notes
 
 `ATL.detectionModes` - NEW
