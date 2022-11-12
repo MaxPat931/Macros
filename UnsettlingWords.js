@@ -1,10 +1,6 @@
 ///Unsettling Words
 ///Roll the Bardic Inspiration die (1d6). The creature must subtract the number rolled from the next saving throw it makes before the start of your next turn.
-if (game.user.targets.size !== 1)
-    ui.notifications.warn(`Please target one token to Unsettle.`) /// Gotta target a token to unsettle it
-else {
-
-    const [target] = game.users.get("UuekFluYwLytJLyF").targets;
+    const [target] = game.users.get("UuekFluYwLytJLyF").targets; ///replace UUID with your bard
 
     let bardicDie = await new Roll(`-1d8`).toMessage();
     let rollvalue = bardicDie.roll.total; ///Complains this should be rolls, but then it dont work
@@ -43,4 +39,3 @@ else {
         ]
     };
     await target.actor.createEmbeddedDocuments("ActiveEffect", [effectData])
-}
