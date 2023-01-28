@@ -4,9 +4,9 @@
 | ---- | ---- | ---- |
 | ATL.alpha | 0.0:1.0| Token transparency |
 | ATL.elevation | # | Token elevation |
-| ATL.height | # | Token height |
-| ATL.width | # | Token width |
-| ATL.hidden | true/false | Hidden |
+| ATL.height | # | Token height, in grid squares, minimun .5 |
+| ATL.width | # | Token width, in grid squares, minimun .5 |
+| ATL.hidden | true/false | Hidden, removing this effect will not revert the hidden state of the token |
 | ATL.rotation | 0:360 | Token rotation |
 
 |Detection Modes| Value | Description |
@@ -22,18 +22,18 @@
 | ---- | ---- | ---- |
 | ATL.light.alpha | 0.00:1.00 | Light |
 | ATL.light.angle | 0:360 | Light |
-| ATL.light.animation | {intensity: 1:10, reverse: true/false, speed: 1:10, type: "X"} | Light |
+| ATL.light.animation | {intensity: 1:10, reverse: true/false, speed: 1:10, type: "X"} | Light Animation settings, see below for Animation Types |
 | ATL.light.attenuation | 0.00:1.00 | Light |
 | ATL.light.bright | # | Bright Light distance |
 | ATL.light.color | #XXXXXX | Light |
-| ATL.light.coloration | 0:10 | Light |
+| ATL.light.coloration | 0:10 | Light Coloration mode, see below for different options |
 | ATL.light.contrast | -1.00:1.00 | Light |
-| ATL.light.dim | # | Light |
+| ATL.light.dim | # | Dim Light distance |
 | ATL.light.luminosity | -1.00:1.00 | Light |
 | ATL.light.saturation | -1.00:1.00 | Light |
 | ATL.light.shadows | 0.00:1.00 | Light |
-| ATL.light.darkness.max | 0:1 (Default 1)| Token Light Activation threshold |
-| ATL.light.darkness.min | 0:1 (Default 0) | Token Light Activation threshold |
+| ATL.light.darkness.max | 0:1 (Default 1)| Token Light Activation threshold, Scene Darkness level the light should turn off |
+| ATL.light.darkness.min | 0:1 (Default 0) | Token Light Activation threshold, Scene Darkness level the light should turn on |
 
 |Token Sight| Value | Description |
 | ---- | ---- | ---- |
