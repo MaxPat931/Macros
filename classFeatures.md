@@ -972,5 +972,102 @@ OTHER STUFF
 |	Banishing Arrow	|		|		|		|		|		|		|
 |	Beguiling Arrow	|		|		|		|		|		|		|
 |	Bursting Arrow	|		|		|		|		|		|		|
-
-
+|	Enfeebling Arrow	|		|		|		|		|		|		|
+|	Grasping Arrow	|		|		|		|		|		|		|
+|	Piercing Arrow	|		|		|		|		|		|		|
+|	Seeking Arrow	|		|		|		|		|		|		|
+|	Shadow Arrow	|		|		|		|		|		|		|
+|	Totem Spirit: Bear	|		|		|		|		|		|		|
+|	Totem Spirit: Eagle	|		|		|		|		|		|		|
+|	Totem Spirit: Elk	|		|		|		|		|		|		|
+|	Totem Spirit: Tiger	|		|		|		|		|		|		|
+|	Totem Spirit: Wolf	|		|		|		|		|		|		|
+|	Aspect of the Beast: Bear	|		|		|		|		|		|		|
+|	Aspect of the Beast: Eagle	|		|		|		|		|		|		|
+|	Aspect of the Beast: Elk	|		|		|		|		|		|		|
+|	Aspect of the Beast: Tiger	|		|		|		|		|		|		|
+|	Aspect of the Beast: Wolf	|		|		|		|		|		|		|
+|	Bullying Shot	|		|		|		|		|		|		|
+|	Dazing Shot	|		|		|		|		|		|		|
+|	Deadeye Shot	|		|		|		|		|		|		|
+|	Disarming Shot	|		|		|		|		|		|		|
+|	Forceful Shot	|		|		|		|		|		|		|
+|	Piercing Shot	|		|		|		|		|		|		|
+|	Violent Shot	|		|		|		|		|		|		|
+|	Winging Shot	|		|		|		|		|		|		|
+|	Psionic Power: Protective Field	|		|		|		|		|		|		|
+|	Psionic Power: Psionic Strike	|		|		|		|		|		|		|
+|	Psionic Power: Telekinetic Movement	|		|		|		|		|		|		|
+|	Telekinetic Adept: Psi-Powered Leap	|		|		|		|		|		|		|
+|	Telekinetic Adept: Telekinetic Thrust	|		|		|		|		|		|		|
+|	Psionic Power: Psi-Bolstered Knack	|		|		|		|		|		|		|
+|	Psionic Power: Psychic Whispers	|		|		|		|		|		|		|
+|	Soul Blades: Homing Strikes	|		|		|		|		|		|		|
+|	Soul Blades: Psychic Teleportation	|		|		|		|		|		|		|
+|	Cloud Rune	|		|		|		|		|		|		|
+|	Fire Rune	|		|		|		|		|		|		|
+|	Frost Rune	|		|		|		|		|		|		|
+|	Stone Rune	|		|		|		|		|		|		|
+|	Hill Rune	|		|		|		|		|		|		|
+|	Storm Rune	|		|		|		|		|		|		|
+|	Metamagic: Careful Spell	|		|		|		|		|		|		|
+|	Metamagic: Distant Spell	|		|		|		|		|		|		|
+|	Metamagic: Empowered Spell	|		|		|		|		|		|		|
+|	Metamagic: Extended Spell	|		|		|		|		|		|		|
+|	Metamagic: Heightened Spell	|		|		|		|		|		|		|
+|	Metamagic: Quickened Spell	|		|		|		|		|		|		|
+|	Metamagic: Seeking Spell	|		|		|		|		|		|		|
+|	Metamagic: Subtle Spell	|		|		|		|		|		|		|
+|	Metamagic: Transmuted Spell	|		|		|		|		|		|		|
+|	Metamagic: Twinned Spell	|		|		|		|		|		|		|
+|	Pact Boon: Pact of the Blade	|		|		|		|		|		|		|
+|	Pact Boon: Pact of the Chain	|		|		|		|		|		|		|
+|	Pact Boon: Pact of the Talisman	|		|		|		|		|		|		|
+|	Pact Boon: Pact of the Tome	|		|		|		|		|		|		|
+|	Blood Curse of Binding	|		|		|		|		|		|		|
+|	Blood Curse of Bloated Agony	|		|		|		|		|		|		|
+|	Blood Curse of Exposure	|		|		|		|		|		|		|
+|	Blood Curse of the Anxious	|		|		|		|		|		|		|
+|	Blood Curse of the Eyeless	|		|		|		|		|		|		|
+|	Blood Curse of the Fallen Puppet	|		|		|		|		|		|		|
+|	Blood Curse of the Marked	|		|		|		|		|		|		|
+|	Blood Curse of the Muddled Mind	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Dead	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Flame	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Frozen	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Oracle	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Roar	|		|		|		|		|		|		|
+|	Crimson Rite: Rite of the Storm	|		|		|		|		|		|		|
+|	Formulas: Aether	|		|		|		|		|		|		|
+|	Formulas: Alluring	|		|		|		|		|		|		|
+|	Formulas: Celerity	|		|		|		|		|		|		|
+|	Formulas: Conversant	|		|		|		|		|		|		|
+|	Formulas: Cruelty	|		|		|		|		|		|		|
+|	Formulas: Deftness	|		|		|		|		|		|		|
+|	Formulas: Embers	|		|		|		|		|		|		|
+|	Formulas: Gelid	|		|		|		|		|		|		|
+|	Formulas: Impermeable	|		|		|		|		|		|		|
+|	Formulas: Mobility	|		|		|		|		|		|		|
+|	Formulas: Nighteye	|		|		|		|		|		|		|
+|	Formulas: Percipient	|		|		|		|		|		|		|
+|	Formulas: Potency	|		|		|		|		|		|		|
+|	Formulas: Precision	|		|		|		|		|		|		|
+|	Formulas: Rapidity	|		|		|		|		|		|		|
+|	Formulas: Reconstruction	|		|		|		|		|		|		|
+|	Formulas: Sagacity	|		|		|		|		|		|		|
+|	Formulas: Shielded	|		|		|		|		|		|		|
+|	Formulas: Unbreakable	|		|		|		|		|		|		|
+|	Formulas: Vermillion	|		|		|		|		|		|		|
+|	Fighting Style: Archery	|		|		|		|		|		|		|
+|	Fighting Style: Blind Fighting	|		|		|		|		|		|		|
+|	Fighting Style: Defense	|		|		|		|		|		|		|
+|	Fighting Style: Dueling	|		|		|		|		|		|		|
+|	Fighting Style: Great Weapon Fighting	|		|		|		|		|		|		|
+|	Fighting Style: Interception	|		|		|		|		|		|		|
+|	Fighting Style: Protection	|		|		|		|		|		|		|
+|	Fighting Style: Superior Technique	|		|		|		|		|		|		|
+|	Fighting Style: Thrown Weapon Fighting	|		|		|		|		|		|		|
+|	Fighting Style: Two-Weapon Fighting	|		|		|		|		|		|		|
+|	Fighting Style: Unarmed Fighting	|		|		|		|		|		|		|
+|	Fighting Style: Druidic Warrior	|		|		|		|		|		|		|
+|	Fighting Style: Blessed Warrior	|		|		|		|		|		|		|
