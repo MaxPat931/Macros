@@ -1,84 +1,84 @@
 |	Feature	|	MidiQOL	|	Midi SRD	|	CPR	|	DDBI	|	w15ps	|	Dfreds CE	|
 |	---	|	---	|	---	|	---	|	---	|	---	|	---	|
 |	A's Horrid Wilting	|		|		|		|		|		|		|
-|	Absorb Elements	|		|		|		|		|		|		|
-|	Acid Arrow	|		|		|		|		|		|		|
+|	Absorb Elements	|	☑	|		|		|		|		|		|
+|	Acid Arrow	|	☑	|		|		|		|		|		|
 |	Acid Splash	|		|		|		|		|		|		|
 |	A's Scorcher	|		|		|		|		|		|		|
-|	Aid	|		|		|		|		|		|		|
+|	Aid	|		|	☑	|		|		|		|		|
 |	Alarm	|		|		|		|		|		|		|
-|	Alter Self	|		|		|		|		|		|		|
-|	Animal Friendship	|		|		|		|		|		|		|
+|	Alter Self	|		|	☑	|		|		|		|		|
+|	Animal Friendship	|		|	☑	|		|		|		|		|
 |	Animal Messenger	|		|		|		|		|		|		|
 |	Animal Shapes	|		|		|		|		|		|		|
-|	Animate Dead	|		|		|		|		|		|		|
+|	Animate Dead	|		|	☑	|		|		|		|		|
 |	Animate Objects	|		|		|		|		|		|		|
 |	Antilife Shell	|		|		|		|		|		|		|
 |	Antimagic Field	|		|		|		|		|		|		|
 |	Antipathy/Sympathy	|		|		|		|		|		|		|
-|	Arcane Eye	|		|		|		|		|		|		|
+|	Arcane Eye	|		|	☑	|		|		|		|		|
 |	Arcane Gate	|		|		|		|		|		|		|
-|	Arcane Hand	|		|		|		|		|		|		|
+|	Arcane Hand	|		|	☑	|		|		|		|		|
 |	Arcane Lock	|		|		|		|		|		|		|
 |	A's Magic Aura	|		|		|		|		|		|		|
-|	Armor of Agathys	|		|		|		|		|		|		|
-|	Arms of Hadar	|		|		|		|		|		|		|
+|	Armor of Agathys	|		|		|	☑	|		|		|		|
+|	Arms of Hadar	|		|		|	☑	|		|		|		|
 |	Astral Projection	|		|		|		|		|		|		|
 |	Augury	|		|		|		|		|		|		|
 |	Aura of Life	|		|		|		|		|		|		|
-|	Aura of Purity	|		|		|		|		|		|		|
-|	Aura of Vitality	|		|		|		|		|		|		|
+|	Aura of Purity	|		|		|	☑	|		|		|		|
+|	Aura of Vitality	|	☑	|		|	☑	|		|		|		|
 |	Awaken	|		|		|		|		|		|		|
-|	Bane	|		|		|		|		|		|		|
+|	Bane	|		|	☑	|		|		|		|		|
 |	Banishing Smite	|		|		|		|		|		|		|
-|	Banishment	|		|		|		|		|		|		|
-|	Barkskin	|		|		|		|		|		|		|
-|	Beacon of Hope	|		|		|		|		|		|		|
+|	Banishment	|	☑	|	☑	|		|		|		|		|
+|	Barkskin	|		|	☑	|		|		|		|		|
+|	Beacon of Hope	|		|	☑	|	☑	|		|		|		|
 |	Beast Bond	|		|		|		|		|		|		|
 |	Beast Sense	|		|		|		|		|		|		|
-|	Bestow Curse	|		|		|		|		|		|		|
+|	Bestow Curse	|		|		|	☑	|		|		|		|
 |	B's Hand	|		|		|		|		|		|		|
-|	Black Tentacles	|		|		|		|		|		|		|
+|	Black Tentacles	|		|	☑	|		|		|		|		|
 |	Blade Barrier	|		|		|		|		|		|		|
 |	Blade of Disaster	|		|		|		|		|		|		|
-|	Blade Ward	|		|		|		|		|		|		|
-|	Bless	|		|		|		|		|		|		|
-|	Blight	|		|		|		|		|		|		|
+|	Blade Ward	|		|		|	☑	|		|		|		|
+|	Bless	|		|	☑	|		|		|		|		|
+|	Blight	|		|		|	☑	|		|		|		|
 |	Blinding Smite	|		|		|		|		|		|		|
-|	Blindness/Deafness	|		|		|		|		|		|		|
-|	Blink	|		|		|		|		|		|		|
+|	Blindness/Deafness	|		|	☑	|		|		|		|		|
+|	Blink	|		|		|	☑	|		|		|		|
 |	Blur	|		|		|		|		|		|		|
 |	Bones of the Earth	|		|		|		|		|		|		|
 |	Booming Blade	|		|		|		|		|		|		|
-|	Branding Smite	|		|		|		|		|		|		|
+|	Branding Smite	|	☑	|		|		|		|		|		|
 |	Burning Hands	|		|		|		|		|		|		|
-|	Call Lightning	|		|		|		|		|		|		|
+|	Call Lightning	|		|	☑	|	☑	|		|		|		|
 |	Calm Emotions	|		|		|		|		|		|		|
 |	Catapult	|		|		|		|		|		|		|
 |	Catnap	|		|		|		|		|		|		|
 |	Cause Fear	|		|		|		|		|		|		|
 |	Ceremony	|		|		|		|		|		|		|
-|	Chain Lightning	|		|		|		|		|		|		|
+|	Chain Lightning	|		|		|	☑	|		|		|		|
 |	Chaos Bolt	|		|		|		|		|		|		|
 |	Charm Monster	|		|		|		|		|		|		|
-|	Charm Person	|		|		|		|		|		|		|
-|	Chill Touch	|		|		|		|		|		|		|
+|	Charm Person	|		|	☑	|	☑	|		|		|		|
+|	Chill Touch	|	☑	|		|	☑	|		|		|		|
 |	Chromatic Orb	|		|		|		|		|		|		|
 |	Circle of Death	|		|		|		|		|		|		|
 |	Circle of Power	|		|		|		|		|		|		|
 |	Clairvoyance	|		|		|		|		|		|		|
 |	Clone	|		|		|		|		|		|		|
 |	Cloud of Daggers	|		|		|		|		|		|		|
-|	Cloudkill	|		|		|		|		|		|		|
+|	Cloudkill	|		|		|	☑	|		|		|		|
 |	Color Spray	|		|		|		|		|		|		|
-|	Command	|		|		|		|		|		|		|
+|	Command	|		|	☑	|		|		|		|		|
 |	Commune	|		|		|		|		|		|		|
 |	Commune with Nature	|		|		|		|		|		|		|
 |	Compelled Duel	|		|		|		|		|		|		|
 |	Comprehend Languages	|		|		|		|		|		|		|
 |	Compulsion	|		|		|		|		|		|		|
 |	Cone of Cold	|		|		|		|		|		|		|
-|	Confusion	|		|		|		|		|		|		|
+|	Confusion	|		|	☑	|		|		|		|		|
 |	Conjure Animals	|		|		|		|		|		|		|
 |	Conjure Barrage	|		|		|		|		|		|		|
 |	Conjure Celestial	|		|		|		|		|		|		|
@@ -88,7 +88,7 @@
 |	Conjure Volley	|		|		|		|		|		|		|
 |	Conjure Woodland Beings	|		|		|		|		|		|		|
 |	Contact Other Plane	|		|		|		|		|		|		|
-|	Contagion	|		|		|		|		|		|		|
+|	Contagion	|		|	☑	|		|		|		|		|
 |	Contingency	|		|		|		|		|		|		|
 |	Continual Flame	|		|		|		|		|		|		|
 |	Control Flames	|		|		|		|		|		|		|
@@ -101,27 +101,27 @@
 |	Create Food and Water	|		|		|		|		|		|		|
 |	Create Homunculus	|		|		|		|		|		|		|
 |	Create or Destroy Water	|		|		|		|		|		|		|
-|	Create Undead	|		|		|		|		|		|		|
+|	Create Undead	|		|	☑	|		|		|		|		|
 |	Creation	|		|		|		|		|		|		|
-|	Crown of Madness	|		|		|		|		|		|		|
+|	Crown of Madness	|		|		|	☑	|		|		|		|
 |	Crown of Stars	|		|		|		|		|		|		|
-|	Crusader's Mantle	|		|		|		|		|		|		|
+|	Crusader's Mantle	|		|		|	☑	|		|		|		|
 |	Cure Wounds	|		|		|		|		|		|		|
 |	Dancing Lights	|		|		|		|		|		|		|
 |	Danse Macabre	|		|		|		|		|		|		|
 |	Dark Star	|		|		|		|		|		|		|
-|	Darkness	|		|		|		|		|		|		|
-|	Darkvision	|		|		|		|		|		|		|
+|	Darkness	|		|	☑	|	☑	|		|		|		|
+|	Darkvision	|		|	☑	|		|		|		|		|
 |	Dawn	|		|		|		|		|		|		|
 |	Daylight	|		|		|		|		|		|		|
-|	Death Ward	|		|		|		|		|		|		|
+|	Death Ward	|		|		|	☑	|		|		|		|
 |	Delayed Blast Fireball	|		|		|		|		|		|		|
 |	Demiplane	|		|		|		|		|		|		|
 |	Destructive Wave	|		|		|		|		|		|		|
 |	Detect Evil and Good	|		|		|		|		|		|		|
-|	Detect Magic	|		|		|		|		|		|		|
+|	Detect Magic	|		|		|	☑	|		|		|		|
 |	Detect Poison and Disease	|		|		|		|		|		|		|
-|	Detect Thoughts	|		|		|		|		|		|		|
+|	Detect Thoughts	|		|		|	☑	|		|		|		|
 |	Dimension Door	|		|		|		|		|		|		|
 |	Disguise Self	|		|		|		|		|		|		|
 |	Disintegrate	|		|		|		|		|		|		|
@@ -130,19 +130,19 @@
 |	Dissonant Whispers	|		|		|		|		|		|		|
 |	Distort Value	|		|		|		|		|		|		|
 |	Divination	|		|		|		|		|		|		|
-|	Divine Favor	|		|		|		|		|		|		|
-|	Divine Word	|		|		|		|		|		|		|
-|	Dominate Beast	|		|		|		|		|		|		|
-|	Dominate Monster	|		|		|		|		|		|		|
-|	Dominate Person	|		|		|		|		|		|		|
-|	Dragon's Breath	|		|		|		|		|		|		|
+|	Divine Favor	|		|	☑	|		|		|		|		|
+|	Divine Word	|		|	☑	|		|		|		|		|
+|	Dominate Beast	|		|	☑	|		|		|		|		|
+|	Dominate Monster	|		|	☑	|		|		|		|		|
+|	Dominate Person	|		|	☑	|		|		|		|		|
+|	Dragon's Breath	|		|		|	☑	|		|		|		|
 |	D's Instant Summons	|		|		|		|		|		|		|
 |	Dream	|		|		|		|		|		|		|
 |	Dream of the Blue Veil	|		|		|		|		|		|		|
 |	Druid Grove	|		|		|		|		|		|		|
 |	Druidcraft	|		|		|		|		|		|		|
 |	Dust Devil	|		|		|		|		|		|		|
-|	Earth Tremor	|		|		|		|		|		|		|
+|	Earth Tremor	|		|		|	☑	|		|		|		|
 |	Earthbind	|		|		|		|		|		|		|
 |	Earthquake	|		|		|		|		|		|		|
 |	Eldritch Blast	|		|		|		|		|		|		|
@@ -151,44 +151,44 @@
 |	Encode Thoughts	|		|		|		|		|		|		|
 |	Enemies abound	|		|		|		|		|		|		|
 |	Enervation	|		|		|		|		|		|		|
-|	Enhance Ability	|		|		|		|		|		|		|
-|	Enlarge/Reduce	|		|		|		|		|		|		|
+|	Enhance Ability	|		|	☑	|		|		|		|		|
+|	Enlarge/Reduce	|		|	☑	|		|		|		|		|
 |	Ensnaring Strike	|		|		|		|		|		|		|
-|	Entangle	|		|		|		|		|		|		|
+|	Entangle	|		|	☑	|		|		|		|		|
 |	Enthrall	|		|		|		|		|		|		|
 |	Erupting Earth	|		|		|		|		|		|		|
 |	Etherealness	|		|		|		|		|		|		|
 |	E's Black Tentacles	|		|		|		|		|		|		|
 |	Expeditious Retreat	|		|		|		|		|		|		|
-|	Eyebite	|		|		|		|		|		|		|
+|	Eyebite	|		|	☑	|		|		|		|		|
 |	Fabricate	|		|		|		|		|		|		|
-|	Faerie Fire	|		|		|		|		|		|		|
+|	Faerie Fire	|		|	☑	|		|		|		|		|
 |	Faithful Hound	|		|		|		|		|		|		|
 |	False Life	|		|		|		|		|		|		|
 |	Far Step	|		|		|		|		|		|		|
 |	Fast Friends	|		|		|		|		|		|		|
-|	Fear	|		|		|		|		|		|		|
+|	Fear	|		|	☑	|		|		|		|		|
 |	Feather Fall	|		|		|		|		|		|		|
-|	Feeblemind	|		|		|		|		|		|		|
+|	Feeblemind	|		|	☑	|		|		|		|		|
 |	Feign Death	|		|		|		|		|		|		|
 |	Find Familiar	|		|		|		|		|		|		|
 |	Find Greater Steed	|		|		|		|		|		|		|
-|	Find Steed	|		|		|		|		|		|		|
+|	Find Steed	|		|	☑	|		|		|		|		|
 |	Find the Path	|		|		|		|		|		|		|
 |	Find Traps	|		|		|		|		|		|		|
 |	Finger of Death	|		|		|		|		|		|		|
 |	Fire Bolt	|		|		|		|		|		|		|
-|	Fire Shield	|		|		|		|		|		|		|
+|	Fire Shield	|		|	☑	|		|		|		|		|
 |	Fire Storm	|		|		|		|		|		|		|
 |	Fireball	|		|		|		|		|		|		|
 |	Flame Arrows	|		|		|		|		|		|		|
-|	Flame Blade	|		|		|		|		|		|		|
+|	Flame Blade	|		|	☑	|		|		|		|		|
 |	Flame Strike	|		|		|		|		|		|		|
 |	Flaming Sphere	|		|		|		|		|		|		|
-|	Flesh to Stone	|		|		|		|		|		|		|
+|	Flesh to Stone	|		|	☑	|		|		|		|		|
 |	Floating Disk	|		|		|		|		|		|		|
 |	Flock of Familiars	|		|		|		|		|		|		|
-|	Fly	|		|		|		|		|		|		|
+|	Fly	|		|	☑	|		|		|		|		|
 |	Fog Cloud	|		|		|		|		|		|		|
 |	Forbiddance	|		|		|		|		|		|		|
 |	Forcecage	|		|		|		|		|		|		|
@@ -200,11 +200,11 @@
 |	Frostbite	|		|		|		|		|		|		|
 |	G's Speedy Courier	|		|		|		|		|		|		|
 |	G's Tower	|		|		|		|		|		|		|
-|	Gaseous Form	|		|		|		|		|		|		|
+|	Gaseous Form	|		|		|	☑	|		|		|		|
 |	Gate	|		|		|		|		|		|		|
-|	Geas	|		|		|		|		|		|		|
+|	Geas	|		|	☑	|		|		|		|		|
 |	Gentle Repose	|		|		|		|		|		|		|
-|	Giant Insect	|		|		|		|		|		|		|
+|	Giant Insect	|		|	☑	|		|		|		|		|
 |	Gift of Alacrity	|		|		|		|		|		|		|
 |	Gift of Gab	|		|		|		|		|		|		|
 |	Glibness	|		|		|		|		|		|		|
@@ -214,38 +214,38 @@
 |	Grasping Vine	|		|		|		|		|		|		|
 |	Gravity Fissure	|		|		|		|		|		|		|
 |	Gravity Sinkhole	|		|		|		|		|		|		|
-|	Grease	|		|		|		|		|		|		|
-|	Greater Invisibility	|		|		|		|		|		|		|
+|	Grease	|		|	☑	|		|		|		|		|
+|	Greater Invisibility	|	☑	|	☑	|		|		|		|		|
 |	Greater Restoration	|		|		|		|		|		|		|
 |	Green-Flame Blade	|		|		|		|		|		|		|
 |	Guardian of Faith	|		|		|		|		|		|		|
 |	Guardian of Nature	|		|		|		|		|		|		|
 |	Guards and Wards	|		|		|		|		|		|		|
 |	Guidance	|		|		|		|		|		|		|
-|	Guiding Bolt	|		|		|		|		|		|		|
+|	Guiding Bolt	|		|	☑	|	☑	|		|		|		|
 |	Gust	|		|		|		|		|		|		|
 |	Gust of Wind	|		|		|		|		|		|		|
 |	Hail of Thorns	|		|		|		|		|		|		|
 |	Hallow	|		|		|		|		|		|		|
 |	Hallucinatory Terrain	|		|		|		|		|		|		|
 |	Harm	|		|		|		|		|		|		|
-|	Haste	|		|		|		|		|		|		|
+|	Haste	|		|	☑	|		|		|		|		|
 |	Heal	|		|		|		|		|		|		|
 |	Healing Spirit	|		|		|		|		|		|		|
 |	Healing Word	|		|		|		|		|		|		|
-|	Heat Metal	|		|		|		|		|		|		|
+|	Heat Metal	|		|		|	☑	|		|		|		|
 |	Hellish Rebuke	|		|		|		|		|		|		|
-|	Heroes' Feast	|		|		|		|		|		|		|
-|	Heroism	|		|		|		|		|		|		|
-|	Hex	|		|		|		|		|		|		|
-|	Hideous Laughter	|		|		|		|		|		|		|
-|	Hold Monster	|		|		|		|		|		|		|
-|	Hold Person	|		|		|		|		|		|		|
-|	Holy Aura	|		|		|		|		|		|		|
-|	Holy Weapon	|		|		|		|		|		|		|
+|	Heroes' Feast	|		|	☑	|		|		|		|		|
+|	Heroism	|		|	☑	|		|		|		|		|
+|	Hex	|		|		|	☑	|		|		|		|
+|	Hideous Laughter	|		|	☑	|		|		|		|		|
+|	Hold Monster	|		|	☑	|		|		|		|		|
+|	Hold Person	|	☑	|	☑	|	☑	|		|		|		|
+|	Holy Aura	|		|	☑	|		|		|		|		|
+|	Holy Weapon	|		|		|	☑	|		|		|		|
 |	Hunger of Hadar	|		|		|		|		|		|		|
-|	Hunter's Mark	|		|		|		|		|		|		|
-|	Hypnotic Pattern	|		|		|		|		|		|		|
+|	Hunter's Mark	|	☑	|		|	☑	|		|		|		|
+|	Hypnotic Pattern	|		|	☑	|	☑	|		|		|		|
 |	Ice Knife	|		|		|		|		|		|		|
 |	Ice Storm	|		|		|		|		|		|		|
 |	Identify	|		|		|		|		|		|		|
@@ -266,7 +266,7 @@
 |	Investiture of Ice	|		|		|		|		|		|		|
 |	Investiture of Stone	|		|		|		|		|		|		|
 |	Investiture of Wind	|		|		|		|		|		|		|
-|	Invisibility	|		|		|		|		|		|		|
+|	Invisibility	|	☑	|	☑	|		|		|		|		|
 |	Invulnerability	|		|		|		|		|		|		|
 |	Jim's Glowing Coin	|		|		|		|		|		|		|
 |	Jim's Magic Missile	|		|		|		|		|		|		|
@@ -276,34 +276,34 @@
 |	L's Secret Chest	|		|		|		|		|		|		|
 |	L's Tiny Hut	|		|		|		|		|		|		|
 |	Lesser Restoration	|		|		|		|		|		|		|
-|	Levitate	|		|		|		|		|		|		|
-|	Life Transference	|		|		|		|		|		|		|
+|	Levitate	|		|	☑	|		|		|		|		|
+|	Life Transference	|		|		|	☑	|		|		|		|
 |	Light	|		|		|		|		|		|		|
-|	Lightning Arrow	|		|		|		|		|		|		|
+|	Lightning Arrow	|		|		|	☑	|		|		|		|
 |	Lightning Bolt	|		|		|		|		|		|		|
-|	Lightning Lure	|		|		|		|		|		|		|
+|	Lightning Lure	|		|		|	☑	|		|		|		|
 |	Locate Animals or Plants	|		|		|		|		|		|		|
 |	Locate Creature	|		|		|		|		|		|		|
 |	Locate Object	|		|		|		|		|		|		|
-|	Longstrider	|		|		|		|		|		|		|
+|	Longstrider	|		|	☑	|		|		|		|		|
 |	Maddening Darkness	|		|		|		|		|		|		|
 |	Maelstrom	|		|		|		|		|		|		|
-|	Mage Armor	|		|		|		|		|		|		|
+|	Mage Armor	|		|	☑	|		|		|		|		|
 |	Mage Hand	|		|		|		|		|		|		|
 |	Magic Circle	|		|		|		|		|		|		|
 |	Magic Jar	|		|		|		|		|		|		|
 |	Magic Missile	|		|		|		|		|		|		|
 |	Magic Mouth	|		|		|		|		|		|		|
 |	Magic Stone	|		|		|		|		|		|		|
-|	Magic Weapon	|		|		|		|		|		|		|
+|	Magic Weapon	|		|	☑	|		|		|		|		|
 |	Magnificent Mansion	|		|		|		|		|		|		|
 |	Magnify Gravity	|		|		|		|		|		|		|
 |	Major Image	|		|		|		|		|		|		|
-|	Mass Cure Wounds	|		|		|		|		|		|		|
+|	Mass Cure Wounds	|		|		|	☑	|		|		|		|
 |	Mass Heal	|		|		|		|		|		|		|
 |	Mass Healing Word	|		|		|		|		|		|		|
 |	Mass Polymorph	|		|		|		|		|		|		|
-|	Mass Suggestion	|		|		|		|		|		|		|
+|	Mass Suggestion	|		|	☑	|		|		|		|		|
 |	M's Earthen Grasp	|		|		|		|		|		|		|
 |	Maze	|		|		|		|		|		|		|
 |	Meld into Stone	|		|		|		|		|		|		|
@@ -315,16 +315,16 @@
 |	Meteor Swarm	|		|		|		|		|		|		|
 |	Mighty Fortress	|		|		|		|		|		|		|
 |	Mind Blank	|		|		|		|		|		|		|
-|	Mind Sliver	|		|		|		|		|		|		|
+|	Mind Sliver	|		|		|	☑	|		|		|		|
 |	Mind Spike	|		|		|		|		|		|		|
 |	Minor Illusion	|		|		|		|		|		|		|
 |	Mirage Arcane	|		|		|		|		|		|		|
-|	Mirror Image	|		|		|		|		|		|		|
+|	Mirror Image	|		|		|	☑	|		|		|		|
 |	Mislead	|		|		|		|		|		|		|
-|	Misty Step	|		|		|		|		|		|		|
+|	Misty Step	|		|	☑	|		|		|		|		|
 |	Modify Memory	|		|		|		|		|		|		|
 |	Mold earth	|		|		|		|		|		|		|
-|	Moonbeam	|		|		|		|		|		|		|
+|	Moonbeam	|		|	☑	|		|		|		|		|
 |	M's Faithful Hound	|		|		|		|		|		|		|
 |	M's Magnificent Mansion	|		|		|		|		|		|		|
 |	M's Private Sanctum	|		|		|		|		|		|		|
@@ -338,10 +338,10 @@
 |	O's Freezing Sphere	|		|		|		|		|		|		|
 |	O's Resilient Sphere	|		|		|		|		|		|		|
 |	O's Irresistible Dance	|		|		|		|		|		|		|
-|	Pass Without Trace	|		|		|		|		|		|		|
+|	Pass Without Trace	|		|		|	☑	|		|		|		|
 |	Passwall	|		|		|		|		|		|		|
 |	Phantasmal Force	|		|		|		|		|		|		|
-|	Phantasmal Killer	|		|		|		|		|		|		|
+|	Phantasmal Killer	|		|	☑	|		|		|		|		|
 |	Phantom Steed	|		|		|		|		|		|		|
 |	Planar Ally	|		|		|		|		|		|		|
 |	Planar Binding	|		|		|		|		|		|		|
@@ -357,15 +357,15 @@
 |	Prestidigitation	|		|		|		|		|		|		|
 |	Primal Savagery	|		|		|		|		|		|		|
 |	Primordial Ward	|		|		|		|		|		|		|
-|	Prismatic Spray	|		|		|		|		|		|		|
+|	Prismatic Spray	|	☑	|		|		|		|		|		|
 |	Prismatic Wall	|		|		|		|		|		|		|
 |	Private Sanctum	|		|		|		|		|		|		|
 |	Produce Flame	|		|		|		|		|		|		|
 |	Programmed Illusion	|		|		|		|		|		|		|
 |	Project Image	|		|		|		|		|		|		|
-|	Protection from Energy	|		|		|		|		|		|		|
-|	Protection from Evil and Good	|		|		|		|		|		|		|
-|	Protection from Poison	|		|		|		|		|		|		|
+|	Protection from Energy	|		|	☑	|		|		|		|		|
+|	Protection from Evil and Good	|		|		|	☑	|		|		|		|
+|	Protection from Poison	|		|	☑	|		|		|		|		|
 |	Psychic Scream	|		|		|		|		|		|		|
 |	Pulse Wave	|		|		|		|		|		|		|
 |	Purify Food and Drink	|		|		|		|		|		|		|
@@ -373,11 +373,11 @@
 |	Raise Dead	|		|		|		|		|		|		|
 |	R's Telepathic Bond	|		|		|		|		|		|		|
 |	Ravenous Void	|		|		|		|		|		|		|
-|	Ray of Enfeeblement	|		|		|		|		|		|		|
-|	Ray of Frost	|		|		|		|		|		|		|
+|	Ray of Enfeeblement	|		|	☑	|	☑	|		|		|		|
+|	Ray of Frost	|		|	☑	|		|		|		|		|
 |	Ray of Sickness	|		|		|		|		|		|		|
 |	Reality Break	|		|		|		|		|		|		|
-|	Regenerate	|		|		|		|		|		|		|
+|	Regenerate	|		|	☑	|		|		|		|		|
 |	Reincarnate	|		|		|		|		|		|		|
 |	Remove Curse	|		|		|		|		|		|		|
 |	Resiliant Sphere	|		|		|		|		|		|		|
@@ -387,7 +387,7 @@
 |	Revivify	|		|		|		|		|		|		|
 |	Rope Trick	|		|		|		|		|		|		|
 |	Sacred Flame	|		|		|		|		|		|		|
-|	Sanctuary	|		|		|		|		|		|		|
+|	Sanctuary	|		|		|	☑	|		|		|		|
 |	Sapping Sting	|		|		|		|		|		|		|
 |	Scatter	|		|		|		|		|		|		|
 |	Scorching Ray	|		|		|		|		|		|		|
@@ -398,15 +398,15 @@
 |	Seeming	|		|		|		|		|		|		|
 |	Sending	|		|		|		|		|		|		|
 |	Sequester	|		|		|		|		|		|		|
-|	Shadow Blade	|		|		|		|		|		|		|
+|	Shadow Blade	|		|		|	☑	|		|		|		|
 |	Shadow of Moil	|		|		|		|		|		|		|
 |	Shape Water	|		|		|		|		|		|		|
 |	Shapechange	|		|		|		|		|		|		|
 |	Shatter	|		|		|		|		|		|		|
-|	Shield	|		|		|		|		|		|		|
-|	Shield of Faith	|		|		|		|		|		|		|
-|	Shillelagh	|		|		|		|		|		|		|
-|	Shocking Grasp	|		|		|		|		|		|		|
+|	Shield	|		|	☑	|		|		|		|		|
+|	Shield of Faith	|		|	☑	|		|		|		|		|
+|	Shillelagh	|	☑	|	☑	|		|		|		|		|
+|	Shocking Grasp	|		|		|	☑	|		|		|		|
 |	Sickening Radiance	|		|		|		|		|		|		|
 |	Silence	|		|		|		|		|		|		|
 |	Silent Image	|		|		|		|		|		|		|
@@ -415,7 +415,7 @@
 |	Skywrite	|		|		|		|		|		|		|
 |	Sleep	|		|		|		|		|		|		|
 |	Sleet Storm	|		|		|		|		|		|		|
-|	Slow	|		|		|		|		|		|		|
+|	Slow	|		|	☑	|		|		|		|		|
 |	Snare	|		|		|		|		|		|		|
 |	S's Snowball Swarm	|		|		|		|		|		|		|
 |	Soul Cage	|		|		|		|		|		|		|
@@ -423,31 +423,31 @@
 |	Speak with Animals	|		|		|		|		|		|		|
 |	Speak with Dead	|		|		|		|		|		|		|
 |	Speak with Plants	|		|		|		|		|		|		|
-|	Spider Climb	|		|		|		|		|		|		|
-|	Spike Growth	|		|		|		|		|		|		|
-|	Spirit Guardians	|		|		|		|		|		|		|
-|	Spiritual Weapon	|		|		|		|		|		|		|
+|	Spider Climb	|		|	☑	|		|		|		|		|
+|	Spike Growth	|		|		|	☑	|		|		|		|
+|	Spirit Guardians	|	☑	|		|	☑	|		|		|		|
+|	Spiritual Weapon	|		|	☑	|		|		|		|		|
 |	Sprit Shroud	|		|		|		|		|		|		|
 |	Staggering Smite	|		|		|		|		|		|		|
 |	Steel Wind Strike	|		|		|		|		|		|		|
 |	Stinking Cloud	|		|		|		|		|		|		|
 |	Stone Shape	|		|		|		|		|		|		|
-|	Stoneskin	|		|		|		|		|		|		|
+|	Stoneskin	|		|	☑	|		|		|		|		|
 |	Storm of Vengeance	|		|		|		|		|		|		|
-|	Storm Sphere	|		|		|		|		|		|		|
+|	Storm Sphere	|		|		|	☑	|		|		|		|
 |	Suggestion	|		|		|		|		|		|		|
-|	Summon Aberration	|		|		|		|		|		|		|
-|	Summon Beast	|		|		|		|		|		|		|
-|	Summon Celestial	|		|		|		|		|		|		|
-|	Summon Construct	|		|		|		|		|		|		|
-|	Summon Elemental	|		|		|		|		|		|		|
-|	Summon Fey	|		|		|		|		|		|		|
+|	Summon Aberration	|		|		|	☑	|		|		|		|
+|	Summon Beast	|		|		|	☑	|		|		|		|
+|	Summon Celestial	|		|		|	☑	|		|		|		|
+|	Summon Construct	|		|		|	☑	|		|		|		|
+|	Summon Elemental	|		|		|	☑	|		|		|		|
+|	Summon Fey	|		|		|	☑	|		|		|		|
 |	Summon Fiend	|		|		|		|		|		|		|
 |	Summon Greater Demon	|		|		|		|		|		|		|
 |	Summon Lesser Demons	|		|		|		|		|		|		|
 |	Summon Shadowspawn	|		|		|		|		|		|		|
 |	Summon Undead	|		|		|		|		|		|		|
-|	Sunbeam	|		|		|		|		|		|		|
+|	Sunbeam	|		|	☑	|		|		|		|		|
 |	Sunburst	|		|		|		|		|		|		|
 |	Swift Quiver	|		|		|		|		|		|		|
 |	Sword Burst	|		|		|		|		|		|		|
@@ -473,12 +473,12 @@
 |	Thunderclap	|		|		|		|		|		|		|
 |	Thunderous Smite	|		|		|		|		|		|		|
 |	Thunderwave	|		|		|		|		|		|		|
-|	Tidal Wave	|		|		|		|		|		|		|
+|	Tidal Wave	|		|		|	☑	|		|		|		|
 |	Time Ravage	|		|		|		|		|		|		|
 |	Time Stop	|		|		|		|		|		|		|
 |	Tiny Hut	|		|		|		|		|		|		|
 |	Tiny Servant	|		|		|		|		|		|		|
-|	Toll the Dead	|		|		|		|		|		|		|
+|	Toll the Dead	|	☑	|		|	☑	|		|		|		|
 |	Tongues	|		|		|		|		|		|		|
 |	Transmute Rock	|		|		|		|		|		|		|
 |	Transport via Plants	|		|		|		|		|		|		|
@@ -486,12 +486,12 @@
 |	True Polymorph	|		|		|		|		|		|		|
 |	True Resurrection	|		|		|		|		|		|		|
 |	True Seeing	|		|		|		|		|		|		|
-|	True Strike	|		|		|		|		|		|		|
+|	True Strike	|		|	☑	|		|		|		|		|
 |	Tsunami	|		|		|		|		|		|		|
-|	Unseen Servant	|		|		|		|		|		|		|
-|	Vampiric Touch	|		|		|		|		|		|		|
-|	Vicious Mockery	|		|		|		|		|		|		|
-|	Vitriolic Sphere	|		|		|		|		|		|		|
+|	Unseen Servant	|		|	☑	|		|		|		|		|
+|	Vampiric Touch	|		|		|	☑	|		|		|		|
+|	Vicious Mockery	|		|	☑	|		|		|		|		|
+|	Vitriolic Sphere	|		|		|	☑	|		|		|		|
 |	Wall of Fire	|		|		|		|		|		|		|
 |	Wall of Force	|		|		|		|		|		|		|
 |	Wall of Ice	|		|		|		|		|		|		|
@@ -500,12 +500,12 @@
 |	Wall of Stone	|		|		|		|		|		|		|
 |	Wall of Thorns	|		|		|		|		|		|		|
 |	Wall of Water	|		|		|		|		|		|		|
-|	Warding Bond	|		|		|		|		|		|		|
+|	Warding Bond	|	☑	|	☑	|		|		|		|		|
 |	Warding Wind	|		|		|		|		|		|		|
 |	Water Breathing	|		|		|		|		|		|		|
 |	Water Walk	|		|		|		|		|		|		|
 |	Watery Sphere	|		|		|		|		|		|		|
-|	Web	|		|		|		|		|		|		|
+|	Web	|		|	☑	|		|		|		|		|
 |	Weird	|		|		|		|		|		|		|
 |	Whirlwind	|		|		|		|		|		|		|
 |	Wind Walk	|		|		|		|		|		|		|
@@ -518,5 +518,4 @@
 |	Wrathful Smite	|		|		|		|		|		|		|
 |	Wristpocket	|		|		|		|		|		|		|
 |	Zephyr Strike	|		|		|		|		|		|		|
-|	Zone of Truth	|		|		|		|		|		|		|
-
+|	Zone of Truth	|		|		|	☑	|		|		|		|
