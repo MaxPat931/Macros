@@ -1,5 +1,6 @@
 |	Feature	|	MidiQOL	|	Midi SRD	|	CPR	|	DDBI	|	w15ps	|	Dfreds CE	|
 |	---	|	---	|	---	|	---	|	---	|	---	|	---	|
+|	SPELLS	|	15	|	78	|	56	|	0	|	0	|	0	|
 |	A's Horrid Wilting	|		|		|		|		|		|		|
 |	Absorb Elements	|	☑	|		|		|		|		|		|
 |	Acid Arrow	|	☑	|		|		|		|		|		|
