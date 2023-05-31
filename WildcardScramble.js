@@ -1,8 +1,8 @@
-for(let nextToken of canvas.tokens.placeables) {
-            if (nextToken.actor.prototypeToken.randomImg) {
-                let tokenImgArray = await game.actors.get(nextToken.actor.id).getTokenImages();
-                let imageChoice = Math.floor(Math.random() * tokenImgArray.length);
-                let image = tokenImgArray[imageChoice]
-            await nextToken.document.update({ "img": image })
-            }
-        }
+const updates = [];
+for (const token of canvas.scene.tokens) {
+  if (!token.actor?.randomImg) continue;
+  const images = await token.actor.getTokenImages();
+  const img = images[Math.floor(Math.random() * images.length)];
+  updates.push({_id: token.id, "texture.src": img});
+}
+return canvas.scene.updateEmbeddedDocuments("Token", updates);
