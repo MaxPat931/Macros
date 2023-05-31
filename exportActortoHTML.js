@@ -213,6 +213,7 @@ for (let token of canvas.tokens.controlled) {
 
     // SKILLS
     let skills = Object.values(actorData.system.skills);
+///zhell let skills = Object.keys(actorData.system.skills).map(key => [key, CONFIG.DND5E.skills[key].label]).sort((a,b) => a[1].localeCompare(b[1]));    
     let skillNames = Object.keys(actorData.system.skills);
     for(let i=0; i<skills.length; i++){
         if(!skills[i].label){
