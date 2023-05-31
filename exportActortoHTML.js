@@ -1,4 +1,5 @@
 ///Credit to JovieStovie who originally wrote this https://www.reddit.com/r/FoundryVTT/comments/p121rd/comment/h8e6ex8/?utm_source=share&utm_medium=web2x&context=3
+///Big thanks to the kind helpers of #macro-polo for updating the SKILLs section for dnd2.2, Honeybadger, Freeze, and Zhell
 
 for (let token of canvas.tokens.controlled) {
 
@@ -212,17 +213,13 @@ for (let token of canvas.tokens.controlled) {
     exportHTML += `</div>`
 
     // SKILLS
-    let skills = Object.values(actorData.system.skills);
-///zhell let skills = Object.keys(actorData.system.skills).map(key => [key, CONFIG.DND5E.skills[key].label]).sort((a,b) => a[1].localeCompare(b[1]));    
+    let skills = Object.values(actorData.system.skills);///zhell let skills = Object.keys(actorData.system.skills).map(key => [key, CONFIG.DND5E.skills[key].label]).sort((a,b) => a[1].localeCompare(b[1]));    
     let skillNames = Object.keys(actorData.system.skills);
     for(let i=0; i<skills.length; i++){
         if(!skills[i].label){
             skills[i].label = CONFIG.DND5E.skills[skillNames[i]]
         }
     }
-    skills = skills.sort((a, b) => {
-        return a.label[0] < b.label[0] ? -1 : 0
-    });
 
     exportHTML += `<div class="skills-container">`
     for (let skill of skills) {
@@ -241,7 +238,7 @@ for (let token of canvas.tokens.controlled) {
             skillClass = "skill-awesome";
         }
         exportHTML += `<div class="skill-container ${skillClass}">`
-        exportHTML += `<small>${skill.ability}</small><p class="skill-title">${skill.label}</p>`
+        exportHTML += `<small>${skill.ability}</small><p class="skill-title">${skill.label.label}</p>`
         switch (skill.value) {
             case 0:
                 exportHTML += `<small>None</small>`
