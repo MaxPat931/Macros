@@ -21,15 +21,18 @@ for (let token of canvas.tokens.controlled) {
                     border-style: solid;
                     border-width: 1px;
                     border-radius: 5px;
-                    padding: 10px;
+                    padding: 2px;
                     margin: 10px 0px;
                     width: 30%;
                 }
                 .item-header{
                     display: flex;
                     justify-content: flex-start;
-                    align-items: center;
+                    align-items: flex-start;
                     cursor: pointer;
+                    width: 100%;
+                    flex-direction: column;
+                    margin: 5px;
                 }
                 .prepared{
                     background-color: #aaffaa;
@@ -41,8 +44,9 @@ for (let token of canvas.tokens.controlled) {
                     margin-right:10px;
                 }
                 .actor-img{
-                    max-width:200px;
-                    max-height:200px;
+                    max-width:400px;
+                    max-height:400px;
+                    float:left;
                 }
                 .spell-container{
                     display: flex;
@@ -51,18 +55,28 @@ for (let token of canvas.tokens.controlled) {
                     justify-content: space-evenly;
                     align-items: flex-start;
                 }
+                .primary-info{
+                    display: flex;
+                    justify-content: space-evenly;
+                }
+                .secondary-info{
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    justify-content: space-around;
+                }
                 .spell-details{
-                    margin:0;
+                    margin:5;
+                    justify-content: flex-end;
                 }
                 .small-head {
-                    position: absolute;
-                    margin-left: 60px;
+                    margin-left: 5px;
                 }
                 .abilities-container {
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
-                    justify-content: flex-start;
+                    justify-content: center;
                     align-items: baseline;
                 }
                 .ability-container {
@@ -156,15 +170,20 @@ for (let token of canvas.tokens.controlled) {
                         width: 47%;
                     }
                 }
-                @media only screen and (max-width: 767px) {
+                @media only screen and (max-width: 95%) {
                     .spell-container{
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
                     }
                     .item{
-                        margin: 10px 0px;
-                        width: 90%;
+                        margin: 5px 0px;
+                        width: 95%;
+                    }
+                }
+                @media print {
+                    .pagebreak { 
+                         page-break-before: always; 
                     }
                 }
             </style>
@@ -285,7 +304,7 @@ for (let token of canvas.tokens.controlled) {
         exportHTML += `<b>${currency}:</b> ${actorData.system.currency[currency]} | `
     }
     exportHTML += `</p>`
-
+    exportHTML += `<div class="pagebreak"> </div>`
 
 
     //  // CLASSES
@@ -340,6 +359,7 @@ for (let token of canvas.tokens.controlled) {
             exportHTML += `<div class="item spell${(spell.system.preparation.mode=="prepared" || spell.system.preparation.mode=="always") && spell.system.preparation.prepared?' prepared':''}">`
             exportHTML += `<small class="small-head">${spell.system.level==0?'Cantrip':'Level '+spell.system.level} - ${spell.system.activation.cost} ${spell.system.activation.type}</small>`
             exportHTML += `<div class="item-header expand">`
+            exportHTML += `<div class="primary-info">`
             if (spell.img) {
                 try {
                     let image = await ImageHelper.createThumbnail(spell.img, {
@@ -353,10 +373,13 @@ for (let token of canvas.tokens.controlled) {
             }
             exportHTML += `<h3>${spell.name}${(spell.system.preparation.mode=="prepared" || spell.system.preparation.mode=="always") && spell.system.preparation.prepared?' - Prepared':''} </h3>`
             exportHTML += `</div>`
-            exportHTML += `<div class="collapse" style="display:none;">`
+            exportHTML += `<div class="secondary-info">`
             exportHTML += `<p class="spell-details">Duration: ${spell.system.duration.value||''} ${spell.system.duration.units||''}</p>`
             exportHTML += `<p class="spell-details">Range: ${spell.system.range.value||''} ${spell.system.range.units||''}</p>`
             exportHTML += `<p class="spell-details">Target: ${spell.system.target.value||''} ${spell.system.target.units||''} ${spell.system.target.type||'?'}</p>`
+            exportHTML += `</div>`
+            exportHTML += `</div>`
+            exportHTML += `<div class="collapse" style="display:none;">`
             exportHTML += `<p>${spell.system.description.value||'No Description'}</p>`
             exportHTML += `</div>`
 
@@ -379,12 +402,14 @@ for (let token of canvas.tokens.controlled) {
             }
             return 0;
         });
+        exportHTML += `<div class="pagebreak"> </div>`
         exportHTML += `<h2 id="feats-header">Features</h2>`;
         exportHTML += `<div id="spell-container" class="spell-container">`;
         for (let feat of feats) {
             exportHTML += `<div class="item feat">`
             exportHTML += `<small class="small-head">${feat.system.activation.type?'Active':'Passive'}</small>`
             exportHTML += `<div class="item-header expand">`
+            exportHTML += `<div class="primary-info">`
             if (feat.img) {
                 try {
                     let image = await ImageHelper.createThumbnail(feat.img, {
@@ -398,6 +423,7 @@ for (let token of canvas.tokens.controlled) {
             }
             exportHTML += `<h3>${feat.name}</h3>`
             exportHTML += `</div>`
+            exportHTML += `</div>`
             exportHTML += `<div class="collapse" style="display:none;">`
             exportHTML += `<p>${feat.system.description.value||'No Description'}</p>`
             exportHTML += `</div>`
@@ -409,24 +435,26 @@ for (let token of canvas.tokens.controlled) {
 
 
     // Items/Loot
-    let loots = items.filter((e) => e.type == "weapon" || e.type == "equipment" || e.type == "backpack" || e.type == "loot" || e.type == "tool" || e.type == "consumable");
+    let loots = items.filter((e) => e.type == "backpack" || e.type == "tool" || e.type == "loot" || e.type == "consumable" || e.type == "equipment" || e.type == "weapon");
 
     if (loots && loots.length > 0) {
         loots = loots.sort((a, b) => {
-            return a.type[0] < b.type[0] ? -1 : 0
+            return a.type[0] > b.type[0] ? -1 : 0
         });
         loots = loots.sort((a, b) => {
             if (a.type[0] == b.type[0]) {
-                return a.name[0] < b.name[0] ? -1 : 0;
+                return a.name[0] > b.name[0] ? -1 : 0;
             }
             return 0;
         })
+        exportHTML += `<div class="pagebreak"> </div>`
         exportHTML += `<h2 id="loot-header">Items</h2>`;
         exportHTML += `<div id="spell-container" class="spell-container">`;
         for (let loot of loots) {
             exportHTML += `<div class="item loot${loot.system.equipped?' prepared':''}">`
             exportHTML += `<small class="small-head">${loot.type[0].toUpperCase()+loot.type.substr(1)}${loot.system.equipped?' - Equipped':''}</small>`
             exportHTML += `<div class="item-header expand">`
+            exportHTML += `<div class="primary-info">`
             if (loot.img) {
                 try {
                     let image = await ImageHelper.createThumbnail(loot.img, {
@@ -440,7 +468,12 @@ for (let token of canvas.tokens.controlled) {
             }
             exportHTML += `<h3>${loot.name} ${loot.system.quantity!=1?`(${loot.system.quantity||0})`:''}</h3>`
             exportHTML += `</div>`
+            exportHTML += `</div>`
+            exportHTML += `<div class="secondary-info">`
+            exportHTML += `<p>${loot.system.damage.parts||'No Description'}</p>`
+            exportHTML += `</div>`
             exportHTML += `<div class="collapse" style="display:none;">`
+
             exportHTML += `<p>${loot.system.description.value||'No Description'}</p>`
             exportHTML += `</div>`
 
