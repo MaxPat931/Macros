@@ -21,13 +21,13 @@ function postToChat(conditionName, imgURL, message){
     callback: () => {postToChat(`Dead`, `icons/svg/skull.svg`, `When a protagonist's Wounds reach their maximum value, or when an adversary's Health reaches zero, that character is Dead. A creature which is Dead is also treated as Incapacitated, can no longer Rest, and cannot be revived except by magical means.`)}
    },
    three: {
-    label: "Diseased",
-    callback: () => {postToChat(`Diseased`, ``, `A creature that is Diseased cannot recover Health or heal Wounds for the duration of the Diseased effect.`)}
+    label: "<img src= icons/svg/acid.svg> Diseased",
+    callback: () => {postToChat(`Diseased`, `icons/svg/acid.svg`, `A creature that is Diseased cannot recover Health or heal Wounds for the duration of the Diseased effect.`)}
    },
-  four: {
-    label: "Engaged",
-    callback: () => {postToChat(`Engaged`, ``, `When a creature is in base contact with an enemy and is not incapacitated, it is considered to have that enemy Engaged.`)}
-   },
+///  four: {
+///    label: "Engaged",
+///    callback: () => {postToChat(`Engaged`, ``, `When a creature is in base contact with an enemy and is not incapacitated, it is considered to have that enemy Engaged.`)}
+///   },
   five: {
     label: "<img src= systems/crucible/icons/statuses/enraged.svg> Enraged",
     callback: () => {postToChat(`Enraged`, `systems/crucible/icons/statuses/enraged.svg`, `When a creature is Enraged, it behaves recklessly and is less able to defend itself. An Enraged creature's Block and Parry defenses become zero and that creature cannot expend Focus.`)}
@@ -69,8 +69,8 @@ function postToChat(conditionName, imgURL, message){
     callback: () => {postToChat(`Stunned`, `icons/svg/daze.svg`, `A creature that is Stunned temporarily has 2 fewer Action Points available than normal.`)}
    },
   fifteen: {
-    label: "Paralyzed",
-    callback: () => {postToChat(`Paralyzed`, ``, `A creature that is Paralyzed is unable to perform Actions until the paralysis is ended. During this time the target is Incapacitated.`)}
+    label: "<img src= icons/svg/paralysis.svg> Paralyzed",
+    callback: () => {postToChat(`Paralyzed`, `icons/svg/paralysis.svg`, `A creature that is Paralyzed is unable to perform Actions until the paralysis is ended. During this time the target is Incapacitated.`)}
    },
   sixteen: {
   label: "<img src= systems/crucible/icons/statuses/slowed.svg> Slowed",
@@ -91,11 +91,11 @@ function postToChat(conditionName, imgURL, message){
   twenty: {
   label: "Unaware",
   callback: () => {postToChat(`Unaware`, ``, `A creature that is Unaware acts in combat at Initiative 1 and cannot perform Reactions.`)}
-  },
-  twentyone: {
-  label: "Unconcious",
-  callback: () => {postToChat(`Unconcious`, ``, `When a character's Health reaches zero, they become Unconscious. During this time they fall Prone and are Incapacitated.`)}
-  },
+  }
+///   twentyone: {
+///   label: "Unconcious",
+///   callback: () => {postToChat(`Unconcious`, ``, `When a character's Health reaches zero, they become Unconscious. During this time they fall Prone and are Incapacitated.`)}
+///   },
   },
   default: "one",
   });
