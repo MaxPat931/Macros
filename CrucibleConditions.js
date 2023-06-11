@@ -33,7 +33,7 @@ const bigObjectOfDescriptions = {
     dead: 
         "When a protagonist's Wounds reach their maximum value, or when an adversary's Health reaches zero, that character is Dead. A creature which is Dead is also treated as Incapacitated, can no longer Rest, and cannot be revived except by magical means.",
     broken: 
-        "When a creature's Morale reaches zero, it's will to fight and capacity to make rational decisions in combat is Broken. Creatures that are Broken will typically attempt to flee the battle. Actions taken by Broken creatures have +2 Banes and Broken creatures cannot expend Focus. Any further damage to Morale suffered while Broken is taken as Madness.",
+        "When a creature's Morale reaches zero, its will to fight and capacity to make rational decisions in combat is Broken. Creatures that are Broken will typically attempt to flee the battle. Actions taken by Broken creatures have +2 Banes and Broken creatures cannot expend Focus. Any further damage to Morale suffered while Broken is taken as Madness.",
     insane: 
         "When a protagonist's Madness reaches its maximum value, that character is Insane. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.",
     staggered: 
