@@ -1,6 +1,3 @@
-///Credit to JovieStovie who originally wrote this https://www.reddit.com/r/FoundryVTT/comments/p121rd/comment/h8e6ex8/?utm_source=share&utm_medium=web2x&context=3
-///Big thanks to the kind helpers of #macro-polo for updating the SKILLs section for dnd2.2, Honeybadger, Freeze, and Zhell
-
 for (let token of canvas.tokens.controlled) {
 
     // Get actor data
@@ -22,8 +19,9 @@ for (let token of canvas.tokens.controlled) {
                     border-width: 1px;
                     border-radius: 5px;
                     padding: 2px;
-                    margin: 10px 0px;
+                    margin: 3px 3px;
                     width: 30%;
+                    break-inside: avoid;
                 }
                 .item-header{
                     display: flex;
@@ -44,8 +42,8 @@ for (let token of canvas.tokens.controlled) {
                     margin-right:10px;
                 }
                 .actor-img{
-                    max-width:400px;
-                    max-height:400px;
+                    max-width:60px;
+                    max-height:60px;
                     float:left;
                 }
                 .spell-container{
@@ -97,7 +95,7 @@ for (let token of canvas.tokens.controlled) {
                     font-size: larger;
                 }
                 .ability-value{
-                    margin:8px;
+                    margin:2px;
                 }
                 .skills-container {
                     display: flex;
@@ -108,23 +106,22 @@ for (let token of canvas.tokens.controlled) {
                 }
                 .skill-container {
                     display: flex;
-                    flex-wrap: nowrap;
-                    flex-direction: row;
                     height: 20px;
                     border: black solid 1px;
-                    border-radius: 20px;
+                    border-radius: 5px;
                     background: #dddddd;
                     margin: 2px;
-                    width: 300px;
-                    justify-content: space-between;
+                    width: 32%;
                     align-items: center;
+                    flex-direction: row;
+                    justify-content: space-between;
                 }
                 .skill-title{
                     margin: 8px;
                     font-weight: bold;
                     text-transform: capitalize;
-                    font-size: larger;
-                    width: 175px;
+                    font-size: small;
+                    width: fit-content;
                 }
                 .skill-value{
                     margin:8px;
@@ -207,7 +204,7 @@ for (let token of canvas.tokens.controlled) {
         <div>`
     // End first HTML generation
 
-    exportHTML += `<h1>${actorData.name}</h1>`
+    exportHTML += `<h1>${actorData.name} Level ${actorData.system.details.level}  HP: __/${actorData.system.attributes.hp.max}</h1>`
     if (actorData.img) {
         let image = await ImageHelper.createThumbnail(actorData.img, {
             width: 200,
@@ -215,8 +212,6 @@ for (let token of canvas.tokens.controlled) {
         });
         exportHTML += `<img class="actor-img" src=${image.thumb}></img>`
     }
-    exportHTML += `<h3>Last Updated: ${date.toDateString()}, ${date.toTimeInputString()}</h3>`
-
 
     // ABILITIES
     let abilities = actorData.system.abilities;
@@ -232,7 +227,7 @@ for (let token of canvas.tokens.controlled) {
     exportHTML += `</div>`
 
     // SKILLS
-    let skills = Object.values(actorData.system.skills);///zhell let skills = Object.keys(actorData.system.skills).map(key => [key, CONFIG.DND5E.skills[key].label]).sort((a,b) => a[1].localeCompare(b[1]));    
+    let skills = Object.values(actorData.system.skills);    
     let skillNames = Object.keys(actorData.system.skills);
     for(let i=0; i<skills.length; i++){
         if(!skills[i].label){
@@ -257,7 +252,7 @@ for (let token of canvas.tokens.controlled) {
             skillClass = "skill-awesome";
         }
         exportHTML += `<div class="skill-container ${skillClass}">`
-        exportHTML += `<small>${skill.ability}</small><p class="skill-title">${skill.label.label}</p>`
+        exportHTML += `<p class="skill-title">${skill.label.label} (${skill.ability})</p>`
         switch (skill.value) {
             case 0:
                 exportHTML += `<small>None</small>`
@@ -276,7 +271,7 @@ for (let token of canvas.tokens.controlled) {
                 exportHTML += `<small>Unknown: ${skill.value}</small>`
                 break;
         }
-        exportHTML += `<p class="skill-value">${skill.total>0?`+${skill.total}`:skill.total||'=0'}</p>`
+        exportHTML += `<p class="skill-value"><b>${skill.total>0?`+${skill.total}`:skill.total||'=0'}</b> (${skill.passive})</p>`
         exportHTML += `</div>`
 
     }
@@ -304,6 +299,33 @@ for (let token of canvas.tokens.controlled) {
         exportHTML += `<b>${currency}:</b> ${actorData.system.currency[currency]} | `
     }
     exportHTML += `</p>`
+    exportHTML += `<p>`
+    exportHTML += `Spell Slots (Spell DC: <b>${actorData.system.attributes.spelldc}</b>)`
+    exportHTML += `</p>`
+    exportHTML += `First Level: __/ <b>${actorData.system.spells.spell1.max}</b>, Second Level: __/ <b>${actorData.system.spells.spell2.max}</b>, Third Level: __/ <b>${actorData.system.spells.spell3.max}</b>, Fourth Level: __/ <b>${actorData.system.spells.spell4.max}</b>, Fifth Level: __/ <b>${actorData.system.spells.spell5.max}</b>, Sixth Level: __/ <b>${actorData.system.spells.spell6.max}</b><br> Seventh Level: __/ <b>${actorData.system.spells.spell7.max}</b>, Eigth Level: __/ <b>${actorData.system.spells.spell8.max}</b>, Ninth Level: __/ <b>${actorData.system.spells.spell9.max}</b>`
+    exportHTML += `<p>`
+    exportHTML += `<div class="abilities-container">`
+    exportHTML += `<div class="ability-container">`;
+    exportHTML += `<p class="ability-title">AC</p>`;
+    exportHTML += `${actorData.system.attributes.ac.value}`
+    exportHTML += `</div>`;
+    exportHTML += `<div class="ability-container">`;
+    exportHTML += `<p class="ability-title">Hit Die</p>`;
+    exportHTML += `${actorData.system.attributes.hd}`
+    exportHTML += `</div>`;
+    exportHTML += `<div class="ability-container">`;
+    exportHTML += `<p class="ability-title">Initiative</p>`;
+    exportHTML += `+${actorData.system.attributes.init.total}`
+    exportHTML += `</div>`;
+    exportHTML += `<div class="ability-container">`;
+    exportHTML += `<p class="ability-title">Proficiency</p>`;
+    exportHTML += `${actorData.system.attributes.prof}`
+    exportHTML += `</div>`;
+    exportHTML += `</div>`;
+    exportHTML += `Senses: ${actorData.system.attributes.senses}, Movement: ${actorData.system.attributes.movement},`
+    exportHTML += `</p>`
+
+
     exportHTML += `<div class="pagebreak"> </div>`
 
 
@@ -374,9 +396,9 @@ for (let token of canvas.tokens.controlled) {
             exportHTML += `<h3>${spell.name}${(spell.system.preparation.mode=="prepared" || spell.system.preparation.mode=="always") && spell.system.preparation.prepared?' - Prepared':''} </h3>`
             exportHTML += `</div>`
             exportHTML += `<div class="secondary-info">`
-            exportHTML += `<p class="spell-details">Duration: ${spell.system.duration.value||''} ${spell.system.duration.units||''}</p>`
-            exportHTML += `<p class="spell-details">Range: ${spell.system.range.value||''} ${spell.system.range.units||''}</p>`
-            exportHTML += `<p class="spell-details">Target: ${spell.system.target.value||''} ${spell.system.target.units||''} ${spell.system.target.type||'?'}</p>`
+            exportHTML += `<p class="spell-details">Duration: <br>${spell.system.duration.value||''} ${spell.system.duration.units||''}</p>`
+            exportHTML += `<p class="spell-details">Range: <br>${spell.system.range.value||''} ${spell.system.range.units||''}</p>`
+            exportHTML += `<p class="spell-details">Target: <br>${spell.system.target.value||''} ${spell.system.target.units||''} ${spell.system.target.type||'?'}</p>`
             exportHTML += `</div>`
             exportHTML += `</div>`
             exportHTML += `<div class="collapse" style="display:none;">`
@@ -468,9 +490,6 @@ for (let token of canvas.tokens.controlled) {
             }
             exportHTML += `<h3>${loot.name} ${loot.system.quantity!=1?`(${loot.system.quantity||0})`:''}</h3>`
             exportHTML += `</div>`
-            exportHTML += `</div>`
-            exportHTML += `<div class="secondary-info">`
-            exportHTML += `<p>${loot.system.damage.parts||'No Description'}</p>`
             exportHTML += `</div>`
             exportHTML += `<div class="collapse" style="display:none;">`
 
