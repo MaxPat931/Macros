@@ -25,7 +25,7 @@ const buttons = CONFIG.statusEffects.reduce((acc, data) => {
 const bigObjectOfDescriptions = {
     weakened: 
         "<p>A creature that is <strong>Weakened</strong> is vulnerable to taking deadly wounds. Protagonists become Weakened when they reach zero Health. Any further damage to Health taken while Weakened increases Wounds.</p><p>While a creature is Weakened, it suffers -1 to maximum Action, loses access to a free Movement action, and suffers an additional <strong>2 Vulnerability</strong> to any <strong>Morale</strong> damage sustained.</p>",
-    incapacitated: 
+    inacapacitated: 
         "<p>When a creature is entirely unable to act, it is <strong>Inacapacitated</strong>. When a target is Incapacitated, its <strong>Dodge, Block, </strong>and<strong> Parry</strong> defenses become zero and it no longer benefits from <strong>Ability Score</strong> bonuses to <strong>Fortitude, Willpower, </strong>or Reflex defense. It cannot contribute to Flanking or otherwise aid allies.</p>",
     dead: 
         "<p>When a protagonist's Wounds reach their maximum value, or when an adversary's Health reaches zero, that character is <strong>Dead</strong>. A creature which is Dead is also treated as <strong>Incapacitated</strong>, can no longer Rest, and cannot be revived except by magical means.</p>",
