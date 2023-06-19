@@ -1,5 +1,5 @@
-// Adapted from from Jenthura's DnD5e Conditions Macro ( https://github.com/jenthura/foundryVTT5eConditionRulesMacro/blob/master/ConditionRulesMacro.js )
-// Cleaned up thanks to Freeze and Zhell in #macro-polo
+// Originally adapted from from Jenthura's DnD5e Conditions Macro ( https://github.com/jenthura/foundryVTT5eConditionRulesMacro/blob/master/ConditionRulesMacro.js )
+// Improved with the help of Freeze and Zhell in #macro-polo
 
 const content = `<style>
   #conditions-dialog .dialog-buttons {
@@ -14,9 +14,6 @@ const content = `<style>
 }
 </style>`
 
-// Originally adapted from from Jenthura's DnD5e Conditions Macro ( https://github.com/jenthura/foundryVTT5eConditionRulesMacro/blob/master/ConditionRulesMacro.js )
-// Improved with the help of Freeze and Zhell in #macro-polo
-
 const buttons = CONFIG.statusEffects.reduce((acc, data) => {
   acc[data.id] = {
     label: `<img class="button-image" src="${data.icon}"> <div><label>${game.i18n.localize(data.label)}</label></div>`,
@@ -25,29 +22,29 @@ const buttons = CONFIG.statusEffects.reduce((acc, data) => {
   return acc;
 }, {});
 
-
-
 const bigObjectOfDescriptions = {
+    weakened: 
+        "<p>A creature that is <strong>Weakened</strong> is vulnerable to taking deadly wounds. Protagonists become Weakened when they reach zero Health. Any further damage to Health taken while Weakened increases Wounds.</p><p>While a creature is Weakened, it suffers -1 to maximum Action, loses access to a free Movement action, and suffers an additional <strong>2 Vulnerability</strong> to any <strong>Morale</strong> damage sustained.</p>",
     incapacitated: 
-        "When a creature is entirely unable to act, it is Inacapacitated. When a target is Incapacitated, its Dodge, Block, and Parry defenses become zero and it no longer benefits from Ability Score bonuses to Fortitude, Willpower, or Reflex defense. Any further damage to Health suffered while Incapacitated is taken as Wounds.",
+        "<p>When a creature is entirely unable to act, it is <strong>Inacapacitated</strong>. When a target is Incapacitated, its <strong>Dodge, Block, </strong>and<strong> Parry</strong> defenses become zero and it no longer benefits from <strong>Ability Score</strong> bonuses to <strong>Fortitude, Willpower, </strong>or Reflex defense. It cannot contribute to Flanking or otherwise aid allies.</p>",
     dead: 
-        "When a protagonist's Wounds reach their maximum value, or when an adversary's Health reaches zero, that character is Dead. A creature which is Dead is also treated as Incapacitated, can no longer Rest, and cannot be revived except by magical means.",
+        "<p>When a protagonist's Wounds reach their maximum value, or when an adversary's Health reaches zero, that character is <strong>Dead</strong>. A creature which is Dead is also treated as <strong>Incapacitated</strong>, can no longer Rest, and cannot be revived except by magical means.</p>",
     broken: 
-        "When a creature's Morale reaches zero, its will to fight and capacity to make rational decisions in combat is Broken. Creatures that are Broken will typically attempt to flee the battle. Actions taken by Broken creatures have +2 Banes and Broken creatures cannot expend Focus. Any further damage to Morale suffered while Broken is taken as Madness.",
+        "<p>A creature that is <strong>Broken</strong> is vulnerable to psychological trauma. Protagonists become Broken when they reach zero Morale. Any further damage to Morale taken while Broken increases Madness.</p><p>While a creature is Broken it cannot expend <strong>Focus</strong>, actions it takes suffer from <strong>+2 Banes</strong>, and it suffers an additional <strong>2 Vulnerability</strong> to any <strong>Health</strong> damage sustained.</p><p>Creatures which are Broken cannot contribute towards Flanking. Non-player Adversaries which become Broken will attempt to flee the battle unless they lack instincts of self-preservation or escape seems impossible.</p>",
     insane: 
-        "When a protagonist's Madness reaches its maximum value, that character is Insane. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.",
+        "<p>When a protagonist's Madness reaches its maximum value, that character is <strong>Insane</strong>. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.</p><p>When a protagonist's Madness reaches its maximum value, that character is <strong>Insane</strong>. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.</p>",
     staggered: 
-        "A creature that is Staggered temporarily has 1 fewer Action Point available than normal.",
+        "<p>A creature that is <strong>Staggered</strong> temporarily has 1 fewer Action Point available than normal.</p>",
     stunned: 
-        "A creature that is Stunned temporarily has 2 fewer Action Points available than normal.",
+        "<p>A creature that is <strong>Stunned</strong> temporarily has 2 fewer Action Points available than normal.</p>",
     slowed: 
-        "A creature that is Slowed pays a +1 Action cost for any Action that involves Movement, including the free Move action each Turn which costs 1 AP instead.",
+        "<p>A creature that is <strong>Slowed</strong> pays a +1 Action cost for any Action that involves Movement, including the free Move action each Turn which costs 1 AP instead.</p>",
     disoriented: 
-        "A creature that is Disoriented incurs a +1 Focus cost to all Actions which require Focus.",
+        "<p>A creature that is <strong>Disoriented </strong>incurs a +1 Focus cost to all Actions which require Focus.</p>",
     restrained: 
-        "A creature that is Restrained is unable to perform any Action which involves Movement.",
+        "<p>A creature that is <strong>Restrained</strong> is unable to perform any Action which involves Movement.</p>",
     prone: 
-        "A creature that has been knocked to the ground, or has voluntarily thrown itself to the ground is considered Prone. While Prone, the creature is Exposed against melee attacks. Returning to your feet from a Prone position requires one Movement action, however that Movement may only move a maximum of 1 Space.",
+        "<p>A creature that has been knocked to the ground, or has voluntarily thrown itself to the ground is considered <strong>Prone</strong>. While Prone, the creature is <strong>Exposed</strong> against melee attacks. Returning to your feet from a Prone position requires one Movement action, however that Movement may only move a maximum of 1 Space.</p>",
     blinded: 
         `TBD`,
     deafened: 
@@ -55,25 +52,27 @@ const bigObjectOfDescriptions = {
     silenced: 
         `TBD`,
     enraged: 
-        "When a creature is Enraged, it behaves recklessly and is less able to defend itself. An Enraged creature's Block and Parry defenses become zero and that creature cannot expend Focus.",
+        "<p>When a creature is <strong>Enraged</strong>, it behaves recklessly and is less able to defend itself. An <strong>Enraged</strong> creature's Block and Parry defenses become zero and that creature cannot expend Focus.</p>",
     frightened: 
-        "A creature that is Frightened cannot recover Morale or heal Madness for the duration of the Frightened effect.",
+        "<p>A creature that is <strong>Frightened</strong> cannot recover Morale or heal Madness for the duration of the Frightened effect.</p>",
     invisible: 
         `TBD`,
     resolute: 
-        "A creature which is Resolute is temporarily immune to Morale damage.",
+        "<p>A creature which is <strong>Resolute</strong> is temporarily immune to Morale or Madness damage.</p>.",
     guarded: 
-        "Some terrain or abilities may temporarily harden a creature's defenses. When a creature is Guarded attacks against it suffer +1 Banes.",
+        "<p>Some terrain or abilities may temporarily harden a creature's defenses. When a creature is <strong>Guarded </strong>attacks against it suffer +1 Banes.</p>",
     exposed: 
-        "Some attacks can leave an enemy temporarily vulnerable. When a creature is Exposed attacks against it gain +2 Boons.",
+        "<p>Some attacks can leave an enemy temporarily vulnerable. When a creature is <strong>Exposed</strong> attacks against it gain +2 Boons.</p>",
     flanked: 
-        "When a creature is Engaged by multiple foes which are its own size or larger and those foes are located on opposite sides of its square, the creature is considered to be Flanked.<br>When attacking a creature that is your size or smaller that is currently Flanked, you gain a number of Boons to Attack abilities equal to the number of flanking allies (excluding yourself).",
+        "<p>When a creature is <strong>Engaged</strong> by multiple foes which are its own size or larger and those foes are located on opposite sides of its square, the creature is considered to be <strong>Flanked</strong>.</p><p>When attacking a creature that is your size or smaller that is currently <strong>Flanked</strong>, you gain a number of <strong>Boons</strong> to Attack abilities equal to the number of flanking allies (excluding yourself).</p>",
     diseased: 
-        "A creature that is Diseased cannot recover Health or heal Wounds for the duration of the Diseased effect.",
+        "<p>A creature that is <strong>Diseased</strong> cannot recover Health or heal Wounds for the duration of the Diseased effect.</p>",
     paralyzed: 
-        "A creature that is Paralyzed is unable to perform Actions until the paralysis is ended. During this time the target is Incapacitated.",
+        "<p>A creature that is <strong>Paralyzed</strong> is unable to perform Actions until the paralysis is ended. During this time the target is <strong>Incapacitated</strong>.</p>",
     unaware: 
-        "A creature that is Unaware acts in combat at Initiative 1 and cannot perform Reactions."
+        "<p>A creature that is <strong>Unaware</strong> acts in combat at Initiative 1 and cannot perform Reactions.</p>",
+    invlunerable:
+        "<p>A creature that is <strong>Invulnerable</strong> is temporarily immune to Health or Wounds damage.</p>"
 };
 
 
