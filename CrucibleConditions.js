@@ -1,22 +1,29 @@
 // Originally adapted from from Jenthura's DnD5e Conditions Macro ( https://github.com/jenthura/foundryVTT5eConditionRulesMacro/blob/master/ConditionRulesMacro.js )
 // Improved with the help of Freeze and Zhell in #macro-polo
+// Updated for Crucible 0.5.6
 
 const content = `<style>
   #conditions-dialog .dialog-buttons {
       display: grid;
       gap: 1em;
       grid-template-columns: 1fr 1fr 1fr 1fr;
+      background-image:url('systems/crucible/ui/journal/overlay.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      
   }
   #conditions-dialog .button-image {
       max-width: 50px;
       max-height: 50px;
+      border: none;
   }
 }
 </style>`
 
+// const buttons = CONFIG.statusEffects.toSorted((a,b) => a.id>b.id ? 1 : -1).reduce((acc, data) => {  // Use this line instead of the next to have the conditions in alphabetical order
 const buttons = CONFIG.statusEffects.reduce((acc, data) => {
   acc[data.id] = {
-    label: `<img class="button-image" src="${data.icon}"> <div><label>${game.i18n.localize(data.label)}</label></div>`,
+    label: `<img class="button-image" src="${data.icon}"> <div><label><h2>${game.i18n.localize(data.label)}</h2></label></div>`,
     callback
   };
   return acc;
@@ -87,4 +94,4 @@ async function callback(html, event){
   });
 }
 
-new Dialog({content,buttons},{id: "conditions-dialog", width: "auto !important", height: "auto !important"}).render(true);
+new Dialog({content,buttons},{classes: ["dialog", "app window-app crucible-new journal-sheet sheet journal-sheet journal-entry"], id: "conditions-dialog", width: "auto !important", height: "auto !important"}).render(true);
