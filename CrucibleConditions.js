@@ -94,4 +94,4 @@ async function callback(html, event){
   });
 }
 
-new Dialog({content,buttons},{classes: ["dialog", "app window-app crucible-new journal-sheet sheet journal-sheet journal-entry"], id: "conditions-dialog", width: "auto !important", height: "auto !important"}).render(true);
+new Dialog({content,buttons},{classes: ["dialog", "crucible-new"], id: "conditions-dialog", width: "auto !important", height: "auto !important"}).render(true);
