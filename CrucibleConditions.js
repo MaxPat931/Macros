@@ -39,7 +39,7 @@ const bigObjectOfDescriptions = {
     broken: 
         "<p>A creature that is <strong>Broken</strong> is vulnerable to psychological trauma. Protagonists become Broken when they reach zero Morale. Any further damage to Morale taken while Broken increases Madness.</p><p>While a creature is Broken it cannot expend <strong>Focus</strong>, actions it takes suffer from <strong>+2 Banes</strong>, and it suffers an additional <strong>2 Vulnerability</strong> to any <strong>Health</strong> damage sustained.</p><p>Creatures which are Broken cannot contribute towards Flanking. Non-player Adversaries which become Broken will attempt to flee the battle unless they lack instincts of self-preservation or escape seems impossible.</p>",
     insane: 
-        "<p>When a protagonist's Madness reaches its maximum value, that character is <strong>Insane</strong>. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.</p><p>When a protagonist's Madness reaches its maximum value, that character is <strong>Insane</strong>. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.</p>",
+        "<p>When a protagonist's Madness reaches its maximum value, that character is <strong>Insane</strong>. A character which is Insane may no longer be controlled by its player and is controlled by the Gamemaster. This condition cannot be healed or cured except by magical means.</p>",
     staggered: 
         "<p>A creature that is <strong>Staggered</strong> temporarily has 1 fewer Action Point available than normal.</p>",
     stunned: 
