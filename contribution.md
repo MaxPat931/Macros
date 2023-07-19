@@ -3,7 +3,7 @@ If you're reading this, then you're interested in helping us document the system
 We want to make sure that contributing to the wiki is as easy as possible so that anyone that would like to help us with this task can do so. In that light, there are several different way to contribute to the wiki outlined below.
 
 ## How the Wiki is updated
-Typically, a repository's Wiki can only be updated by the owners of that repo, this made community provided documentation cumbersome to include. This repository is utilizing a [GitHub Action](https://github.com/Andrew-Chen-Wang/github-wiki-action) that will generate the wiki from any Markdown files submitted to the `wiki` branch's `wiki/` folder. When new files are merged to the `wiki` branch the Action will run, and update the wiki repo. This allows us to easily accept community provided documentation. 
+Typically, a repository's Wiki can only be updated by the owners of that repo, this made community provided documentation cumbersome to include. This repository is utilizing a [GitHub Action](https://github.com/Andrew-Chen-Wang/github-wiki-action) that will generate the wiki from any Markdown files submitted to the `publish-wiki` branch's `wiki/` folder. When new files are merged to the `publish-wiki` branch the Action will run, and update the wiki repo. This allows us to easily accept community provided documentation. 
 
 ## Style Guide
 When submitting a Markdown file for consideration for the Wiki, we ask you to follow the style guide outlined here, this will ensure consistency between all of our wiki pages.
@@ -41,12 +41,10 @@ Example: Review the Issue created for submitting this document you're currently 
 In order to contribute directly to the Wiki, you will need to fork the dnd5e repo, make a branch from the `publish-wiki` branch of the repo, add your Markdown files, and submit a Pull Request.  
 
 ### Fork the `dnd5e` Repo
-To contribute to the wiki [fork this project](https://docs.github.com/en/get-started/quickstart/fork-a-repo) and submit a [pull request (PR)](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request) against the `publish-wiki` branch.
+To contribute to the wiki [fork this project](https://docs.github.com/en/get-started/quickstart/fork-a-repo) Once you have forked the dnd5e repo, you will want to create a branch from the `publish-wiki` branch of the dnd5e repo. To do this, click on the branches button, then click on New Branch. Give your new Branch a descriptive name, then make sure to update the Source to the upstream repository `foundryvtt/dnd5e`and select the `publish-wiki` branch. 
 
-### Create a branch from `publish-wiki`
-Once you have forked the dnd5e repo, you will want to create a branch from the `publish-wiki` branch of the dnd5e repo. To do this, click on the branches button, then click on New Branch. Give your new Branch a descriptive name, then make sure to update the Source to the upstream repository `foundryvtt/dnd5e`and select the `publish-wiki` branch. 
-
-### Make Updates
+### Submit a PR
+and submit a [pull request (PR)](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request) against the `publish-wiki` branch.
 Either edit the existing files, or add your own Markdown files within the `wiki` folder. Once you've created your files, you will be asked to either `Save and Merge` or `Create a New Branch`, choose `Create a New Branch` and provide the new branch with a name. You will now be able to submit those changes back to the DnD5e system via a PR. From the main page of your repo, click the `Contribute` button and create your PR for the system. When submitting a PR for the wiki, make sure that you are targetting the `publish-wiki` branch of the repo. Your PR is now submitted and will be reviewed by the Dnd5e team!
 Example: Review the PR created for submitting this document you're currently reading here: `#1999`
 
