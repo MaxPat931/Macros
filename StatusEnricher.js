@@ -129,13 +129,7 @@ function createRollLink(label, dataset) {
   const link = document.createElement("a");
   link.classList.add("roll-link");
   _addDataset(link, dataset);
-  console.log(dataset)
-  const {type} = dataset.type;
- // switch (type) {
- //   case "status":
         link.innerHTML = `<i class="fa-solid fa-person-rays"></i> ${label}`;
- //   break;
- // }
   return link;
 }
 
