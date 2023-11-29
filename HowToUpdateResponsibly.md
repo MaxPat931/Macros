@@ -58,7 +58,7 @@ Once the migration has completed, start playing around and testing your world, k
 <img src="https://github.com/MaxPat931/Macros/assets/86370342/bb402c3a-6a1a-47bc-9b66-a9cef931f461">
 </p>
 
-Yellow Warning messages will not prevent you from palying your game, and are mostly warning for developers that a feature they are using is set for deprication in the future and needs to be updated. Generally you do not need to do anything for warnings.  
+Yellow Warning messages will not prevent you from playing your game, and are mostly warning for developers that a feature they are using is set for deprication in the future and needs to be updated. Generally you do not need to do anything for warnings.  
 Red Error messages are more serious, and may prevent you from playing your game. If there are errors that prevent you from playing your game, you will need to triage the error to find out what is going on.  
 
 ## Troubleshooting Errors
