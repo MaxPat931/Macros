@@ -7,7 +7,8 @@ const images = [ `https://i.imgur.com/kHiXKXe.png`,
 const buttons = images.reduce((acc, e, i) => {
   acc[i] = {
     label: `<img src="${e}">`,
-    callback: () => token.document.update({"texture.src": e})
+    callback: () => token.document.update({"texture.src": e}),
+    condition: token.document.texture.src !== e,
   };
   return acc;
 }, {});
