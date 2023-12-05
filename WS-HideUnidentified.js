@@ -1,4 +1,4 @@
-///Hides Source Config from Players if the item is unidentified
+///Hides Source Config and description.value from Players if the item is unidentified
 Hooks.on("renderItemSheet", (sheet, [html]) => {
   if (game.user.isGM) return;
   const unidentified = sheet.item.system.identified === false;
@@ -20,3 +20,9 @@ Hooks.on("renderChatMessage", async (chatItem, html) => {
         const cardContent = html.find(".card-content");
         cardContent.html(description);
 });
+
+/*
+Hooks.on("renderActorsSheet5eCharacter", (html, options) => {
+  Something with .item-summary?
+});
+*/
