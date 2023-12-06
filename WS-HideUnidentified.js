@@ -39,7 +39,7 @@ async function identify(item, update, options){
       
       const sourceItem = await fromUuid(item.flags.core.sourceId);
       console.log(sourceItem.name)
-      if (item.name === sourceItem.name) return;
+      if (item.name === sourceItem.name) return; //TODO - Add a confirmation dialog?
   
       const itemData = game.items.fromCompendium(sourceItem);
       let identified = await item.parent.createEmbeddedDocuments("Item", [itemData]);
