@@ -26,3 +26,29 @@ Hooks.on("renderActorsSheet5eCharacter", (sheet, html, data) => {
   Something with .item-summary?
 });
 */
+
+///Automatically retrieve Identified item from Source Item flag when Identified by a GM
+///NOTE: This will replace any item that has a different name than the sourceId item's name
+Hooks.on("updateItem", identify);
+
+async function identify(item, update, options){
+    if (game.user.isGM) {
+      console.log(item.name)
+      const identification = update.system?.identified === true;
+      if(!identification) return;
+      
+      const sourceItem = await fromUuid(item.flags.core.sourceId);
+      console.log(sourceItem.name)
+      if (item.name === sourceItem.name) return;
+  
+      const itemData = game.items.fromCompendium(sourceItem);
+      let identified = await item.parent.createEmbeddedDocuments("Item", [itemData]);
+              if(identified.length > 0) item?.delete();
+      
+      ChatMessage.create({
+      user: game.user.id,
+      content: `The ${item.name} has been identified as a ${sourceItem.name}`,
+        })
+      }
+};
+*/
