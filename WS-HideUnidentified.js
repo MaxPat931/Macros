@@ -32,23 +32,34 @@ Hooks.on("renderActorsSheet5eCharacter", (sheet, html, data) => {
 Hooks.on("updateItem", identify);
 
 async function identify(item, update, options){
-    if (game.user.isGM) {
-      console.log(item.name)
-      const identification = update.system?.identified === true;
-      if(!identification) return;
-      
-      const sourceItem = await fromUuid(item.flags.core.sourceId);
-      console.log(sourceItem.name)
-      if (item.name === sourceItem.name) return; //TODO - Add a confirmation dialog?
-  
-      const itemData = game.items.fromCompendium(sourceItem);
-      let identified = await item.parent.createEmbeddedDocuments("Item", [itemData]);
+  if (game.user.isGM) {
+    console.log(item.name)
+    const identification = update.system?.identified === true;
+    if(!identification) return;
+    
+    const sourceItem = await fromUuid(item.flags.core.sourceId);
+    console.log(sourceItem.name)
+    if (item.name === sourceItem.name) return;
+
+    new Dialog({
+      content: await TextEditor.enrichHTML(`<p>Do you want to replace ${item.name} with @UUID[${item.flags.core.sourceId}]?</p>`),
+      title: "Identification",
+      buttons: {
+        ok: {label: "OK",
+          callback: async () => {
+            const itemData = game.items.fromCompendium(sourceItem);
+            let identified = await item.parent.createEmbeddedDocuments("Item", [itemData]);
               if(identified.length > 0) item?.delete();
-      
-      ChatMessage.create({
-      user: game.user.id,
-      content: `The ${item.name} has been identified as a ${sourceItem.name}`,
-        })
+  
+            ChatMessage.create({
+            user: game.user.id,
+            content: `The ${item.name} has been identified as a ${sourceItem.name}`,
+            })
+          }
+        },
+        no: {label: "No"}
       }
+    }).render(true);
+  }
 };
 */
