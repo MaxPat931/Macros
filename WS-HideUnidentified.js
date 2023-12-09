@@ -11,9 +11,9 @@ Hooks.on("renderItemSheet", (sheet, [html]) => {
 /// otherwise display the Unidentified description if it exists, 
 /// otherwise display the Description (which is hidden from the player due to the above script)
 Hooks.on("renderChatMessage", async (chatItem, html) => {
-  const itemId = chatItem.flags.dnd5e.use.itemUuid;
+  const itemId = chatItem.flags.dnd5e?.use?.itemUuid;
   const itemData = await fromUuid(itemId);
-  const unidentified = itemData.system.identified === false;
+  const unidentified = itemData?.system.identified === false;
   if (!unidentified) return;
   const itemDescription = itemData.system.description.value;
   const unidentifiedDesc = itemData.system.description.unidentified;
