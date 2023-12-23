@@ -34,10 +34,10 @@ Hooks.on("updateCombat", async (combat, changes) => {
     });
   };
 
-  const updateGiantInitiative = (giantName, initiative) => {
+  const updateGiantInitiative = async (giantName, initiative) => {
     const giant = game.combat.combatants.getName(giantName);
     if (giant) {
-      giant.update({ initiative });
+      await giant.update({ initiative });
     }
   };
 
