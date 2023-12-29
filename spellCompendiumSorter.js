@@ -67,6 +67,12 @@ new Dialog({
             await clearCompendiumFolders();
             await spellCompendiumFolders("school");
             }
-        }
+        },
+      clear: {
+          label: "Clear Folders",
+          callback: async () => {
+          await clearCompendiumFolders();
+          }
+      }
     }
 }).render(true);
