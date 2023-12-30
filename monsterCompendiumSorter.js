@@ -1,7 +1,8 @@
+const key = "dnd5e.monsters";
+const pack = game.packs.get(key);
+const wasLocked = pack.locked;
+
 async function monsterTypeCompendium() {
-    const key = "dnd5e.monsters";
-    const pack = game.packs.get(key);
-    const wasLocked = pack.locked;
     if (wasLocked) await pack.configure({locked:false});
     const index = await pack.getIndex({ fields: ["system.details.type.value"] });
 
@@ -29,9 +30,6 @@ async function monsterTypeCompendium() {
 }
 
 async function monsterCrCompendium() {
-    const key = "dnd5e.monsters";
-    const pack = game.packs.get(key);
-    const wasLocked = pack.locked;
     if (wasLocked) await pack.configure({locked:false});
     const index = await pack.getIndex({ fields: ["system.details.cr"] });
 
@@ -55,9 +53,6 @@ async function monsterCrCompendium() {
 }
 
 async function clearCompendiumFolders() {
-    const key = "dnd5e.monsters";
-    const pack = game.packs.get(key);
-    const wasLocked = pack.locked;
     if (wasLocked) await pack.configure({locked:false});
     if (pack.folders.size > 0) {
         const index = await pack.getIndex();
