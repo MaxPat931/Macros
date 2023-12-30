@@ -1,6 +1,8 @@
 async function monsterTypeCompendium() {
     const key = "dnd5e.monsters";
     const pack = game.packs.get(key);
+    const wasLocked = pack.locked;
+    if (wasLocked) await pack.configure({locked:false});
     const index = await pack.getIndex({ fields: ["system.details.type.value"] });
 
     const capitalizeFirstLetter = (string) => {
@@ -22,11 +24,15 @@ async function monsterTypeCompendium() {
     }
 
     await Actor.updateDocuments(updates, { pack: key });
+    if (wasLocked) await pack.configure({locked:true});
+    await ui.notifications.warn(`${pack.metadata.label} Type Folders Created`)
 }
 
 async function monsterCrCompendium() {
     const key = "dnd5e.monsters";
     const pack = game.packs.get(key);
+    const wasLocked = pack.locked;
+    if (wasLocked) await pack.configure({locked:false});
     const index = await pack.getIndex({ fields: ["system.details.cr"] });
 
     const uniqueCRs = [...new Set(index.map(entry => entry.system.details.cr))];
@@ -44,11 +50,15 @@ async function monsterCrCompendium() {
         updates.push({ _id: idx._id, folder: folder.id });
     }
     await Actor.updateDocuments(updates, { pack: key });
+    if (wasLocked) await pack.configure({locked:true});
+    await ui.notifications.warn(`${pack.metadata.label} CR Folders Created`)
 }
 
 async function clearCompendiumFolders() {
     const key = "dnd5e.monsters";
     const pack = game.packs.get(key);
+    const wasLocked = pack.locked;
+    if (wasLocked) await pack.configure({locked:false});
     if (pack.folders.size > 0) {
         const index = await pack.getIndex();
         const updates = [];
@@ -62,6 +72,8 @@ async function clearCompendiumFolders() {
 
         await Folder.deleteDocuments(folderIds, { pack: key });
     }
+    if (wasLocked) await pack.configure({locked:true});
+    await ui.notifications.warn(`${pack.metadata.label} Folders Cleared`)
 }
 
 new Dialog({
