@@ -1,7 +1,8 @@
+const key = "dnd5e.spells";
+const pack = game.packs.get(key);
+const wasLocked = pack.locked;
+
 async function spellCompendiumFolders(method) {
-    const key = "dnd5e.spells";
-    const pack = game.packs.get(key);
-    const wasLocked = pack.locked;
     if (wasLocked) await pack.configure({locked:false});
 
     let indexFields, configValue;
@@ -37,9 +38,6 @@ async function spellCompendiumFolders(method) {
 }
 
 async function clearCompendiumFolders() {
-    const key = "dnd5e.spells";
-    const pack = game.packs.get(key);
-    const wasLocked = pack.locked;
     if (wasLocked) await pack.configure({locked:false});
     if(pack.folders.size > 0){
         const index = await pack.getIndex();
