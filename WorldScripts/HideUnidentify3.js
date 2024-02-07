@@ -1,3 +1,4 @@
+// for dnd5e version 3.0.0+
 // Prevent Players from Identifying their items by hiding the buttons from them, only the GM will be able to Identify them
 // Remove Identify button at top of Item Sheet
 Hooks.on("renderItemSheet", (sheet, [html]) => {
