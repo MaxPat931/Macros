@@ -1,3 +1,4 @@
+/// For dnd5e Versions 2.4.0 + 2.4.1 - NOT NECESSARY FOR VERSION 3.0.0 AND ABOVE
 /// Hides Source Config and description.value from Players if the item is unidentified
 Hooks.on("renderItemSheet", (sheet, [html]) => {
   if (game.user.isGM) return;
