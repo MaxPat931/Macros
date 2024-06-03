@@ -49,3 +49,17 @@ Hooks.on("updateCombat", async (combat, changes) => {
 
   await game.combat.update({ turn: 0 });
 });
+
+//Empowered Patron reminder
+Hooks.on("updateCombat", async (combat, updates) => {
+  if (game.combat.combatant.actorId != "ZR4RfvS5QX8hivBV") return;
+  const item = await fromUuid("Scene.qqBD4pLWlW1XYqgv.Token.66uwMAsN3hWayjeX.Actor.ZR4RfvS5QX8hivBV.Item.JB4apst2Q4lFMOFK");
+  await item.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+});
+
+//Guard Reinforcements
+Hooks.on("updateCombat", async (combat, updates) => {
+  if (game.combat.combatant.actorId != "ZU6CkvHO7Zlm4YkS") return;
+  const item = await fromUuid("Actor.hxHroWAlPrv9yECt.Item.iR58gsCKJWuhBXvw");
+  await item.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+});
