@@ -52,14 +52,16 @@ Hooks.on("updateCombat", async (combat, changes) => {
 
 //Empowered Patron reminder
 Hooks.on("updateCombat", async (combat, updates) => {
-  if (game.combat.combatant.actorId != "ZR4RfvS5QX8hivBV") return;
-  const item = await fromUuid("Scene.qqBD4pLWlW1XYqgv.Token.66uwMAsN3hWayjeX.Actor.ZR4RfvS5QX8hivBV.Item.JB4apst2Q4lFMOFK");
-  await item.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+  if (game.combat.combatant.name != "Human Storm Wizard") return;
+  const wizard = game.actors.getName("Human Storm Wizard")
+  const patron = wizard.items.getName("Empowered Patron");
+  await patron.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
 });
 
 //Guard Reinforcements
 Hooks.on("updateCombat", async (combat, updates) => {
-  if (game.combat.combatant.actorId != "ZU6CkvHO7Zlm4YkS") return;
-  const item = await fromUuid("Actor.hxHroWAlPrv9yECt.Item.iR58gsCKJWuhBXvw");
-  await item.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+  if (game.combat.combatant.name != "Human Guard") return;
+  const guard = game.actors.getName("Human Guard")
+  const reinforce = guard.items.getName("Reinforcements");
+  await reinforce.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
 });
