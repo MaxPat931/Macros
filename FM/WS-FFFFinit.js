@@ -65,3 +65,8 @@ Hooks.on("updateCombat", async (combat, updates) => {
   const reinforce = guard.items.getName("Reinforcements");
   await reinforce.use({}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
 });
+
+//Change EXP levels for Point tracking
+Hooks.once("init", () => {
+     CONFIG.DND5E.CHARACTER_EXP_LEVELS = [0,0,0,0,0,70,0,0,70,0,0,0,0,0,0,0,0,0,0,0]
+});
