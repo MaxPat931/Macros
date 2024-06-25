@@ -26,7 +26,7 @@ for (const actor of actorFolder.contents) {
   const abilities = actor.system.abilities;
 
   const actorContent = `
-    <p>${}</p>
+    <h1>Level ${actor.system.details.level}  HP: __/${actor.system.attributes.hp.max}</h1>
   `
   //Item Data
   /// Weapons
@@ -43,9 +43,9 @@ for (const actor of actorFolder.contents) {
   /// 
   let itemContent = []
   actor.items.forEach(item => {
-    const itemName = name;
+    const itemName = item.name;
     console.log(itemName)
-    const desc = system.description.value;
+    const desc = item.system.description.value;
     const content = `
         <p>${itemName}</p>
         <p>${desc}
