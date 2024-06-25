@@ -26,7 +26,9 @@ for (const actor of actorFolder.contents) {
   const abilities = actor.system.abilities;
 
   const actorContent = `
+    <img src="${actor.img}" width ="300" style="border: none; float:right">
     <h1>Level ${actor.system.details.level}  HP: __/${actor.system.attributes.hp.max}</h1>
+    <div style="clear:both"></div>
   `
   //Item Data
   /// Weapons
@@ -41,25 +43,104 @@ for (const actor of actorFolder.contents) {
   /// Other Features
   //Spells
   /// 
-  let itemContent = []
+  let itemContent = {
+    weapon: [],
+    spell: [],
+  };
+
   actor.items.forEach(item => {
     const itemName = item.name;
-    console.log(itemName)
+    console.log(item)
     const desc = item.system.description.value;
-    const content = `
-        <p>${itemName}</p>
-        <p>${desc}
-        `
-    itemContent.push(content)
-  })
+    const itemType = item.type
+    const introContent = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article>
+    `;
 
-  //Page Content
-  const pageTitle = `${actor.name}`;
-  const content = `
-   <p>${actorContent}</p>
-   <h2>Items<h2>
-   <p>${itemContent}</p>
-   `;
+    let weaponDesc = '';
+    if (itemType === 'weapon') {
+        weaponDesc = `
+            <h2>[[/item ${itemName}]]</h2>
+            ${desc}
+            To Hit: ${item.labels.toHit}
+            <br>Damage: 
+        `;
+        if (item.labels.derivedDamage && item.labels.derivedDamage.length > 0) {
+            item.labels.derivedDamage.forEach(damage => {
+                weaponDesc += `
+                    ${damage.label}
+                `;
+            });
+        }
+        if (item.labels.range) {
+            weaponDesc += `
+                <br>Range: ${item.labels.range}
+            `;
+        }
+        if (item.labels.properties && item.labels.properties.length > 0) {
+            item.labels.properties.forEach(prop => {
+                weaponDesc += `
+                    <br>${prop.label}
+                `;
+            });
+        }
+    }
+    
+    let spellDesc = '';
+    if (itemType === 'spell') {
+        spellDesc = `
+            <h2>[[/item ${itemName}]]</h2>
+            ${desc}
+            Activation: ${item.labels.activation}
+        `;
+    }
+
+    const outroContent = `</article></div>`;
+    
+    ///Combine descriptions per Type
+    let fullContent = introContent;
+    if (itemType === 'weapon') {
+        fullContent += weaponDesc;
+    } else if (itemType === 'spell') {
+        fullContent += spellDesc;
+    }
+    fullContent += outroContent;
+
+    if (itemType === 'weapon') {
+        itemContent.weapon.push(fullContent);
+    } else if (itemType === 'spell') {
+        itemContent.spell.push(fullContent);
+    }  
+});
+
+function generateColumns(title, items) {
+    const column1 = items.slice(0, Math.ceil(items.length / 2)).join('');
+    const column2 = items.slice(Math.ceil(items.length / 2)).join('');
+    return `
+        <div class="column" style="float: left; width: 50%">
+            <h2>${title}</h2>
+            ${column1}
+        </div>
+        <div class="column" style="float: right; width: 50%">
+            <h2>${title}</h2>
+            ${column2}
+        </div>
+    `;
+}
+
+// Example usage:
+
+// Page Content
+const pageTitle = `${actor.name}`;
+const weaponsContent = generateColumns('Items - Weapons', itemContent.weapon);
+const spellsContent = generateColumns('Items - Spells', itemContent.spell);
+const content = `
+   ${actorContent}
+   <div class="item-columns">
+       ${weaponsContent}
+       <div style="clear:both"></div>>
+       ${spellsContent}
+   </div>
+`;
   
    const page = influenceJournal.pages.getName(pageTitle);
   if(page){
