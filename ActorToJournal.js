@@ -57,7 +57,7 @@ for (const actor of actorFolder.contents) {
             }
             skillContent += `
             <td>
-                <p><span style="font-family: 'Modesto Condensed'; font-size: 1.5em;">${skillName} ${skill.proficient == "1" ? ` <i class="fa-solid fa-circle fa-xs"></i>` : ''}</span></p>
+                <p><span style="font-family: 'Modesto Condensed'; font-size: 1em;">${skillName} ${skill.proficient == "1" ? ` <i class="fa-solid fa-circle fa-xs"></i>` : ''}</span></p>
             </td>
             <td style="border-right:1px solid black">
                 <p>${skill.total} (${skill.passive})</p>
@@ -173,7 +173,7 @@ for (const actor of actorFolder.contents) {
         const itemType = item.type;
         const labels = item.labels;
         
-        const introContent = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article>
+        const introContent = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">
     `;
 
     //WEAPONS
@@ -334,10 +334,10 @@ for (const actor of actorFolder.contents) {
         const column1 = items.slice(0, Math.ceil(items.length / 2)).join('');
         const column2 = items.slice(Math.ceil(items.length / 2)).join('');
         return `
-        <div class="column" style="float: left; width: 50%">
+        <div class="column" style="float: left; width: 50%; page-break-before: always;">
             ${column1}
         </div>
-        <div class="column" style="float: right; width: 50%">
+        <div class="column" style="float: right; width: 50%; page-break-before: always;">
             ${column2}
         </div>
     `;
@@ -364,7 +364,10 @@ itemContent.spell.forEach((spellLevel, index) => {
     const spellLevelContent = generateColumns(`Spells ${index} Level`, spellLevel);
     if (index == 0 ){
         content += `
-        ${itemContent.spell[0] != "" ? `<h2>Cantrips</h2>
+        ${itemContent.spell[0] != "" ? `
+        SPELLCASTING
+        
+        <h2 >Cantrips</h2>
         ${spellLevelContent}
         <div style="clear:both"></div>` : ""}
         ${itemContent.spellPact != "" ? `<h2>Pact Spells Level ${slots.pact.level}</h2>
