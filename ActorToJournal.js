@@ -30,15 +30,24 @@ for (const actor of actorFolder.contents) {
 
     function generateAbilityHTML(abilities) {
         let abilityContent = '';
+        let count = 0;
         Object.keys(abilities).forEach(key => {
             const ability = abilities[key];
+            if (count % 3 === 0) {
+                if (count !== 0) {
+                    abilityContent += '</tr>'; // Close previous row if not the first row
+                }
+                abilityContent += '<tr>'; // Start a new row
+            }
             abilityContent += `
             <td>
-                <p style="text-align: center;"><span style="font-family: Modesto Condensed; font-size: 2.5em"><strong>${key.toUpperCase()}</strong> 
+                <p style="text-align: center;"><span style="font-family: Modesto Condensed; font-size: 1.5em"><strong>${key.toUpperCase()}</strong> 
                 <br>${ability.value} (${ability.mod > 0 ? `+${ability.mod}` : `${ability.mod}`})${ability.proficient > 0 ? `<i class="fa-solid fa-circle fa-xs"></i>` : ``}</span></p>
             </td>
         `;
+            count++;
         });
+                abilityContent += '</tr>';
         return abilityContent;
     }
     const abilitiesHTML = generateAbilityHTML(abilities);
@@ -57,7 +66,7 @@ for (const actor of actorFolder.contents) {
             }
             skillContent += `
             <td>
-                <p><span style="font-family: 'Modesto Condensed'; font-size: 1em;">${skillName} ${skill.proficient == "1" ? ` <i class="fa-solid fa-circle fa-xs"></i>` : ''}</span></p>
+                <p><span style="font-family: 'Modesto Condensed'; font-size: 1em;">&ensp;${skillName} ${skill.proficient == "1" ? ` <i class="fa-solid fa-circle fa-xs"></i>` : ''}</span></p>
             </td>
             <td style="border-right:1px solid black">
                 <p>${skill.total} (${skill.passive})</p>
@@ -71,7 +80,8 @@ for (const actor of actorFolder.contents) {
     const skillsHTML = generateSkillHTML(skills);
 
     function generateSlotHTML(slots) {
-        let slotContent = '<b>';
+        let slotContent = '';
+        let count = 0;
         Object.keys(slots).forEach(key => {
             const slot = slots[key];
             let slotCount = '';
@@ -80,13 +90,21 @@ for (const actor of actorFolder.contents) {
                     <i class="fa-brands fa-superpowers"></i>
                 `;
             }
+            if (count % 3 === 0) {
+                if (count !== 0) {
+                    slotContent += '</tr>'; // Close previous row if not the first row
+                }
+                slotContent += '<tr>'; // Start a new row
+            }
             slotContent += `
                 ${slot.max > 0 ?
-                    `<span style="font-family: Modesto Condensed; font-size: 2.5em"> 
-                <br>${key == "pact" ? `Pact ${slot.level}&ensp;| ` : `Level ${slot.level} | `} ${slotCount}</span>`
-                    : ""}
+                    `<td><span style="font-family: Modesto Condensed; font-size: 1.5em"> 
+                ${key == "pact" ? `Pact ${slot.level}&ensp;| ` : `Level ${slot.level} | `} ${slotCount}</span>`
+                    : ""} </td>
         `;
+            count++;
         });
+        slotContent += '</tr>';
         return slotContent;
     }
     const slotHTML = generateSlotHTML(slots);
@@ -94,56 +112,68 @@ for (const actor of actorFolder.contents) {
     //Put it all together
     let actorContent = '';
     actorContent = `
-    <img src="${actor.img}" width ="300" style="border: none; float:right">
-    <h1>Level ${actor.system.details.level}  HP: ____/${actor.system.attributes.hp.max}</h1>
+    <div class="row">
+    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+        <span style="font-size: 2.5em; font-family: 'Modesto Condensed';">Level ${actor.system.details.level}  HP: ____/${actor.system.attributes.hp.max}</span>
     `;
-    if (classesArray.length > 0) {
-        classesArray.forEach(hitd => {
-            let dieCount = '';
-            for (let i = 0; i < hitd.system.levels; i++) {
-                dieCount += `
-                    <i class="fa-duotone fa-dice-${hitd.system.hitDice}"></i>
-                `;
-            }
-            actorContent += `<h3>${hitd.name} ${hitd.system.hitDice} ${dieCount}</h3>`;
-        });
-    }
+        if (classesArray.length > 0) {
+            classesArray.forEach(hitd => {
+                let dieCount = '';
+                for (let i = 0; i < hitd.system.levels; i++) {
+                    dieCount += `
+                        <i class="fa-duotone fa-dice-${hitd.system.hitDice}"></i>
+                    `;
+                }
+                actorContent += `<h3>${hitd.name} ${hitd.system.hitDice} ${dieCount}</h3>`;
+            });
+        }
 
-    actorContent += `
-    <h2>AC: ${attributes.ac.value} 
-    <span style="font-size: .6em;">
-    ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name}, ${attributes.ac.equippedShield?.name})` : `${armorCalc}`}
-    </span>
-    <br>Initiative: ${attributes.init.total}
-    <br>Movement: ${movement.walk > 0 ? `Walk ${movement.walk} ${movement.units}` : ''}
-    ${movement.climb > 0 ? `Climb ${movement.climb} ${movement.units}` : ''}
-    ${movement.fly > 0 ? `, Fly ${movement.fly} ${movement.units}` : ''}
-    ${movement.swim > 0 ? `, Swim ${movement.swim} ${movement.units}` : ''}
-    ${movement.burrow > 0 ? `, Burrow ${movement.burrow} ${movement.units},` : ''}
-  
-    <br>Proficiency Bonus: ${attributes.prof}
-    <br>Senses: ${senses.darkvision > 0 ? `Darkvision ${senses.darkvision} ${senses.units}` : ''}
-    ${senses.blindsight > 0 ? `, Blindsight ${senses.blindsight} ${senses.units}` : ''}
-    ${senses.tremorsense > 0 ? `, Tremorsense ${senses.tremorsense} ${senses.units}` : ''}
-    ${senses.truesight > 0 ? `, Truesight ${senses.truesight} ${senses.units}` : ''}
-    ${senses.special != "" ? `, ${senses.special} ${senses.units}` : ''}
-    ${attributes.spelldc > 0 ? `<br>Spell Save DC: ${attributes.spelldc}` : ''}
-    </h2>
-    <span style="font-size: 1.5em;">
-    <i class="currency pp" data-tooltip="Platinum"></i> ${actor.system.currency.pp}
-    <i class="currency gp" data-tooltip="Gold"></i> ${actor.system.currency.gp}
-    <i class="currency sp" data-tooltip="Silver"></i> ${actor.system.currency.sp}
-    <i class="currency cp" data-tooltip="Copper"></i> ${actor.system.currency.cp}
-    </span>
-    ${slotHTML}
+        actorContent += `
+        <span style="font-size: 2em; font-family: 'Modesto Condensed';">AC: ${attributes.ac.value} 
+        <span style="font-size: .6em; font-family: 'Modesto Condensed';">
+        ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name}, ${attributes.ac.equippedShield?.name})` : `${armorCalc}`}
+        </span>
+        <br>Initiative: ${attributes.init.total}
+        <br>Movement: ${movement.walk > 0 ? `Walk ${movement.walk} ${movement.units}` : ''}
+        ${movement.climb > 0 ? `Climb ${movement.climb} ${movement.units}` : ''}
+        ${movement.fly > 0 ? `, Fly ${movement.fly} ${movement.units}` : ''}
+        ${movement.swim > 0 ? `, Swim ${movement.swim} ${movement.units}` : ''}
+        ${movement.burrow > 0 ? `, Burrow ${movement.burrow} ${movement.units},` : ''}
     
-    <table><tbody><tr>
-    ${abilitiesHTML}
-    </tr></tbody></table>
+        <br>Proficiency Bonus: ${attributes.prof}
+        <br>Senses: ${senses.darkvision > 0 ? `Darkvision ${senses.darkvision} ${senses.units}` : ''}
+        ${senses.blindsight > 0 ? `, Blindsight ${senses.blindsight} ${senses.units}` : ''}
+        ${senses.tremorsense > 0 ? `, Tremorsense ${senses.tremorsense} ${senses.units}` : ''}
+        ${senses.truesight > 0 ? `, Truesight ${senses.truesight} ${senses.units}` : ''}
+        ${senses.special != "" ? `, ${senses.special} ${senses.units}` : ''}
+        ${attributes.spelldc > 0 ? `<br>Spell Save DC: ${attributes.spelldc}` : ''}
+        </span>
+        <span style="font-size: 1.5em;"><br>
+        <img src="systems/dnd5e/icons/currency/platinum.webp" style="border: none;"> ${actor.system.currency.pp}
+        <img src="systems/dnd5e/icons/currency/gold.webp"style="border: none;"> ${actor.system.currency.gp}
+        <img src="systems/dnd5e/icons/currency/silver.webp"style="border: none;"> ${actor.system.currency.sp}
+        <img src="systems/dnd5e/icons/currency/copper.webp"style="border: none;"> ${actor.system.currency.cp}
+        </span>
+    </div>
+    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+        <table><tbody>
+        ${abilitiesHTML}
+        </tbody></table>
+        <table><tbody>
+        ${slotHTML}
+        </tbody></table>
+    </div>
+    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+        <img src="${actor.img}" width ="100%" style="border: none; float:right">
+    </div>
+    <div style="clear:both">
+
+    <div style="clear:both"></div>
     <table><tbody>
     ${skillsHTML}
     </tbody></table>
-    <div style="clear:both"></div>`
+    <div style="clear:both"></div>
+    `;
 
     //Item Data
     /// Equipment
@@ -170,7 +200,7 @@ for (const actor of actorFolder.contents) {
 
     actor.items.forEach(item => {
         const itemName = item.name;
-        console.log(item.name, item.system)
+        //console.log(item.name, item.system)
         //if (item.system.identified == false) return;
         const desc = item.system.description.value;
         const system = item.system;
@@ -270,9 +300,10 @@ for (const actor of actorFolder.contents) {
         if (itemType === 'spell') {
             if (system.level >= 0 && system.level <= 9) {
                 spellDesc += `
-            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.uses.per ? ` - Limited Uses: ${system.uses.max} per ${period}` : ``}
-</span>
-            <br>Activation: ${labels.activation}
+                    <span style="font-family: 'Modesto Condensed'; font-size: 2em;">
+                        ${itemName} ${system.uses.per ? ` - Limited Uses: ${system.uses.max} per ${period}` : ``}
+                    </span>
+                <br>Activation: ${labels.activation}
             `;
                 if (labels.properties && labels.properties.length > 0) {
                     spellDesc += `<br>`;
@@ -313,11 +344,11 @@ for (const actor of actorFolder.contents) {
             spellDesc += `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">`
         }
 
-        //Class Features
-        let classDesc = '';
+        //Features
+        let featDesc = '';
         if (itemType === 'feat') {
 
-            classDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
+            featDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
             ${desc}
             ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
             ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
@@ -328,28 +359,28 @@ for (const actor of actorFolder.contents) {
             ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
         `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                classDesc += `<br>Damage:`
+                featDesc += `<br>Damage:`
                 labels.derivedDamage.forEach(damage => {
-                    classDesc += `
+                    featDesc += `
                     ${damage.label}
                 `;
                 });
             }
             if (system.consume.type == "attribute") {
-                classDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
+                featDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
             } else if (system.consume.type == "hitDice") {
-                classDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
+                featDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
             } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
                 const conItem = actor.items.get(system.consume.target);
-                classDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
+                featDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
             }
             if (labels.properties && labels.properties.length > 0) {
-                classDesc += `<br>Properties: `
+                featDesc += `<br>Properties: `
                 labels.properties.forEach((prop, index) => {
                     if (index > 0) {
-                        classDesc += ', ';
+                        featDesc += ', ';
                     }
-                    classDesc += `${prop.label}`;
+                    featDesc += `${prop.label}`;
                 });
             }
         }
@@ -365,7 +396,7 @@ for (const actor of actorFolder.contents) {
         } else if (itemType === 'consumable') {
             fullContent += consumeDesc;
         } else if (itemType === 'feat') {
-            fullContent += classDesc;
+            fullContent += featDesc;
         }
         fullContent += outroContent;
 
@@ -416,6 +447,9 @@ for (const actor of actorFolder.contents) {
     const featContent = generateColumns('Feat', itemContent.feat)
     const backContent = generateColumns('Feat', itemContent.background)
     const otherContent = generateColumns('Feat', itemContent.other)
+    //const classesOptions = [Barbarian || Bard || Cleric || Druid || Fighter || Monk||  Paladin || Ranger || Rogue || Sorcerer || Warlock || Wizard]
+    //const primaryClass = actor.classes.${classesOptions}.system.spellcasting
+    //spellcasting - ability, attack, save, DC, Prepared counter, Known Counter
 
     let content = `
     ${actorContent}
