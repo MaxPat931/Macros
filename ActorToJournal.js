@@ -12,7 +12,7 @@ const folderId = await Dialog.prompt({
 });
 const actorFolder = game.actors.folders.get(folderId);
 
-const mainJournalName = `Influence Capacities (${actorFolder.name})`;
+const mainJournalName = `Printable (${actorFolder.name})`;
 const influenceJournal = game.journal.getName(mainJournalName) ?? await JournalEntry.create({ name: mainJournalName });
 // Process each actor and create a journal entry
 
