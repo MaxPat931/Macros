@@ -515,7 +515,7 @@ for (const actor of actorFolder.contents) {
     const pactContent = generateColumns(`Pact Spells Level ${slots.pact.level}`, itemContent.spellPact)
     const atwillContent = generateColumns(`At Will Spells`, itemContent.atwill)
     const innateContent = generateColumns(`Innate Spells`, itemContent.innate)
-    const ritualContent = generateColumns(`Ritaul Only`, itemContent.ritual)
+    const ritualContent = generateColumns(`Ritual Only`, itemContent.ritual)
     const consumeContent = generateColumns('Consumables', itemContent.consumable)
     const equipContent = generateColumns('Equipment', itemContent.equipment)
     const otherItemContent = generateColumns('Other Items', itemContent.otherItem)
