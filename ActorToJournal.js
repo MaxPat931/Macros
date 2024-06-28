@@ -1,3 +1,5 @@
+//Original credit: @RinVindor & @Freeze in #macro-polo
+
 const actorFolders = game.actors.folders.contents;
 if (actorFolders.length === 0) return ui.notifications.error("No actor folders found.");
 
