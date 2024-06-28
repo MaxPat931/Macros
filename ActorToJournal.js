@@ -1,5 +1,3 @@
-//Original credit: @RinVindor & @Freeze in #macro-polo
-
 const actorFolders = game.actors.folders.contents;
 if (actorFolders.length === 0) return ui.notifications.error("No actor folders found.");
 
@@ -12,7 +10,7 @@ const folderId = await Dialog.prompt({
 });
 const actorFolder = game.actors.folders.get(folderId);
 
-const mainJournalName = `Printable (${actorFolder.name})`;
+const mainJournalName = `Influence Capacities (${actorFolder.name})`;
 const influenceJournal = game.journal.getName(mainJournalName) ?? await JournalEntry.create({ name: mainJournalName });
 // Process each actor and create a journal entry
 
@@ -115,7 +113,7 @@ for (const actor of actorFolder.contents) {
     let actorContent = '';
     actorContent = `
     <div class="row">
-    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+    <div class="column" style="float: left; width: 30%; page-break-before: always;">
         <span style="font-size: 2.5em; font-family: 'Modesto Condensed';">Level ${actor.system.details.level}  HP: ____/${actor.system.attributes.hp.max}</span>
     `;
     if (hdArray.length > 0) {
@@ -157,7 +155,7 @@ for (const actor of actorFolder.contents) {
         <img src="systems/dnd5e/icons/currency/copper.webp"style="border: none;"> ${actor.system.currency.cp}
         </span>
     </div>
-    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+    <div class="column" style="float: left; width: 45%; page-break-before: always;">
         <table><tbody>
         ${abilitiesHTML}
         </tbody></table>
@@ -165,7 +163,7 @@ for (const actor of actorFolder.contents) {
         ${slotHTML}
         </tbody></table>
     </div>
-    <div class="column" style="float: left; width: 33%; page-break-before: always;">
+    <div class="column" style="float: left; width: 25%; page-break-before: always;">
         <img src="${actor.img}" width ="100%" style="border: none; float:right">
     </div>
     <div style="clear:both">
@@ -191,8 +189,12 @@ for (const actor of actorFolder.contents) {
         weapon: [],
         spell: Array.from({ length: 10 }, () => []),
         spellPact: [],
+        atwill: [],
+        innate: [],
+        ritual: [],
         consumable: [],
         equipment: [],
+        otherItem: [],
         class: [],
         race: [],
         feat: [],
@@ -388,7 +390,7 @@ for (const actor of actorFolder.contents) {
         }
 
         let equipDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
-        if (itemType == 'equipment') {
+        if (itemType === 'equipment') {
             equipDesc += `
                 <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
                 ${desc}
@@ -431,6 +433,15 @@ for (const actor of actorFolder.contents) {
             }
         }
 
+        //Loot/Tools
+        let otherItemDesc = ``;
+        if (itemType === 'loot' || itemType === 'tool' ) {
+            otherItemDesc = `
+            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span> 
+            ${desc}
+            `
+        };
+
         const outroContent = `</article></div>`;
 
         ///Combine descriptions per Type
@@ -445,6 +456,8 @@ for (const actor of actorFolder.contents) {
             fullContent += equipDesc;
         } else if (itemType === 'feat') {
             fullContent += featDesc;
+        } else if (itemType === 'loot' || itemType === 'tool') {
+            fullContent += otherItemDesc;
         }
         fullContent += outroContent;
 
@@ -452,6 +465,12 @@ for (const actor of actorFolder.contents) {
             itemContent.weapon.push(fullContent);
         } else if (itemType === 'spell' && item.system.preparation.mode === 'pact') {
             itemContent.spellPact.push(fullContent);
+        } else if (itemType === 'spell' && item.system.preparation.mode === 'atwill') {
+            itemContent.atwill.push(fullContent);
+        } else if (itemType === 'spell' && item.system.preparation.mode === 'innate') {
+            itemContent.innate.push(fullContent);
+        } else if (itemType === 'spell' && item.system.preparation.mode === 'ritual') {
+            itemContent.ritual.push(fullContent);
         } else if (itemType === 'spell' && item.system.level >= 0 && item.system.level <= 9) {
             itemContent.spell[item.system.level].push(fullContent);
         } else if (itemType === 'consumable') {
@@ -468,6 +487,8 @@ for (const actor of actorFolder.contents) {
             itemContent.background.push(fullContent);
         } else if (itemType === 'feat') {
             itemContent.other.push(fullContent);
+        } else if (itemType === 'loot' || itemType ==='tool' ) {
+            itemContent.otherItem.push(fullContent);
         }
     });
 
@@ -490,8 +511,12 @@ for (const actor of actorFolder.contents) {
     const pageTitle = `${actor.name}`;
     const weaponsContent = generateColumns('Weapons', itemContent.weapon);
     const pactContent = generateColumns(`Pact Spells Level ${slots.pact.level}`, itemContent.spellPact)
-    const consumeContent = generateColumns('Consumables', itemContent.consumable);
-    const equipContent = generateColumns('Equipment', itemContent.equipment);
+    const atwillContent = generateColumns(`At Will Spells`, itemContent.atwill)
+    const innateContent = generateColumns(`Innate Spells`, itemContent.innate)
+    const ritualContent = generateColumns(`Ritaul Only`, itemContent.ritual)
+    const consumeContent = generateColumns('Consumables', itemContent.consumable)
+    const equipContent = generateColumns('Equipment', itemContent.equipment)
+    const otherItemContent = generateColumns('Other Items', itemContent.otherItem)
     const classContent = generateColumns('Class Features', itemContent.class)
     const raceContent = generateColumns('Racial Features', itemContent.race)
     const featContent = generateColumns('Feats', itemContent.feat)
@@ -510,6 +535,9 @@ for (const actor of actorFolder.contents) {
         if (index == 0) {
             content += `
         ${itemContent.spell[0] != "" ? `${spellLevelContent}` : ""}
+        ${itemContent.atwill != "" ? `${atwillContent}` : ""}
+        ${itemContent.innate != "" ? `${innateContent}` : ""}
+        ${itemContent.ritual != "" ? `${ritualContent}` : ""}
         ${itemContent.spellPact != "" ? `${pactContent}` : ""}
     `;
         } else if (spellLevel != "") {
@@ -520,10 +548,11 @@ for (const actor of actorFolder.contents) {
     });
     content += `
         ${classContent}
-        ${itemContent.feat != "" ? `${featContent}` : ``}
-        ${itemContent.other != "" ? `${otherContent}` : ``}
+        ${itemContent.feat != "" ? `${featContent}` : ''}
+        ${itemContent.other != "" ? `${otherContent}` : ''}
         ${itemContent.equipment != "" ? `${equipContent}` : ''}
-        ${itemContent.background != "" ? `${backContent}` : ``}
+        ${itemContent.otherItem != "" ? `${otherItemContent}` : ''}
+        ${itemContent.background != "" ? `${backContent}` : ''}
         ${raceContent}
        `;
 
