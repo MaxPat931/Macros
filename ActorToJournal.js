@@ -26,7 +26,7 @@ for (const actor of actorFolder.contents) {
     const senses = attributes.senses;
     const movement = attributes.movement;
     const armorCalc = CONFIG.DND5E.armorClasses[attributes.ac.calc]?.label
-    const classesArray = [...actor.system.attributes.hd.classes];
+    const hdArray = [...actor.system.attributes.hd.classes];
 
     function generateAbilityHTML(abilities) {
         let abilityContent = '';
@@ -47,7 +47,7 @@ for (const actor of actorFolder.contents) {
         `;
             count++;
         });
-                abilityContent += '</tr>';
+        abilityContent += '</tr>';
         return abilityContent;
     }
     const abilitiesHTML = generateAbilityHTML(abilities);
@@ -116,19 +116,19 @@ for (const actor of actorFolder.contents) {
     <div class="column" style="float: left; width: 33%; page-break-before: always;">
         <span style="font-size: 2.5em; font-family: 'Modesto Condensed';">Level ${actor.system.details.level}  HP: ____/${actor.system.attributes.hp.max}</span>
     `;
-        if (classesArray.length > 0) {
-            classesArray.forEach(hitd => {
-                let dieCount = '';
-                for (let i = 0; i < hitd.system.levels; i++) {
-                    dieCount += `
+    if (hdArray.length > 0) {
+        hdArray.forEach(hitd => {
+            let dieCount = '';
+            for (let i = 0; i < hitd.system.levels; i++) {
+                dieCount += `
                         <i class="fa-duotone fa-dice-${hitd.system.hitDice}"></i>
                     `;
-                }
-                actorContent += `<h3>${hitd.name} ${hitd.system.hitDice} ${dieCount}</h3>`;
-            });
-        }
+            }
+            actorContent += `<h3>${hitd.name} ${hitd.system.hitDice} ${dieCount}</h3>`;
+        });
+    }
 
-        actorContent += `
+    actorContent += `
         <span style="font-size: 2em; font-family: 'Modesto Condensed';">AC: ${attributes.ac.value} 
         <span style="font-size: .6em; font-family: 'Modesto Condensed';">
         ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name}, ${attributes.ac.equippedShield?.name})` : `${armorCalc}`}
@@ -190,8 +190,8 @@ for (const actor of actorFolder.contents) {
         spell: Array.from({ length: 10 }, () => []),
         spellPact: [],
         consumable: [],
+        equipment: [],
         class: [],
-        subclass: [],
         race: [],
         feat: [],
         background: [],
@@ -202,7 +202,7 @@ for (const actor of actorFolder.contents) {
         const itemName = item.name;
         //console.log(item.name, item.system)
         //if (item.system.identified == false) return;
-        const desc = item.system.description.value;
+        const desc = item.system.identified === false ? item.system.unidentified?.description : item.system.description.value;
         const system = item.system;
         const itemType = item.type;
         const labels = item.labels;
@@ -212,11 +212,12 @@ for (const actor of actorFolder.contents) {
     `;
 
         //WEAPONS
-        let weaponDesc = '';
+        let weaponDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
         if (itemType === 'weapon') {
-
-            weaponDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
-            ${desc}`
+            weaponDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
+            ${desc}
+            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
+            ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}`
             if (system.consume.type == "attribute") {
                 weaponDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
             } else if (system.consume.type == "hitDice") {
@@ -255,13 +256,13 @@ for (const actor of actorFolder.contents) {
         }
 
         //CONSUMABLES
-        let consumeDesc = '';
+        let consumeDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
         if (itemType === 'consumable') {
-
-            consumeDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
+            consumeDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
             ${desc}
             ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
             ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
+            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
             ${labels.range ? `<br>Range: ${labels.range}` : ``}
             ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
             ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
@@ -347,7 +348,6 @@ for (const actor of actorFolder.contents) {
         //Features
         let featDesc = '';
         if (itemType === 'feat') {
-
             featDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
             ${desc}
             ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
@@ -385,6 +385,50 @@ for (const actor of actorFolder.contents) {
             }
         }
 
+        let equipDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
+        if (itemType == 'equipment') {
+            equipDesc += `
+                <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
+                ${desc}
+                ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
+                <br>${system.type.label}
+                ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
+                ${labels.armor ? `<br>Armor: ${labels.armor}` : ``}
+                ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
+                ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
+                ${labels.range != "None" ? `<br>Range: ${labels.range}` : ``}
+                ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
+                ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
+                ${system.uses.max ? `<br>Uses: ${system.uses.max} per ${period}` : ``}
+                ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
+            `;
+            if (labels.derivedDamage && labels.derivedDamage.length > 0) {
+                equipDesc += `<br>Damage:`
+                labels.derivedDamage.forEach(damage => {
+                    equipDesc += `
+                    ${damage.label}
+                `;
+                });
+            }
+            if (system.consume.type == "attribute") {
+                equipDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
+            } else if (system.consume.type == "hitDice") {
+                equipDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
+            } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
+                const conItem = actor.items.get(system.consume.target);
+                equipDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
+            }
+            if (labels.properties && labels.properties.length > 0) {
+                equipDesc += `<br>Properties: `
+                labels.properties.forEach((prop, index) => {
+                    if (index > 0) {
+                        equipDesc += ', ';
+                    }
+                    equipDesc += `${prop.label}`;
+                });
+            }
+        }
+
         const outroContent = `</article></div>`;
 
         ///Combine descriptions per Type
@@ -395,6 +439,8 @@ for (const actor of actorFolder.contents) {
             fullContent += spellDesc;
         } else if (itemType === 'consumable') {
             fullContent += consumeDesc;
+        } else if (itemType === 'equipment') {
+            fullContent += equipDesc;
         } else if (itemType === 'feat') {
             fullContent += featDesc;
         }
@@ -408,10 +454,10 @@ for (const actor of actorFolder.contents) {
             itemContent.spell[item.system.level].push(fullContent);
         } else if (itemType === 'consumable') {
             itemContent.consumable.push(fullContent);
+        } else if (itemType === 'equipment') {
+            itemContent.equipment.push(fullContent);
         } else if (itemType === 'feat' && item.system.type.value === 'class') {
             itemContent.class.push(fullContent);
-        } else if (itemType === 'feat' && item.system.type.value === 'subclass') {
-            itemContent.subclass.push(fullContent);
         } else if (itemType === 'feat' && item.system.type.value === 'race') {
             itemContent.race.push(fullContent);
         } else if (itemType === 'feat' && item.system.type.value === 'feat') {
@@ -427,74 +473,56 @@ for (const actor of actorFolder.contents) {
         const column1 = items.slice(0, Math.ceil(items.length / 2)).join('');
         const column2 = items.slice(Math.ceil(items.length / 2)).join('');
         return `
+        <h2 style="font-family: Modesto Condensed; font-size: 2em">${title}</h2>
         <div class="column" style="float: left; width: 50%; page-break-before: always;">
             ${column1}
         </div>
         <div class="column" style="float: right; width: 50%; page-break-before: always;">
             ${column2}
         </div>
+        <div style="clear:both"></div>
     `;
     }
 
     // Page Content
     const pageTitle = `${actor.name}`;
-    const weaponsContent = generateColumns('Items - Weapons', itemContent.weapon);
-    const pactContent = generateColumns('Pact', itemContent.spellPact)
-    const consumeContent = generateColumns('Items - Consumables', itemContent.consumable);
-    const classContent = generateColumns('Class', itemContent.class)
-    const subclassContent = generateColumns('Sublass', itemContent.subclass)
-    const raceContent = generateColumns('Race', itemContent.race)
-    const featContent = generateColumns('Feat', itemContent.feat)
-    const backContent = generateColumns('Feat', itemContent.background)
-    const otherContent = generateColumns('Feat', itemContent.other)
-    //const classesOptions = [Barbarian || Bard || Cleric || Druid || Fighter || Monk||  Paladin || Ranger || Rogue || Sorcerer || Warlock || Wizard]
-    //const primaryClass = actor.classes.${classesOptions}.system.spellcasting
-    //spellcasting - ability, attack, save, DC, Prepared counter, Known Counter
+    const weaponsContent = generateColumns('Weapons', itemContent.weapon);
+    const pactContent = generateColumns(`Pact Spells Level ${slots.pact.level}`, itemContent.spellPact)
+    const consumeContent = generateColumns('Consumables', itemContent.consumable);
+    const equipContent = generateColumns('Equipment', itemContent.equipment);
+    const classContent = generateColumns('Class Features', itemContent.class)
+    const raceContent = generateColumns('Racial Features', itemContent.race)
+    const featContent = generateColumns('Feats', itemContent.feat)
+    const backContent = generateColumns('Background Features', itemContent.background)
+    const otherContent = generateColumns('Other Features', itemContent.other)
 
     let content = `
     ${actorContent}
     <div class="item-columns">
-        <h2>Weapons</h2>
         ${weaponsContent}
-        <div style="clear:both"></div>
-        <h2>Consumables</h2>
         ${consumeContent}
-        <div style="clear:both"></div>
 `;
 
     itemContent.spell.forEach((spellLevel, index) => {
-        const spellLevelContent = generateColumns(`Spells ${index} Level`, spellLevel);
+        const spellLevelContent = generateColumns(`${index > 0 ? `Level ${index} Spells` : `Cantrips`}`, spellLevel);
         if (index == 0) {
             content += `
-        ${itemContent.spell[0] != "" ? `
-        SPELLCASTING
-        
-        <h2 >Cantrips</h2>
-        ${spellLevelContent}
-        <div style="clear:both"></div>` : ""}
-        ${itemContent.spellPact != "" ? `<h2>Pact Spells Level ${slots.pact.level}</h2>
-        ${pactContent}
-        <div style="clear:both"></div>` : ""}
+        ${itemContent.spell[0] != "" ? `${spellLevelContent}` : ""}
+        ${itemContent.spellPact != "" ? `${pactContent}` : ""}
     `;
         } else if (spellLevel != "") {
             content += `
-        <h2>Level ${index} Spells</h2>
         ${spellLevelContent}
-        <div style="clear:both"></div>
     `;
         }
     });
     content += `
-        <h2>Class Features</h2>
         ${classContent}
-        <div style="clear:both"></div>
-        ${itemContent.subclass != "" ? `<h2>Subclass Features</h2> ${subclassContent} <div style="clear:both"></div>` : ``}
-        ${itemContent.feat != "" ? `<h2>Feats</h2> ${featContent} <div style="clear:both"></div>` : ``}
-        ${itemContent.other != "" ? `<h2>Other Features</h2> ${otherContent} <div style="clear:both"></div>` : ``}
-        ${itemContent.background != "" ? `<h2>Background Features</h2> ${backContent} <div style="clear:both"></div>` : ``}
-        <h2>Racial Features</h2>
+        ${itemContent.feat != "" ? `${featContent}` : ``}
+        ${itemContent.other != "" ? `${otherContent}` : ``}
+        ${itemContent.equipment != "" ? `${equipContent}` : ''}
+        ${itemContent.background != "" ? `${backContent}` : ``}
         ${raceContent}
-        <div style="clear:both"></div>
        `;
 
     content += `
