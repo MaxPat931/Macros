@@ -528,8 +528,8 @@ for (const actor of actorFolder.contents) {
     let content = `
     ${actorContent}
     <div class="item-columns">
-        ${weaponsContent}
-        ${consumeContent}
+        ${itemContent.weapon != "" ? `${weaponsContent}` :''}
+        ${itemContent.consumable != "" ? `${consumeContent}` :''}
 `;
 
     itemContent.spell.forEach((spellLevel, index) => {
@@ -549,13 +549,13 @@ for (const actor of actorFolder.contents) {
         }
     });
     content += `
-        ${classContent}
+        ${itemContent.class != "" ? `${classContent}` : ''}
         ${itemContent.feat != "" ? `${featContent}` : ''}
         ${itemContent.other != "" ? `${otherContent}` : ''}
         ${itemContent.equipment != "" ? `${equipContent}` : ''}
         ${itemContent.otherItem != "" ? `${otherItemContent}` : ''}
         ${itemContent.background != "" ? `${backContent}` : ''}
-        ${raceContent}
+        ${itemContent.race != "" ? `${raceContent}` : ''}
        `;
 
     content += `
