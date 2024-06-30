@@ -133,8 +133,7 @@ for (const actor of actorFolder.contents) {
     actorContent += `
         <span style="font-size: 2em; font-family: 'Modesto Condensed';">AC: ${attributes.ac.value} 
         <span style="font-size: .6em; font-family: 'Modesto Condensed';">
-        ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name}, ${attributes.ac.equippedShield?.name})` : `${armorCalc}`}
-        </span>
+        ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name ? attributes.ac.equippedArmor.name : ''}${attributes.ac.equippedShield?.name ? `, ${attributes.ac.equippedShield.name}` : ''})` : `${armorCalc}`}        </span>
         <br>Initiative: ${attributes.init.total > 0 ? `+${attributes.init.total}` : `${attributes.init.total}`}
         <br>Movement: ${movement.walk > 0 ? `Walk ${movement.walk} ${movement.units}` : ''}
         ${movement.climb > 0 ? `Climb ${movement.climb} ${movement.units}` : ''}
