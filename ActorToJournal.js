@@ -133,16 +133,16 @@ for (const actor of actorFolder.contents) {
     actorContent += `
         <span style="font-size: 2em; font-family: 'Modesto Condensed';">AC: ${attributes.ac.value} 
         <span style="font-size: .6em; font-family: 'Modesto Condensed';">
-        ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name ? attributes.ac.equippedArmor.name : ''}${attributes.ac.equippedShield?.name ? `, ${attributes.ac.equippedShield.name}` : ''})` : `${armorCalc}`}
+        ${attributes.ac.calc === "default" ? ` ${armorCalc} (${attributes.ac.equippedArmor?.name}, ${attributes.ac.equippedShield?.name})` : `${armorCalc}`}
         </span>
-        <br>Initiative: ${attributes.init.total}
+        <br>Initiative: ${attributes.init.total > 0 ? `+${attributes.init.total}` : `${attributes.init.total}`}
         <br>Movement: ${movement.walk > 0 ? `Walk ${movement.walk} ${movement.units}` : ''}
         ${movement.climb > 0 ? `Climb ${movement.climb} ${movement.units}` : ''}
         ${movement.fly > 0 ? `, Fly ${movement.fly} ${movement.units}` : ''}
         ${movement.swim > 0 ? `, Swim ${movement.swim} ${movement.units}` : ''}
         ${movement.burrow > 0 ? `, Burrow ${movement.burrow} ${movement.units},` : ''}
     
-        <br>Proficiency Bonus: ${attributes.prof}
+        <br>Proficiency Bonus: +${attributes.prof}
         <br>Senses: ${senses.darkvision > 0 ? `Darkvision ${senses.darkvision} ${senses.units}` : ''}
         ${senses.blindsight > 0 ? `, Blindsight ${senses.blindsight} ${senses.units}` : ''}
         ${senses.tremorsense > 0 ? `, Tremorsense ${senses.tremorsense} ${senses.units}` : ''}
@@ -222,8 +222,8 @@ for (const actor of actorFolder.contents) {
         if (itemType === 'weapon') {
             weaponDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
             ${desc}
-            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
-            ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}`
+            ${labels.activation ? `Activation: ${labels.activation}` : ''}
+            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}`
             if (system.consume.type == "attribute") {
                 weaponDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
             } else if (system.consume.type == "hitDice") {
@@ -266,13 +266,23 @@ for (const actor of actorFolder.contents) {
         if (itemType === 'consumable') {
             consumeDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
             ${desc}
-            ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
+            ${labels.activation ? `Activation: ${labels.activation}` : ``}
             ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
             ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
             ${labels.range ? `<br>Range: ${labels.range}` : ``}
             ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
             ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
-            ${system.uses.max ? `<br>Uses: ${system.uses.max} ${system.uses.per}` : ``}
+            `
+            if (system.uses.max > 0){
+            let useMax = '';
+            for (let i = 0; i < system.uses.max; i++) {
+                useMax += `
+                        <i class="fa-regular fa-circle"></i>
+                    `;
+            }
+            consumeDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
+            };
+            consumeDesc += `
             ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
         `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
@@ -354,14 +364,25 @@ for (const actor of actorFolder.contents) {
         //Features
         let featDesc = '';
         if (itemType === 'feat') {
-            featDesc = `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
+            featDesc = `${system.recharge.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ``}
+            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
             ${desc}
-            ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
+            ${labels.activation ? `Activation: ${labels.activation}` : ``}
             ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
             ${labels.range != "None" ? `<br>Range: ${labels.range}` : ``}
             ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
             ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
-            ${system.uses.max ? `<br>Uses: ${system.uses.max} per ${period}` : ``}
+            `
+            if (system.uses.max > 0){
+            let useMax = '';
+            for (let i = 0; i < system.uses.max; i++) {
+                useMax += `
+                        <i class="fa-regular fa-circle"></i>
+                    `;
+            }
+            featDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
+            };
+            featDesc +=`
             ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
         `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
@@ -405,7 +426,17 @@ for (const actor of actorFolder.contents) {
                 ${labels.range != "None" ? `<br>Range: ${labels.range}` : ``}
                 ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
                 ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
-                ${system.uses.max ? `<br>Uses: ${system.uses.max} per ${period}` : ``}
+                `
+                if (system.uses.max > 0){
+            let useMax = '';
+            for (let i = 0; i < system.uses.max; i++) {
+                useMax += `
+                        <i class="fa-regular fa-circle"></i>
+                    `;
+            }
+            equipDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
+            };
+            equipDesc += `
                 ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
             `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
