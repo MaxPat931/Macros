@@ -200,19 +200,6 @@ for (const actor of actorFolder.contents) {
         const labels = item.labels;
         const period = CONFIG.DND5E.limitedUsePeriods[system.uses?.per]?.label
         const schoolIcon = CONFIG.DND5E.spellSchools[system.school]?.icon
-        const nthNumber = (number) => {
-            if (number > 3 && number < 21) return "th";
-            switch (number % 10) {
-                case 1:
-                    return "st";
-                case 2:
-                    return "nd";
-                case 3:
-                    return "rd";
-                default:
-                    return "th";
-            }
-        };
 
         let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">`;
         if (item.system.identified === false) {
@@ -294,7 +281,7 @@ for (const actor of actorFolder.contents) {
                         <strong>${damage.label}</strong>
                     `;
                 });
-                itemDesc += `${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}`
+                itemDesc += `${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${CONFIG.DND5E.spellLevels[system.level]}` : ''}`
             }
             if (item.system.damage?.versatile) {
                 itemDesc += `<br><strong>Versatile: ${system.damage.versatile}</strong>`
