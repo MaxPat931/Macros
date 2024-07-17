@@ -285,12 +285,16 @@ for (const actor of actorFolder.contents) {
                     ${labels.toHit ? `<br><strong>${CONFIG.DND5E.itemActionTypes[system.actionType]}: ${labels.toHit}</strong>` : ''}
                 `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                itemDesc += `<br><strong>Damage: `
-                labels.derivedDamage.forEach(damage => {
+                itemDesc += `<br><strong>Damage: </strong>`
+                labels.derivedDamage.forEach((damage, index) => {
+                    if (index > 0) {
+                        itemDesc += ', ';
+                    }
                     itemDesc += `
-                        ${damage.label} </strong> ${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}
+                        <strong>${damage.label}</strong>
                     `;
                 });
+                itemDesc += `${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}`
             }
             if (item.system.damage?.versatile) {
                 itemDesc += `<br><strong>Versatile: ${system.damage.versatile}</strong>`
@@ -302,7 +306,7 @@ for (const actor of actorFolder.contents) {
                     if (index > 0) {
                         itemDesc += ', ';
                     }
-                    itemDesc += `${prop.label} ${prop.icon ? `<img src="${prop.icon}" width="30" height="30" style="border: none; float: right">` : ''}`;
+                    itemDesc += `${prop.label} ${prop.icon ? `<img src="${prop.icon}" width ="30" height="30" style="border: none; float:right; filter:brightness(0) saturate(100%)">` : ''}`;
                 });
             }
             itemDesc += `${itemType == "spell" && system.school != "" ? `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">` : ''}`
