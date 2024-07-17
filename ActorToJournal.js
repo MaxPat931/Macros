@@ -44,7 +44,7 @@ for (const actor of actorFolder.contents) {
             abilityContent += `
             <td>
                 <p style="text-align: center;"><span style="font-family: Modesto Condensed; font-size: 1.5em"><strong>${key.toUpperCase()}</strong> 
-                <br>${ability.value} (${ability.mod > 0 ? `+${ability.mod}` : `${ability.mod}`})${ability.proficient > 0 ? `<i class="fa-solid fa-circle fa-xs"></i>` : ``}</span></p>
+                <br>${ability.value} (${ability.mod > 0 ? `+${ability.mod}` : `${ability.mod}`})${ability.proficient > 0 ? `<i class="fa-solid fa-circle fa-xs"></i>` : ''}</span></p>
             </td>
         `;
             count++;
@@ -205,322 +205,145 @@ for (const actor of actorFolder.contents) {
 
     actor.items.forEach(item => {
         const itemName = item.name;
-        //console.log(item.name, item.system)
-        //if (item.system.identified == false) return;
+        console.log(item.name, item)
         const desc = item.system.identified === false ? item.system.unidentified?.description : item.system.description.value;
         const system = item.system;
         const itemType = item.type;
         const labels = item.labels;
         const period = CONFIG.DND5E.limitedUsePeriods[system.uses?.per]?.label
+        const schoolIcon = CONFIG.DND5E.spellSchools[system.school]?.icon
+        const nthNumber = (number) => {
+            if (number > 3 && number < 21) return "th";
+            switch (number % 10) {
+              case 1:
+                return "st";
+              case 2:
+                return "nd";
+              case 3:
+                return "rd";
+              default:
+                return "th";
+            }
+          };
 
-        const introContent = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">
-    `;
-
-        //WEAPONS
-        let weaponDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
-        if (itemType === 'weapon') {
-            weaponDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
-            ${desc}
-            ${labels.activation ? `Activation: ${labels.activation}` : ''}
-            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}`
-            if (system.consume.type == "attribute") {
-                weaponDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
-            } else if (system.consume.type == "hitDice") {
-                weaponDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
-            } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
-                const conItem = actor.items.get(system.consume.target);
-                weaponDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
-            }
-            weaponDesc += `
-            <br>To Hit: ${item.labels.toHit}
-            <br>Damage: 
-        `;
-            if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                labels.derivedDamage.forEach(damage => {
-                    weaponDesc += `
-                    ${damage.label}
-                `;
-                });
-            }
-            if (item.system.damage.versatile) {
-                weaponDesc += `<br>Versatile: ${system.damage.versatile}`
-            }
-            if (labels.range) {
-                weaponDesc += `
-                <br>Range: ${labels.range}<br>
-            `;
-            }
-            if (labels.properties && labels.properties.length > 0) {
-                labels.properties.forEach((prop, index) => {
-                    if (index > 0) {
-                        weaponDesc += ', ';
-                    }
-                    weaponDesc += `${prop.label}`;
-                });
-            }
-        }
-
-        //CONSUMABLES
-        let consumeDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
-        if (itemType === 'consumable') {
-            consumeDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}${system.quantity > 1 ? `(${system.quantity})` : ``}</span>
-            ${desc}
-            ${labels.activation ? `Activation: ${labels.activation}` : ``}
-            ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
-            ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
-            ${labels.range ? `<br>Range: ${labels.range}` : ``}
-            ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
-            ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
+        let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">
+            ${system.attunement === "required" || system.attunement === "optional" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} 
+            ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ''}
+            ${system.recharge?.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
+            ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` :''}
+            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span>
             `
-            if (system.uses.max > 0){
-            let useMax = '';
-            for (let i = 0; i < system.uses.max; i++) {
-                useMax += `
-                        <i class="fa-regular fa-circle"></i>
-                    `;
-            }
-            consumeDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
-            };
-            consumeDesc += `
-            ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
-        `;
-            if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                consumeDesc += `<br>Damage:`
-                labels.derivedDamage.forEach(damage => {
-                    consumeDesc += `
-                    ${damage.label}
-                `;
-                });
-            }
-            if (system.consume.type == "attribute") {
-                consumeDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
-            } else if (system.consume.type == "hitDice") {
-                consumeDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
-            } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
-                const conItem = actor.items.get(system.consume.target);
-                consumeDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
-            }
-            if (labels.properties && labels.properties.length > 0) {
-                consumeDesc += `<br>Properties: `
-                labels.properties.forEach((prop, index) => {
-                    if (index > 0) {
-                        consumeDesc += ', ';
-                    }
-                    consumeDesc += `${prop.label}`;
-                });
-            }
-        }
-
-        //SPELLS
-        let spellDesc = '<i class="fa-regular fa-sun" style="float:right"></i>';
-        if (itemType === 'spell') {
-            if (system.level >= 0 && system.level <= 9) {
-                spellDesc += `
-                    <span style="font-family: 'Modesto Condensed'; font-size: 2em;">
-                        ${itemName} ${system.uses.per ? ` - Limited Uses: ${system.uses.max} per ${period}` : ``}
-                    </span>
-                <br>Activation: ${labels.activation}
-            `;
-                if (labels.properties && labels.properties.length > 0) {
-                    spellDesc += `<br>`;
-                    labels.properties.forEach((prop, index) => {
-                        if (index > 0 && index < labels.properties.length - 1) {
-                            spellDesc += ', ';
-                        }
-                        if (prop.label == 'Concentration') {
-                            spellDesc += `${prop.label}<img src="${prop.icon}" width ="30" height="30" style="border: none; float:right; filter:brightness(0) saturate(100%)">`;
-                        } else if (prop.label == 'Ritual') {
-                            spellDesc += `${prop.label}<img src="${prop.icon}" width ="30" height="30" style="border: none; float:right; filter:brightness(0) saturate(100%)">`;
-                        } else if (prop.label == 'Magical') {
-                            spellDesc += ``;
-                        } else {
-                            spellDesc += `${prop.label}`;
-                        };
-                    });
+            if (system.uses?.max > 0){
+                let useMax = '';
+                for (let i = 0; i < system.uses.max; i++) {
+                    useMax += `
+                            <i class="fa-regular fa-circle"></i>
+                        `;
                 }
-
-                spellDesc += `
-            ${labels.materials ? `<br>Materials: ${labels.materials}` : ``}
-            ${labels.range ? `<br>Range: ${labels.range}` : ``}
-            ${labels.target ? `<br>Target: ${labels.target}` : ``}
-            ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
-            ${labels.save ? `<br>Saving Throw: ${labels.save}` : ``}
-            ${labels.toHit ? `<br>Spell Attack: ${labels.toHit}` : ``}
-            ${desc}`
-                if (system.consume.type == "attribute") {
-                    spellDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
-                } else if (system.consume.type == "hitDice") {
-                    spellDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
-                } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
-                    const conItem = actor.items.get(system.consume.target);
-                    spellDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
-                }
-            }
-            const schoolIcon = CONFIG.DND5E.spellSchools[system.school]?.icon
-            spellDesc += `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">`
-        }
-
-        //Features
-        let featDesc = '';
-        if (itemType === 'feat') {
-            featDesc = `${system.recharge.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ``}
-            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
-            ${desc}
-            ${labels.activation ? `Activation: ${labels.activation}` : ``}
-            ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
-            ${labels.range != "None" ? `<br>Range: ${labels.range}` : ``}
-            ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
-            ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
+                itemDesc += `<br>Uses: ${system.uses.max} ${period == "Charges" ? `Charges` : `per ${period}`} ${useMax}`
+                };
+            itemDesc += `
+            ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
+            ${system.type?.label ? `<br>${system.type.label}` : ''}
             `
-            if (system.uses.max > 0){
-            let useMax = '';
-            for (let i = 0; i < system.uses.max; i++) {
-                useMax += `
-                        <i class="fa-regular fa-circle"></i>
-                    `;
-            }
-            featDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
-            };
-            featDesc +=`
-            ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
-        `;
-            if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                featDesc += `<br>Damage:`
-                labels.derivedDamage.forEach(damage => {
-                    featDesc += `
-                    ${damage.label}
-                `;
-                });
-            }
-            if (system.consume.type == "attribute") {
-                featDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
-            } else if (system.consume.type == "hitDice") {
-                featDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
-            } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
-                const conItem = actor.items.get(system.consume.target);
-                featDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
-            }
-            if (labels.properties && labels.properties.length > 0) {
-                featDesc += `<br>Properties: `
+            if (itemType == "spell" && labels.properties && labels.properties.length > 0) {
+                itemDesc += `<br>`;
                 labels.properties.forEach((prop, index) => {
-                    if (index > 0) {
-                        featDesc += ', ';
+                    if (index > 0 && index < labels.properties.length - 1) {
+                        itemDesc += ', ';
                     }
-                    featDesc += `${prop.label}`;
+                    if (prop.label == 'Concentration') {
+                        itemDesc += `${prop.label}<img src="${prop.icon}" width ="30" height="30" style="border: none; float:right; filter:brightness(0) saturate(100%)">`;
+                    } else if (prop.label == 'Ritual') {
+                        itemDesc += `${prop.label}<img src="${prop.icon}" width ="30" height="30" style="border: none; float:right; filter:brightness(0) saturate(100%)">`;
+                    } else if (prop.label == 'Magical') {
+                        itemDesc += '';
+                    } else {
+                        itemDesc += `${prop.label}`;
+                    };
                 });
             }
-        }
-
-        let equipDesc = `${system.attunement != "" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ``}`;
-        if (itemType === 'equipment') {
-            equipDesc += `
-                <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span>
-                ${desc}
-                ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
-                <br>${system.type.label}
-                ${system.attunement? `<br>Attunement: ${system.attunement}` : ''}
-                ${labels.armor ? `<br>Armor: ${labels.armor}` : ``}
-                ${labels.activation ? `<br>Activation: ${labels.activation}` : ``}
-                ${system.activation.condition ? `<br>Condition: ${system.activation.condition}` : ``}
-                ${labels.range != "None" ? `<br>Range: ${labels.range}` : ``}
-                ${labels.save ? `<br>${labels.save} Saving Throw` : ``}
-                ${labels.duration ? `<br>Duration: ${labels.duration}` : ``}
-                `
-                if (system.uses.max > 0){
-            let useMax = '';
-            for (let i = 0; i < system.uses.max; i++) {
-                useMax += `
-                        <i class="fa-regular fa-circle"></i>
-                    `;
-            }
-            equipDesc += `<br>Uses: ${system.uses.max} per ${period} ${useMax}`
+            if ( itemType != "weapon" ) {
+            itemDesc += `${labels.armor ? `<br>Armor: ${labels.armor}` : ''}` 
             };
-            equipDesc += `
-                ${item.labels.toHit ? `<br>To Hit: ${item.labels.toHit}` : ``}
+            if ( itemType == "weapon" && system.type.label == "Siege Weapon" ) {
+                itemDesc += `${labels.armor ? `<br>Armor: ${labels.armor}` : ''}
+                    ${system.hp.max ? `<br>Hit Points: ___/${system.hp.max}` : ''}
+                    ${system.hp.dt ? `<br>Damage Threshold: ${system.hp.dt}` : ''}
+                    ${system.hp.conditions ? `<br>Health Conditions: ${system.hp.conditions}` : ''}
+                `};
+            itemDesc += `
+            ${labels.activation && labels.activation != "None" ? `<br>Activation: ${labels.activation}` : ''}
+            ${system.activation?.condition ? `<br>Condition: ${system.activation?.condition}` : ''}
+            ${system.attunement ? `<br>Attunement: ${system.attunement.charAt(0).toUpperCase() + system.attunement.slice(1)}` : ''}
+            ${labels.range && labels.range != "None" ? `<br>Range: ${labels.range}` : ''}
+            ${labels.target ? `<br>Target: ${labels.target}` : ''}
+            ${labels.duration ? `<br>Duration: ${labels.duration}` : ''}
+            `
+            if (system.consume?.type == "attribute") {
+                itemDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
+            } else if (system.consume?.type == "hitDice") {
+                itemDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
+            } else if (system.consume?.type == "charges" || system.consume?.type === "ammo" || system.consume?.type === "material") {
+                const conItem = actor.items.get(system.consume.target);
+                itemDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
+            }
+            itemDesc += `
+                ${labels.save ? `<br><strong>${labels.save} Saving Throw</strong>` : ''}
+                ${item.labels.toHit ? `<br><strong>To Hit: ${item.labels.toHit}</strong>` : ''}
             `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
-                equipDesc += `<br>Damage:`
+                itemDesc += `<br><strong>Damage: `
                 labels.derivedDamage.forEach(damage => {
-                    equipDesc += `
-                    ${damage.label}
+                    itemDesc += `
+                    ${damage.label} </strong> ${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}
                 `;
                 });
             }
-            if (system.consume.type == "attribute") {
-                equipDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
-            } else if (system.consume.type == "hitDice") {
-                equipDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target} Hit Die`;
-            } else if (system.consume.type == "item" || system.consume.type === "ammo" || system.consume.type === "material") {
-                const conItem = actor.items.get(system.consume.target);
-                equipDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
+            if (item.system.damage?.versatile) {
+                itemDesc += `<br><strong>Versatile: ${system.damage.versatile}</strong>`
             }
-            if (labels.properties && labels.properties.length > 0) {
-                equipDesc += `<br>Properties: `
+            itemDesc += `<hr>${desc}`
+            if (itemType != "spell" && labels.properties && labels.properties.length > 0) {
+                itemDesc += `<hr>Properties: `
                 labels.properties.forEach((prop, index) => {
                     if (index > 0) {
-                        equipDesc += ', ';
+                        itemDesc += ', ';
                     }
-                    equipDesc += `${prop.label}`;
+                    itemDesc += `${prop.label} ${prop.icon ? `<img src="${prop.icon}" width="30" height="30" style="border: none; float: right">` : ''}`;
                 });
             }
-        }
-
-        //Loot/Tools
-        let otherItemDesc = ``;
-        if (itemType === 'loot' || itemType === 'tool' ) {
-            otherItemDesc = `
-            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName}</span> 
-            ${desc}
-            `
-        };
-
-        const outroContent = `</article></div>`;
-
-        ///Combine descriptions per Type
-        let fullContent = introContent;
-        if (itemType === 'weapon') {
-            fullContent += weaponDesc;
-        } else if (itemType === 'spell') {
-            fullContent += spellDesc;
-        } else if (itemType === 'consumable') {
-            fullContent += consumeDesc;
-        } else if (itemType === 'equipment') {
-            fullContent += equipDesc;
-        } else if (itemType === 'feat') {
-            fullContent += featDesc;
-        } else if (itemType === 'loot' || itemType === 'tool') {
-            fullContent += otherItemDesc;
-        }
-        fullContent += outroContent;
+            itemDesc += `${itemType == "spell" && system.school != "" ? `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">` : ''}`
+            itemDesc += `</article></div>`;
 
         if (itemType === 'weapon') {
-            itemContent.weapon.push(fullContent);
+            itemContent.weapon.push(itemDesc);
         } else if (itemType === 'spell' && item.system.preparation.mode === 'pact') {
-            itemContent.spellPact.push(fullContent);
+            itemContent.spellPact.push(itemDesc);
         } else if (itemType === 'spell' && item.system.preparation.mode === 'atwill') {
-            itemContent.atwill.push(fullContent);
+            itemContent.atwill.push(itemDesc);
         } else if (itemType === 'spell' && item.system.preparation.mode === 'innate') {
-            itemContent.innate.push(fullContent);
+            itemContent.innate.push(itemDesc);
         } else if (itemType === 'spell' && item.system.preparation.mode === 'ritual') {
-            itemContent.ritual.push(fullContent);
+            itemContent.ritual.push(itemDesc);
         } else if (itemType === 'spell' && item.system.level >= 0 && item.system.level <= 9) {
-            itemContent.spell[item.system.level].push(fullContent);
+            itemContent.spell[item.system.level].push(itemDesc);
         } else if (itemType === 'consumable') {
-            itemContent.consumable.push(fullContent);
+            itemContent.consumable.push(itemDesc);
         } else if (itemType === 'equipment') {
-            itemContent.equipment.push(fullContent);
+            itemContent.equipment.push(itemDesc);
         } else if (itemType === 'feat' && item.system.type.value === 'class') {
-            itemContent.class.push(fullContent);
+            itemContent.class.push(itemDesc);
         } else if (itemType === 'feat' && item.system.type.value === 'race') {
-            itemContent.race.push(fullContent);
+            itemContent.race.push(itemDesc);
         } else if (itemType === 'feat' && item.system.type.value === 'feat') {
-            itemContent.feat.push(fullContent);
+            itemContent.feat.push(itemDesc);
         } else if (itemType === 'feat' && item.system.type.value === 'background') {
-            itemContent.background.push(fullContent);
+            itemContent.background.push(itemDesc);
         } else if (itemType === 'feat') {
-            itemContent.other.push(fullContent);
+            itemContent.other.push(itemDesc);
         } else if (itemType === 'loot' || itemType ==='tool' ) {
-            itemContent.otherItem.push(fullContent);
+            itemContent.otherItem.push(itemDesc);
         }
     });
 
