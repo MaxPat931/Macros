@@ -18,8 +18,6 @@ const influenceJournal = game.journal.getName(mainJournalName) ?? await JournalE
 
 
 for (const actor of actorFolder.contents) {
-    ///Actor Data
-    /// Profs - Armor, Weapon, Language, Tools
     //console.log(actor.system)
     const abilities = actor.system.abilities;
     const attributes = actor.system.attributes;
@@ -176,16 +174,6 @@ for (const actor of actorFolder.contents) {
     <div style="clear:both"></div>
     `;
 
-    //Item Data
-    /// Equipment
-    /// Tools
-    /// Loot
-    /// Containers?!
-    //Features
-    /// Class Features
-    /// Race Features
-    /// Other Features
-    /// 
     let itemContent = {
         weapon: [],
         spell: Array.from({ length: 10 }, () => []),
@@ -205,7 +193,7 @@ for (const actor of actorFolder.contents) {
 
     actor.items.forEach(item => {
         const itemName = item.name;
-        console.log(item.name, item)
+        //console.log(item.name, item)
         const desc = item.system.identified === false ? item.system.unidentified?.description : item.system.description.value;
         const system = item.system;
         const itemType = item.type;
