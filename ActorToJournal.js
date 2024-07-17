@@ -203,37 +203,40 @@ for (const actor of actorFolder.contents) {
         const nthNumber = (number) => {
             if (number > 3 && number < 21) return "th";
             switch (number % 10) {
-              case 1:
-                return "st";
-              case 2:
-                return "nd";
-              case 3:
-                return "rd";
-              default:
-                return "th";
+                case 1:
+                    return "st";
+                case 2:
+                    return "nd";
+                case 3:
+                    return "rd";
+                default:
+                    return "th";
             }
-          };
+        };
 
-        let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">
+        let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">`;
+        if (item.system.identified === false) {
+            itemDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span> <br>Unidentified <hr>${desc}`
+        } else {
+            itemDesc += `
             ${system.attunement === "required" || system.attunement === "optional" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} 
             ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ''}
             ${system.recharge?.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
-            ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` :''}
+            ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''}
             <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span>
+            ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
+            ${system.type?.label ? `<br>${system.type.label}` : ''}
+            ${labels.activation && labels.activation != "None" ? `<br>Activation: ${labels.activation}` : ''}
             `
-            if (system.uses?.max > 0){
+            if (system.uses?.max > 0) {
                 let useMax = '';
                 for (let i = 0; i < system.uses.max; i++) {
                     useMax += `
-                            <i class="fa-regular fa-circle"></i>
-                        `;
+                                <i class="fa-regular fa-circle"></i>
+                            `;
                 }
                 itemDesc += `<br>Uses: ${system.uses.max} ${period == "Charges" ? `Charges` : `per ${period}`} ${useMax}`
-                };
-            itemDesc += `
-            ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
-            ${system.type?.label ? `<br>${system.type.label}` : ''}
-            `
+            };
             if (itemType == "spell" && labels.properties && labels.properties.length > 0) {
                 itemDesc += `<br>`;
                 labels.properties.forEach((prop, index) => {
@@ -251,23 +254,24 @@ for (const actor of actorFolder.contents) {
                     };
                 });
             }
-            if ( itemType != "weapon" ) {
-            itemDesc += `${labels.armor ? `<br>Armor: ${labels.armor}` : ''}` 
+            if (itemType != "weapon") {
+                itemDesc += `
+                ${labels.materials ? `<br>Materials: ${labels.materials}` : ``}
+                ${labels.armor ? `<br>Armor: ${labels.armor}` : ''}`
             };
-            if ( itemType == "weapon" && system.type.label == "Siege Weapon" ) {
+            if (itemType == "weapon" && system.type.label == "Siege Weapon") {
                 itemDesc += `${labels.armor ? `<br>Armor: ${labels.armor}` : ''}
-                    ${system.hp.max ? `<br>Hit Points: ___/${system.hp.max}` : ''}
-                    ${system.hp.dt ? `<br>Damage Threshold: ${system.hp.dt}` : ''}
-                    ${system.hp.conditions ? `<br>Health Conditions: ${system.hp.conditions}` : ''}
-                `};
+                        ${system.hp.max ? `<br>Hit Points: ___/${system.hp.max}` : ''}
+                        ${system.hp.dt ? `<br>Damage Threshold: ${system.hp.dt}` : ''}
+                        ${system.hp.conditions ? `<br>Health Conditions: ${system.hp.conditions}` : ''}
+                    `};
             itemDesc += `
-            ${labels.activation && labels.activation != "None" ? `<br>Activation: ${labels.activation}` : ''}
-            ${system.activation?.condition ? `<br>Condition: ${system.activation?.condition}` : ''}
-            ${system.attunement ? `<br>Attunement: ${system.attunement.charAt(0).toUpperCase() + system.attunement.slice(1)}` : ''}
-            ${labels.range && labels.range != "None" ? `<br>Range: ${labels.range}` : ''}
-            ${labels.target ? `<br>Target: ${labels.target}` : ''}
-            ${labels.duration ? `<br>Duration: ${labels.duration}` : ''}
-            `
+                ${system.activation?.condition ? `<br>Condition: ${system.activation?.condition}` : ''}
+                ${system.attunement ? `<br>Attunement: ${system.attunement.charAt(0).toUpperCase() + system.attunement.slice(1)}` : ''}
+                ${labels.range && labels.range != "None" ? `<br>Range: ${labels.range}` : ''}
+                ${labels.target ? `<br>Target: ${labels.target}` : ''}
+                ${labels.duration ? `<br>Duration: ${labels.duration}` : ''}
+                `
             if (system.consume?.type == "attribute") {
                 itemDesc += `<br>Consumes: ${system.consume.amount} ${system.consume.target}`;
             } else if (system.consume?.type == "hitDice") {
@@ -277,15 +281,15 @@ for (const actor of actorFolder.contents) {
                 itemDesc += `<br>Consumes: ${system.consume.amount} ${conItem.name} ${system.consume.type}`;
             }
             itemDesc += `
-                ${labels.save ? `<br><strong>${labels.save} Saving Throw</strong>` : ''}
-                ${item.labels.toHit ? `<br><strong>To Hit: ${item.labels.toHit}</strong>` : ''}
-            `;
+                    ${labels.save ? `<br><strong>${labels.save} Saving Throw</strong>` : ''}
+                    ${labels.toHit ? `<br><strong>${CONFIG.DND5E.itemActionTypes[system.actionType]}: ${labels.toHit}</strong>` : ''}
+                `;
             if (labels.derivedDamage && labels.derivedDamage.length > 0) {
                 itemDesc += `<br><strong>Damage: `
                 labels.derivedDamage.forEach(damage => {
                     itemDesc += `
-                    ${damage.label} </strong> ${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}
-                `;
+                        ${damage.label} </strong> ${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${system.level}${nthNumber(system.level)}` : ''}
+                    `;
                 });
             }
             if (item.system.damage?.versatile) {
@@ -302,7 +306,8 @@ for (const actor of actorFolder.contents) {
                 });
             }
             itemDesc += `${itemType == "spell" && system.school != "" ? `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">` : ''}`
-            itemDesc += `</article></div>`;
+        }
+        itemDesc += `</article></div>`;
 
         if (itemType === 'weapon') {
             itemContent.weapon.push(itemDesc);
@@ -330,7 +335,7 @@ for (const actor of actorFolder.contents) {
             itemContent.background.push(itemDesc);
         } else if (itemType === 'feat') {
             itemContent.other.push(itemDesc);
-        } else if (itemType === 'loot' || itemType ==='tool' ) {
+        } else if (itemType === 'loot' || itemType === 'tool') {
             itemContent.otherItem.push(itemDesc);
         }
     });
@@ -369,8 +374,8 @@ for (const actor of actorFolder.contents) {
     let content = `
     ${actorContent}
     <div class="item-columns">
-        ${itemContent.weapon != "" ? `${weaponsContent}` :''}
-        ${itemContent.consumable != "" ? `${consumeContent}` :''}
+        ${itemContent.weapon != "" ? `${weaponsContent}` : ''}
+        ${itemContent.consumable != "" ? `${consumeContent}` : ''}
 `;
 
     itemContent.spell.forEach((spellLevel, index) => {
