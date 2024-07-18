@@ -207,7 +207,7 @@ for (const actor of actorFolder.contents) {
         } else {
             itemDesc += `
             ${system.attunement === "required" || system.attunement === "optional" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} 
-            ${system.equipped === true ? `<i class="fa-solid fa-shield-halved" style="float:right"></i>` : ''}
+            ${itemType === "weapon" || itemType == "equipment" ? `<i class="fa-regular fa-shield" style="float:right"></i>` : ''}
             ${system.recharge?.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
             ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''}
             <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span>
@@ -386,10 +386,10 @@ for (const actor of actorFolder.contents) {
         }
     });
     content += `
+        ${itemContent.equipment != "" ? `${equipContent}` : ''}
         ${itemContent.class != "" ? `${classContent}` : ''}
         ${itemContent.feat != "" ? `${featContent}` : ''}
         ${itemContent.other != "" ? `${otherContent}` : ''}
-        ${itemContent.equipment != "" ? `${equipContent}` : ''}
         ${itemContent.otherItem != "" ? `${otherItemContent}` : ''}
         ${itemContent.background != "" ? `${backContent}` : ''}
         ${itemContent.race != "" ? `${raceContent}` : ''}
