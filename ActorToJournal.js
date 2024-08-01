@@ -203,14 +203,14 @@ for (const actor of actorFolder.contents) {
 
         let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">`;
         if (item.system.identified === false) {
-            itemDesc += `<span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span> <br>Unidentified <hr>${desc}`
+            itemDesc += `<details open><summary style="list-style: none"><span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span></summary> <br>Unidentified <hr>${desc}</details>`
         } else {
             itemDesc += `
             ${system.attunement === "required" || system.attunement === "optional" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} 
             ${itemType === "weapon" || itemType == "equipment" ? `<i class="fa-regular fa-shield" style="float:right"></i>` : ''}
             ${system.recharge?.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
             ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''}
-            <span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span>
+            <details open><summary style="list-style: none"><span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span></summary>
             ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
             ${system.type?.label ? `<br>${system.type.label}` : ''}
             ${labels.activation && labels.activation != "None" ? `<br>Activation: ${labels.activation}` : ''}
@@ -286,9 +286,9 @@ for (const actor of actorFolder.contents) {
             if (item.system.damage?.versatile) {
                 itemDesc += `<br><strong>Versatile: ${system.damage.versatile}</strong>`
             }
-            itemDesc += `<hr>${desc}`
+            itemDesc += `<details open><summary style="list-style: none"><hr></summary>${desc}</details>`
             if (itemType != "spell" && labels.properties && labels.properties.length > 0) {
-                itemDesc += `<hr>Properties: `
+                itemDesc += `<details open><summary style="list-style: none"><hr></summary>Properties: `
                 labels.properties.forEach((prop, index) => {
                     if (index > 0) {
                         itemDesc += ', ';
@@ -298,7 +298,7 @@ for (const actor of actorFolder.contents) {
             }
             itemDesc += `${itemType == "spell" && system.school != "" ? `<img src="${schoolIcon}" width="30" height="30" style="border: none; float: right">` : ''}`
         }
-        itemDesc += `</article></div>`;
+        itemDesc += `</details></article></div>`;
 
         if (itemType === 'weapon') {
             itemContent.weapon.push(itemDesc);
