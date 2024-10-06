@@ -1,4 +1,5 @@
-const tokenActor = token?.actor ?? game.user.character;const faves = tokenActor.system.favorites;
+const tokenActor = token?.actor ?? game.user.character;
+const faves = tokenActor.system.favorites;
 
 const sortedFaves = faves.sort((a, b) => a.sort - b.sort);
 
