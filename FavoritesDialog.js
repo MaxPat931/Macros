@@ -31,7 +31,7 @@ const faveId = await foundry.applications.api.DialogV2.wait({
     },
     render: (event, html) => html.querySelector(".form-footer").style.flexDirection = "column",
     close: () => { return false; }
-}, { id: "warcaster-dialog", width: 'auto' });
+}, { id: "faves-dialog", width: 'auto' });
 
 const item = await fromUuid(`${_token.actor.uuid}${faveId}`);
 item.use({ legacy: false });
