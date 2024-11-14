@@ -6,7 +6,7 @@ Hooks.on("updateCombat", async (combat, changes) => {
 
   ChatMessage.create({
     content: `Top of the round! <p><strong>[[/check dex]]{Roll for Initiative!}</strong></p>`,
-    })
+  })
 
   const createGiantInitiativeDialog = async (title, initiative) => {
     const buttons = {
@@ -55,7 +55,7 @@ Hooks.on("updateCombat", async (combat, updates) => {
   if (game.combat.combatant.name != "Kalis Karr") return;
   const wizard = game.actors.getName("Kalis Karr")
   const patron = wizard.items.getName("Empowered Patron");
-  await patron.use({legacy: false}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+  await patron.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
 });
 
 //Guard Reinforcements
@@ -63,12 +63,12 @@ Hooks.on("updateCombat", async (combat, updates) => {
   if (game.combat.combatant.name != "Human Guard") return;
   const guard = game.actors.getName("Human Guard")
   const reinforce = guard.items.getName("Reinforcements");
-  await reinforce.use({legacy: false}, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
+  await reinforce.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
 });
 
 //Change EXP levels for Point tracking
 Hooks.once("init", () => {
-     CONFIG.DND5E.CHARACTER_EXP_LEVELS = [0,0,0,0,0,70,0,0,70,0,0,0,0,0,0,0,0,0,0,0]
+  CONFIG.DND5E.CHARACTER_EXP_LEVELS = [0, 0, 0, 0, 0, 70, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 });
 
 const createMessageContent = (imageSrc, xpAmount, description) => {
@@ -88,113 +88,116 @@ const createMessageContent = (imageSrc, xpAmount, description) => {
 };
 
 Hooks.on("updateActor", async (tokenDoc, updates) => {
-  if (updates.system.attributes?.hp?.value > 0) return;
+  const hpValue = updates?.system?.attributes?.hp?.value;
 
-  if (tokenDoc.prototypeToken.name == "Building") {
+  if (hpValue !== undefined && hpValue <= 0) {
+
+    if (tokenDoc.prototypeToken.name == "Building") {
       const token = tokenDoc.token;
       await token.update({ alpha: Number(!token.alpha) });
-  }
+    }
 
-  const tokenImage = tokenDoc.img;
-  let xpAmount = 0;
-  let description = '';
-  let lootItemName = '';
+    const tokenImage = tokenDoc.img;
+    let xpAmount = 0;
+    let description = '';
+    let lootItemName = '';
 
-  switch (tokenDoc.name) {
+    switch (tokenDoc.name) {
       case "The Keep":
-          const light = canvas.scene.lights.get("YajTcW2DV5QsBOj5");
-          if (light) await light.update({ hidden: !light.hidden });
-          const wizard = canvas.tokens.placeables.find(t => t.actor.name === "Kalis Karr");
-          await wizard.document.update({ light: { bright: 0 } });
+        const light = canvas.scene.lights.get("YajTcW2DV5QsBOj5");
+        if (light) await light.update({ hidden: !light.hidden });
+        const wizard = canvas.tokens.placeables.find(t => t.actor.name === "Kalis Karr");
+        await wizard.document.update({ light: { bright: 0 } });
 
-          xpAmount = 15;
-          description = "The Keep has Fallen! Kalis Karr's protection has disappeared!";
-          break;
+        xpAmount = 15;
+        description = "The Keep has Fallen! Kalis Karr's protection has disappeared!";
+        break;
 
       case "Inn":
-          xpAmount = 10;
-          description = `${tokenDoc.name} Destroyed!`;
-          lootItemName = "Bandit Screams";
-          break;
+        xpAmount = 10;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Bandit Screams";
+        break;
 
       case "Farm House":
-          xpAmount = 5;
-          description = `${tokenDoc.name} Destroyed!`;
-          lootItemName = "Loot the Ruins!";
-          break;
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Loot the Ruins!";
+        break;
 
       case "Alchemist Shop":
-          xpAmount = 5;
-          description = `${tokenDoc.name} Destroyed!`;
-          lootItemName = "Invisible";
-          break;
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Invisible";
+        break;
 
       case "Blacksmith":
-          xpAmount = 5;
-          description = `${tokenDoc.name} Destroyed!`;
-          lootItemName = "Craft a Helmet";
-          break;
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Craft a Helmet";
+        break;
 
       case "General Store":
-          xpAmount = 5;
-          description = `${tokenDoc.name} Destroyed!`;
-          lootItemName = "Magic Rations";
-          break;
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Magic Rations";
+        break;
 
       case "Apple Orchard":
-          xpAmount = 2;
-          description = "Applesauce: Earned for eating the orchard. A giant can devour all the apple trees to regain 50 hit points.";
-          break;
+        xpAmount = 2;
+        description = "Applesauce: Earned for eating the orchard. A giant can devour all the apple trees to regain 50 hit points.";
+        break;
 
       case "Lake":
-          xpAmount = 4;
-          description = "Soil the Lake: Earned for soiling the lake when a giant fully submerges themselves in the water.";
-          break;
+        xpAmount = 4;
+        description = "Soil the Lake: Earned for soiling the lake when a giant fully submerges themselves in the water.";
+        break;
 
       case "Vineyard":
-          xpAmount = 4;
-          description = "Red, Red Wine: Earned for eating the vineyard and regaining 100 hit points.";
-          break;
+        xpAmount = 4;
+        description = "Red, Red Wine: Earned for eating the vineyard and regaining 100 hit points.";
+        break;
 
       case "Human Trickshot":
-          xpAmount = 5;
-          description = "Slightly-Less-Puny Human: Earned for killing a human trickshot.";
-          break;
+        xpAmount = 5;
+        description = "Slightly-Less-Puny Human: Earned for killing a human trickshot.";
+        break;
 
       case "Kalis Karr":
-          xpAmount = 10;
-          description = "Kinda-Not-Puny Human: Earned for killing Kalis Karr.";
-          break;
-  }
+        xpAmount = 10;
+        description = "Kinda-Not-Puny Human: Earned for killing Kalis Karr.";
+        break;
+    }
 
-  if (xpAmount > 0 && description) {
+    if (xpAmount > 0 && description) {
       const messageContent = createMessageContent(tokenImage, xpAmount, description);
       await ChatMessage.create({
-          content: messageContent
+        content: messageContent
       });
-  }
+    }
 
-  if (lootItemName) {
+    if (lootItemName) {
       const lootItem = tokenDoc.items.getName(lootItemName);
       if (lootItem) {
-          await lootItem.use({ legacy: false });
+        await lootItem.use({ legacy: false });
       }
+    }
   }
 });
 
 // Swap Tree Actor summons with Tiles
 Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
   if (activity.item.name == "Pluck a Tree") {
-      const tree = [];
-      tree.push(spawn[0]._id);
-      TileDocument.create({
-          x: spawn[0].x,
-          y: spawn[0].y,
-          width: 100,
-          height: 100,
-          "texture.src": spawn[0].texture.src
-      }, { parent: canvas.scene });
+    const tree = [];
+    tree.push(spawn[0]._id);
+    TileDocument.create({
+      x: spawn[0].x,
+      y: spawn[0].y,
+      width: 100,
+      height: 100,
+      "texture.src": spawn[0].texture.src
+    }, { parent: canvas.scene });
 
-      canvas.scene.deleteEmbeddedDocuments("Token", tree);
+    canvas.scene.deleteEmbeddedDocuments("Token", tree);
   }
 })
