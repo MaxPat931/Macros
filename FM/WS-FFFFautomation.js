@@ -88,7 +88,7 @@ const createMessageContent = (imageSrc, xpAmount, description) => {
 };
 
 Hooks.on("updateActor", async (tokenDoc, updates) => {
-  if (updates.system.attributes.hp.value > 0) return;
+  if (updates.system.attributes?.hp?.value > 0) return;
 
   if (tokenDoc.prototypeToken.name == "Building") {
       const token = tokenDoc.token;
@@ -181,3 +181,20 @@ Hooks.on("updateActor", async (tokenDoc, updates) => {
       }
   }
 });
+
+// Swap Tree Actor summons with Tiles
+Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
+  if (activity.item.name == "Pluck a Tree") {
+      const tree = [];
+      tree.push(spawn[0]._id);
+      TileDocument.create({
+          x: spawn[0].x,
+          y: spawn[0].y,
+          width: 100,
+          height: 100,
+          "texture.src": spawn[0].texture.src
+      }, { parent: canvas.scene });
+
+      canvas.scene.deleteEmbeddedDocuments("Token", tree);
+  }
+})
