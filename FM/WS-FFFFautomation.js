@@ -276,3 +276,60 @@ Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
     canvas.scene.deleteEmbeddedDocuments("Token", tree);
   }
 })
+
+/// Count Trees when Combat is ended
+Hooks.on("deleteCombat", async (combat) => {
+    const giantValues = ["Lapis Tenebra", "Bonecruncher", "Revna the Blue", "Ulf the Quick"];
+
+    const giantCount = {};
+
+    canvas.scene.tiles.forEach(tile => {
+        const giantValue = tile.flags?.summoner?.giant;
+
+        if (giantValues.includes(giantValue)) {
+            if (!giantCount[giantValue]) {
+                giantCount[giantValue] = 0;
+            }
+            giantCount[giantValue]++;
+        }
+    });
+
+    const sortedGiantCount = Object.entries(giantCount)
+        .sort((a, b) => b[1] - a[1]);
+
+    const topCount = sortedGiantCount[0][1];
+
+    const topGiants = sortedGiantCount.filter(([giant, count]) => count === topCount);
+
+    let messageContent = `
+<div class="dnd5e2">
+  <div class="fvtt advice" style="background-color: oldlace;">
+      <figure class="icon">
+          <img src="icons/environment/wilderness/tree-ash.webp" class="round">
+      </figure>
+      <article>
+`;
+
+    if (topGiants.length > 1) {
+        const topGiantNames = topGiants.map(([giant]) => giant).join(", and ");
+        messageContent += `<p><strong>${topGiantNames}</strong> plucked the most trees with <strong>${topCount}</strong> earning</p><p>[[/award 5xp]]</p>`;
+    } else {
+        messageContent += `<p><strong>${topGiants[0][0]}</strong> plucked the most trees with <strong>${topCount}</strong> earning [[/award 5xp]]</p>`;
+    }
+
+    sortedGiantCount.forEach(([giant, count]) => {
+        if (count !== topCount) {
+            messageContent += `<p>${giant} plucked <strong>${count}</strong> trees</p>`;
+        }
+    });
+
+    messageContent += `
+      </article>
+      </div>
+  </div>`;
+
+    await ChatMessage.create({
+        content: messageContent,
+        speaker: { token: "qt37GzPtkrZt7fvy", actor: "hxHroWAlPrv9yECt", scene: "qqBD4pLWlW1XYqgv", alias: "Paul Bunyon" }
+    });
+})
