@@ -54,10 +54,26 @@ Hooks.on("updateCombat", async (combat, changes) => {
 
 //Empowered Patron reminder
 Hooks.on("updateCombat", async (combat, updates) => {
-  if (game.combat.combatant.name != "Kalis Karr") return;
-  const wizard = game.actors.getName("Kalis Karr")
-  const patron = wizard.items.getName("Empowered Patron");
-  await patron.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
+  if (game.combat.combatant?.name != "Kalis Karr") return;
+  const mages = canvas.tokens.placeables.filter(token => token.actor.name === "Human Apprentice Mage").length;
+  let mageHeal = mages * 2;
+
+  ChatMessage.create({
+    content: `
+     <div class="dnd5e2">
+      <div class="fvtt advice" style="background-color: oldlace;">
+          <figure class="icon">
+              <img src="icons/magic/light/explosion-beam-impact-silhouette.webp" class="round">
+          </figure>
+          <article>
+            <p>At the start of the patron’s turn, the patron gains temporary hit points equal to twice the number of apprentice mages within 60 feet of them who chose them as a patron and can see them.</p>
+            <p>[[/healing ${mageHeal} temp]]</p>
+          </article>
+        </div>
+      </div>
+    `,
+    speaker: { token: "ngvJDil8MmD6ikNE", actor: "ZR4RfvS5QX8hivBV", scene: "p8F6b7M4hwqT2Tm4" }
+  })
 });
 
 //Guard Reinforcements
