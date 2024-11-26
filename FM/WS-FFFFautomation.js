@@ -302,13 +302,13 @@ Hooks.on("deleteCombat", async (combat) => {
     const topGiants = sortedGiantCount.filter(([giant, count]) => count === topCount);
 
     let messageContent = `
-<div class="dnd5e2">
-  <div class="fvtt advice" style="background-color: oldlace;">
-      <figure class="icon">
-          <img src="icons/environment/wilderness/tree-ash.webp" class="round">
-      </figure>
-      <article>
-`;
+        <div class="dnd5e2">
+            <div class="fvtt advice" style="background-color: oldlace;">
+                <figure class="icon">
+                    <img src="icons/environment/wilderness/tree-ash.webp" class="round">
+                </figure>
+            <article>
+    `;
 
     if (topGiants.length > 1) {
         const topGiantNames = topGiants.map(([giant]) => giant).join(", and ");
