@@ -1,6 +1,60 @@
+///Populate Combatants automatically on Combat Create
+Hooks.on("createCombat", async (combat) => {
+    const initiativeTokens = [
+    "Kalis Karr",
+    "Human Apprentice Mage Init",
+    "Human Trickshot Init",
+    "Human Guard Init",
+    "Lapis Tenebra",
+    "Bonecruncher",
+    "Ulf the Quick",
+    "Revna the Blue"
+];
+
+for (const token of canvas.tokens.placeables) {
+    const orc = token.actor?.name; 
+    if (!orc || !initiativeTokens.includes(orc)) continue;
+    let initVal;
+    // Set initiative based on the token's name
+    switch (orc) {
+        case "Kalis Karr":
+            initVal = 7;
+            break;
+        case "Human Apprentice Mage Init":
+            initVal = 5;
+            break;
+        case "Human Trickshot Init":
+            initVal = 3;
+            break;
+        case "Human Guard Init":
+            initVal = 1;
+            break;
+        case "Lapis Tenebra":
+        case "Bonecruncher":
+        case "Ulf the Quick":
+        case "Revna the Blue":
+            initVal = 10;
+            break;
+        default:
+            initVal = 0;
+            break;
+    }
+
+    // Add token to combat tracker if not already there
+    if (!token.combatant) {
+        await token.toggleCombat();
+    }
+
+    // Update initiative
+    await token.combatant.update({ initiative: initVal });
+}
+await combat.activate();
+ui.combat.renderPopout();
+await game.combat.startCombat();
+});
+
 ///When a new Round begins, send a message to chat for new initiative rolls
 ///Display subsequent dialogs to set the new initiative order, should also return to first turn but thats a little iffy for some reason
-
 Hooks.on("updateCombat", async (combat, changes) => {
     if (!foundry.utils.hasProperty(changes, "round")) return;
 
@@ -44,12 +98,14 @@ Hooks.on("updateCombat", async (combat, changes) => {
     };
 
     // Create dialogs with different initiatives
+    if (game.user.isGM) {
     await createGiantInitiativeDialog("Giant Initiative 1", 8);
     await createGiantInitiativeDialog("Giant Initiative 2", 6);
     await createGiantInitiativeDialog("Giant Initiative 3", 4);
     await createGiantInitiativeDialog("Giant Initiative 4", 2);
 
     await game.combat.update({ turn: 0 });
+    }
 });
 
 //Empowered Patron reminder
@@ -89,6 +145,7 @@ Hooks.once("init", () => {
   CONFIG.DND5E.CHARACTER_EXP_LEVELS = [0, 0, 0, 0, 0, 70, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 });
 
+///Automatically process token updates and item usage on 0 HP for buildings
 const createMessageContent = (imageSrc, xpAmount, description) => {
   return `
       <div class="dnd5e2">
@@ -211,8 +268,8 @@ Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
     TileDocument.create({
       x: spawn[0].x,
       y: spawn[0].y,
-      width: 100,
-      height: 100,
+      width: 110,
+      height: 110,
       "texture.src": spawn[0].texture.src
     }, { parent: canvas.scene });
 
