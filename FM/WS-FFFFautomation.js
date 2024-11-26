@@ -2,52 +2,54 @@
 ///Display subsequent dialogs to set the new initiative order, should also return to first turn but thats a little iffy for some reason
 
 Hooks.on("updateCombat", async (combat, changes) => {
-  if (!foundry.utils.hasProperty(changes, "round")) return;
+    if (!foundry.utils.hasProperty(changes, "round")) return;
 
-  ChatMessage.create({
-    content: `Top of the round! <p><strong>[[/check dex]]{Roll for Initiative!}</strong></p>`,
-  })
+    ChatMessage.create({
+        content: `Top of the round! <p><strong>[[/check dex]]{Roll for Initiative!}</strong></p>`,
+    })
 
-  const createGiantInitiativeDialog = async (title, initiative) => {
-    const buttons = {
-      one: {
-        label: "Bonecrusher <img style='border: none;' src='worlds/feefifofum/assets/HillGiant.png'>",
-        callback: () => updateGiantInitiative("Bonecrusher", initiative),
-      },
-      two: {
-        label: "Ulf the Quick <img style='border: none;' src='modules/flee-mortals/tokens/FrostGiantWindSprinter.png'>",
-        callback: () => updateGiantInitiative("Ulf the Quick", initiative),
-      },
-      three: {
-        label: "Revna the Blue <img style='border: none;' src='worlds/feefifofum/assets/FrostGiantStormHurler.png'>",
-        callback: () => updateGiantInitiative("Revna the Blue", initiative),
-      },
-      four: {
-        label: "Lapis Tenebra <img style='border: none;' src='worlds/feefifofum/assets/ObsidianGiant.webp'>",
-        callback: () => updateGiantInitiative("Lapis Tenebra", initiative),
-      },
+    const createGiantInitiativeDialog = async (title, initiative) => {
+        const content = `
+    <div class="row">
+        <div class="column">
+      <label><input type="radio" name="choice" value="Bonecruncher" checked> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/HillGiant.png'></label>
+      <label><input type="radio" name="choice" value="Lapis Tenebra"> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/ObsidianGiant.webp'></label>
+        </div>
+        <div class="column">
+      <label><input type="radio" name="choice" value="Ulf the Quick"> <img style='border: none; height: 150px' src='modules/flee-mortals/tokens/FrostGiantWindSprinter.png'></label>
+      <label><input type="radio" name="choice" value="Revna the Blue"> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/FrostGiantStormHurler.png'></label>
+      </div>
+      </div>
+    `;
+        await foundry.applications.api.DialogV2.wait({
+            title,
+            content,
+            buttons: [{
+                action: "choice",
+                label: "Set Initiative",
+                default: true,
+                callback: (event, button, dialog) => button.form.elements.choice.value
+            }],
+            submit: result => {
+                updateGiantInitiative(result, initiative);
+            }
+        });
     };
 
-    await Dialog.wait({
-      title,
-      buttons,
-    });
-  };
+    const updateGiantInitiative = async (giantName, initiative) => {
+        const giant = game.combat.combatants.getName(giantName);
+        if (giant) {
+            await giant.update({ initiative });
+        }
+    };
 
-  const updateGiantInitiative = async (giantName, initiative) => {
-    const giant = game.combat.combatants.getName(giantName);
-    if (giant) {
-      await giant.update({ initiative });
-    }
-  };
+    // Create dialogs with different initiatives
+    await createGiantInitiativeDialog("Giant Initiative 1", 8);
+    await createGiantInitiativeDialog("Giant Initiative 2", 6);
+    await createGiantInitiativeDialog("Giant Initiative 3", 4);
+    await createGiantInitiativeDialog("Giant Initiative 4", 2);
 
-  // Create dialogs with different initiatives
-  await createGiantInitiativeDialog("Giant Initiative 1", 8);
-  await createGiantInitiativeDialog("Giant Initiative 2", 6);
-  await createGiantInitiativeDialog("Giant Initiative 3", 4);
-  await createGiantInitiativeDialog("Giant Initiative 4", 2);
-
-  await game.combat.update({ turn: 0 });
+    await game.combat.update({ turn: 0 });
 });
 
 //Empowered Patron reminder
