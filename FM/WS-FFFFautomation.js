@@ -270,7 +270,8 @@ Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
       y: spawn[0].y,
       width: 110,
       height: 110,
-      "texture.src": spawn[0].texture.src
+      "texture.src": spawn[0].texture.src,
+      "flags.summoner.giant": activity.actor.name
     }, { parent: canvas.scene });
 
     canvas.scene.deleteEmbeddedDocuments("Token", tree);
