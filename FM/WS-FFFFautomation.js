@@ -135,15 +135,17 @@ Hooks.on("updateCombat", async (combat, updates) => {
 //Guard Reinforcements
 Hooks.on("updateCombat", async (combat, updates) => {
   if (game.combat.combatant.name != "Human Guard") return;
-  const guard = game.actors.getName("Human Guard")
+  const guard = game.combat.combatant.actor
   const reinforce = guard.items.getName("Reinforcements");
   await reinforce.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
 });
 
-//Change EXP levels for Point tracking
+/* DEPRECATED for SOULSCOUNT
+Change EXP levels for Point tracking
 Hooks.once("init", () => {
   CONFIG.DND5E.CHARACTER_EXP_LEVELS = [0, 0, 0, 0, 0, 70, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 });
+*/
 
 ///Automatically process token updates and item usage on 0 HP for buildings
 const createMessageContent = (imageSrc, xpAmount, description) => {
@@ -155,7 +157,7 @@ const createMessageContent = (imageSrc, xpAmount, description) => {
               </figure>
               <article>
                   <p>${description}</p>
-                  <p>[[/award ${xpAmount}xp]]</p>
+                  <p>${xpAmount} @Macro[Points]</p>
               </article>
           </div>
       </div>
