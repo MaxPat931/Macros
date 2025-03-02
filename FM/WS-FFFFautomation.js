@@ -303,9 +303,9 @@ Hooks.on("deleteCombat", async (combat) => {
 
   if (topGiants.length > 1) {
       const topGiantNames = topGiants.map(([giant]) => giant).join(", and ");
-      messageContent += `<p><strong>${topGiantNames}</strong> plucked the most trees with <strong>${topCount}</strong> earning</p><p>[[/award 5xp]]</p>`;
+      messageContent += `<p><strong>${topGiantNames}</strong> plucked the most trees with <strong>${topCount}</strong> earning 5 points!</p>`;
   } else {
-      messageContent += `<p><strong>${topGiants[0][0]}</strong> plucked the most trees with <strong>${topCount}</strong> earning [[/award 5xp]]</p>`;
+      messageContent += `<p><strong>${topGiants[0][0]}</strong> plucked the most trees with <strong>${topCount}</strong> earning 5 points!</p>`;
   }
 
   sortedGiantCount.forEach(([giant, count]) => {
