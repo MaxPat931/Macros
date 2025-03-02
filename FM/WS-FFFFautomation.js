@@ -152,7 +152,7 @@ const createMessageContent = (imageSrc, xpAmount, description) => {
               </figure>
               <article>
                   <p>${description}</p>
-                  <p>${xpAmount} @Macro[Points]</p>
+                  <p>@Macro[Points]{${xpAmount} Points}</p>
               </article>
           </div>
       </div>
@@ -303,9 +303,9 @@ Hooks.on("deleteCombat", async (combat) => {
 
   if (topGiants.length > 1) {
       const topGiantNames = topGiants.map(([giant]) => giant).join(", and ");
-      messageContent += `<p><strong>${topGiantNames}</strong> plucked the most trees with <strong>${topCount}</strong> earning 5 @Macro[Points]!</p>`;
+      messageContent += `<p><strong>${topGiantNames}</strong> plucked the most trees with <strong>${topCount}</strong> earning @Macro[Points]{5 Points}!</p>`;
   } else {
-      messageContent += `<p><strong>${topGiants[0][0]}</strong> plucked the most trees with <strong>${topCount}</strong> earning 5 @Macro[Points]!</p>`;
+      messageContent += `<p><strong>${topGiants[0][0]}</strong> plucked the most trees with <strong>${topCount}</strong> earning @Macro[Points]{5 Points}!</p>`;
   }
 
   sortedGiantCount.forEach(([giant, count]) => {
