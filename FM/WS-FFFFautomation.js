@@ -9,48 +9,43 @@ Hooks.on("createCombat", async (combat) => {
   "Bonecruncher",
   "Ulf the Quick",
   "Revna the Blue"
-];
+  ];
 
-for (const token of canvas.tokens.placeables) {
-  const orc = token.actor?.name; 
-  if (!orc || !initiativeTokens.includes(orc)) continue;
-  let initVal;
-  // Set initiative based on the token's name
-  switch (orc) {
-      case "Kalis Karr":
-          initVal = 7;
-          break;
-      case "Human Apprentice Mage":
-          initVal = 5;
-          break;
-      case "Human Trickshot":
-          initVal = 3;
-          break;
-      case "Human Guard Init":
-          initVal = 1;
-          break;
-      case "Lapis Tenebra":
-      case "Bonecruncher":
-      case "Ulf the Quick":
-      case "Revna the Blue":
-          initVal = 10;
-          break;
-      default:
-          initVal = 0;
-          break;
+  for (const token of canvas.tokens.placeables) {
+    const orc = token.actor?.name; 
+    if (!orc || !initiativeTokens.includes(orc)) continue;
+    let initVal;
+    switch (orc) {
+        case "Kalis Karr":
+            initVal = 7;
+            break;
+        case "Human Apprentice Mage":
+            initVal = 5;
+            break;
+        case "Human Trickshot":
+            initVal = 3;
+            break;
+        case "Human Guard Init":
+            initVal = 1;
+            break;
+        case "Lapis Tenebra":
+        case "Bonecruncher":
+        case "Ulf the Quick":
+        case "Revna the Blue":
+            initVal = 10;
+            break;
+        default:
+            initVal = 0;
+            break;
+    }
+    if (!token.combatant) {
+        await token.toggleCombat();
+    }
+    await token.combatant.update({ initiative: initVal });
   }
-
-  // Add token to combat tracker if not already there
-  if (!token.combatant) {
-      await token.toggleCombat();
-  }
-
-  // Update initiative
-  await token.combatant.update({ initiative: initVal });
-}
-await combat.activate();
-ui.combat.renderPopout();
-await game.combat.startCombat();
+  await combat.activate();
+  ui.combat.renderPopout();
+  await game.combat.startCombat();
 });
 
 ///When a new Round begins, send a message to chat for new initiative rolls
@@ -110,165 +105,164 @@ Hooks.on("updateCombat", async (combat, changes) => {
 
 //Empowered Patron reminder
 Hooks.on("updateCombat", async (combat, updates) => {
-if (game.combat.combatant?.name != "Kalis Karr") return;
-const mages = canvas.tokens.placeables.filter(token => token.actor.name === "Human Apprentice Mage").length;
-let mageHeal = mages * 2;
-
-ChatMessage.create({
-  content: `
-   <div class="dnd5e2">
-    <div class="fvtt advice" style="background-color: oldlace;">
-        <figure class="icon">
-            <img src="icons/magic/light/explosion-beam-impact-silhouette.webp" class="round">
-        </figure>
-        <article>
-          <p>At the start of the patron’s turn, the patron gains temporary hit points equal to twice the number of apprentice mages within 60 feet of them who chose them as a patron and can see them.</p>
-          <p>[[/healing ${mageHeal} temp]]</p>
-        </article>
+  if (game.combat.combatant?.name != "Kalis Karr") return;
+  const mages = canvas.tokens.placeables.filter(token => token.actor.name === "Human Apprentice Mage").length;
+  let mageHeal = mages * 2;
+  
+  ChatMessage.create({
+    content: `
+     <div class="dnd5e2">
+      <div class="fvtt advice" style="background-color: oldlace;">
+          <figure class="icon">
+              <img src="icons/magic/light/explosion-beam-impact-silhouette.webp" class="round">
+          </figure>
+          <article>
+            <p>At the start of the patron’s turn, the patron gains temporary hit points equal to twice the number of apprentice mages within 60 feet of them who chose them as a patron and can see them.</p>
+            <p>[[/healing ${mageHeal} temp]]</p>
+          </article>
+        </div>
       </div>
-    </div>
-  `,
-  speaker: { token: "ngvJDil8MmD6ikNE", actor: "ZR4RfvS5QX8hivBV", scene: "p8F6b7M4hwqT2Tm4" }
-})
+    `,
+    speaker: { token: "ngvJDil8MmD6ikNE", actor: "ZR4RfvS5QX8hivBV", scene: "p8F6b7M4hwqT2Tm4" }
+  })
 });
 
 //Guard Reinforcements
 Hooks.on("updateCombat", async (combat, updates) => {
-if (game.combat.combatant?.name != "Human Guard") return;
-const guard = game.combat.combatant.actor
-const reinforce = guard.items.getName("Reinforcements");
-await reinforce.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
+  if (game.combat.combatant?.name != "Human Guard") return;
+  const guard = game.combat.combatant.actor
+  const reinforce = guard.items.getName("Reinforcements");
+  await reinforce.use({ legacy: false }, { rollMode: CONST.DICE_ROLL_MODES.PRIVATE });
 });
 
 ///Automatically process token updates and item usage on 0 HP for buildings
 Hooks.on("updateActor", async (tokenDoc, updates) => {
-const hpValue = updates?.system?.attributes?.hp?.value;
-const createMessageContent = (imageSrc, xpAmount, description) => {
-  return `
-      <div class="dnd5e2">
-          <div class="fvtt advice" style="background-color: oldlace;">
-              <figure class="icon">
-                  <img src="${imageSrc}" class="round">
-              </figure>
-              <article>
-                  <p>${description}</p>
-                  <p>@Macro[Points]{${xpAmount} Points}</p>
-              </article>
-          </div>
-      </div>
-  `;
+  const hpValue = updates?.system?.attributes?.hp?.value;
+  const createMessageContent = (imageSrc, xpAmount, description) => {
+    return `
+        <div class="dnd5e2">
+            <div class="fvtt advice" style="background-color: oldlace;">
+                <figure class="icon">
+                    <img src="${imageSrc}" class="round">
+                </figure>
+                <article>
+                    <p>${description}</p>
+                    <p>@Macro[Points]{${xpAmount} Points}</p>
+                </article>
+            </div>
+        </div>
+    `;
   };
 
-if (hpValue !== undefined && hpValue <= 0) {
-  if (tokenDoc.prototypeToken.name == "Building") {
-    const token = tokenDoc.token;
-    await token.update({ alpha: Number(!token.alpha) });
-  }
-
-  const tokenImage = tokenDoc.img;
-  let xpAmount = 0;
-  let description = '';
-  let lootItemName = '';
-
-  switch (tokenDoc.name) {
-    case "The Keep":
-      const light = canvas.scene.lights.get("YajTcW2DV5QsBOj5");
-      if (light) await light.update({ hidden: !light.hidden });
-      const wizard = canvas.tokens.placeables.find(t => t.actor.name === "Kalis Karr");
-      await wizard.document.update({ light: { bright: 0 } });
-
-      xpAmount = 15;
-      description = "The Keep has Fallen! Kalis Karr's protection has disappeared!";
-      break;
-
-    case "Inn":
-      xpAmount = 10;
-      description = `${tokenDoc.name} Destroyed!`;
-      lootItemName = "Bandit Screams";
-      break;
-
-    case "Farm House":
-      xpAmount = 5;
-      description = `${tokenDoc.name} Destroyed!`;
-      lootItemName = "Loot the Ruins!";
-      break;
-
-    case "Alchemist Shop":
-      xpAmount = 5;
-      description = `${tokenDoc.name} Destroyed!`;
-      lootItemName = "Invisible";
-      break;
-
-    case "Blacksmith":
-      xpAmount = 5;
-      description = `${tokenDoc.name} Destroyed!`;
-      lootItemName = "Craft a Helmet";
-      break;
-
-    case "General Store":
-      xpAmount = 5;
-      description = `${tokenDoc.name} Destroyed!`;
-      lootItemName = "Magic Rations";
-      break;
-
-    case "Apple Orchard":
-      xpAmount = 2;
-      description = "Applesauce: Earned for eating the orchard. A giant can devour all the apple trees to regain 50 hit points.";
-      break;
-
-    case "Lake":
-      xpAmount = 4;
-      description = "Soil the Lake: Earned for soiling the lake when a giant fully submerges themselves in the water.";
-      break;
-
-    case "Vineyard":
-      xpAmount = 4;
-      description = "Red, Red Wine: Earned for eating the vineyard and regaining 100 hit points.";
-      break;
-
-    case "Human Trickshot":
-      xpAmount = 5;
-      description = "Slightly-Less-Puny Human: Earned for killing a human trickshot.";
-      break;
-
-    case "Kalis Karr":
-      xpAmount = 10;
-      description = "Kinda-Not-Puny Human: Earned for killing Kalis Karr.";
-      break;
-  }
-
-  if (xpAmount > 0 && description) {
-    const messageContent = createMessageContent(tokenImage, xpAmount, description);
-    await ChatMessage.create({
-      content: messageContent
-    });
-  }
-
-  if (lootItemName) {
-    const lootItem = tokenDoc.items.getName(lootItemName);
-    if (lootItem) {
-      await lootItem.use({ legacy: false });
+  if (hpValue !== undefined && hpValue <= 0) {
+    if (tokenDoc.prototypeToken.name == "Building") {
+      const token = tokenDoc.token;
+      await token.update({ alpha: Number(!token.alpha) });
+    }
+  
+    const tokenImage = tokenDoc.img;
+    let xpAmount = 0;
+    let description = '';
+    let lootItemName = '';
+  
+    switch (tokenDoc.name) {
+      case "The Keep":
+        const light = canvas.scene.lights.get("YajTcW2DV5QsBOj5");
+        if (light) await light.update({ hidden: !light.hidden });
+        const wizard = canvas.tokens.placeables.find(t => t.actor.name === "Kalis Karr");
+        await wizard.document.update({ light: { bright: 0 } });
+  
+        xpAmount = 15;
+        description = "The Keep has Fallen! Kalis Karr's protection has disappeared!";
+        break;
+  
+      case "Inn":
+        xpAmount = 10;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Bandit Screams";
+        break;
+  
+      case "Farm House":
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Loot the Ruins!";
+        break;
+  
+      case "Alchemist Shop":
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Invisible";
+        break;
+  
+      case "Blacksmith":
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Craft a Helmet";
+        break;
+  
+      case "General Store":
+        xpAmount = 5;
+        description = `${tokenDoc.name} Destroyed!`;
+        lootItemName = "Magic Rations";
+        break;
+  
+      case "Apple Orchard":
+        xpAmount = 2;
+        description = "Applesauce: Earned for eating the orchard. A giant can devour all the apple trees to regain 50 hit points.";
+        break;
+  
+      case "Lake":
+        xpAmount = 4;
+        description = "Soil the Lake: Earned for soiling the lake when a giant fully submerges themselves in the water.";
+        break;
+  
+      case "Vineyard":
+        xpAmount = 4;
+        description = "Red, Red Wine: Earned for eating the vineyard and regaining 100 hit points.";
+        break;
+  
+      case "Human Trickshot":
+        xpAmount = 5;
+        description = "Slightly-Less-Puny Human: Earned for killing a human trickshot.";
+        break;
+  
+      case "Kalis Karr":
+        xpAmount = 10;
+        description = "Kinda-Not-Puny Human: Earned for killing Kalis Karr.";
+        break;
+    }
+  
+    if (xpAmount > 0 && description) {
+      const messageContent = createMessageContent(tokenImage, xpAmount, description);
+      await ChatMessage.create({
+        content: messageContent
+      });
+    }
+  
+    if (lootItemName) {
+      const lootItem = tokenDoc.items.getName(lootItemName);
+      if (lootItem) {
+        await lootItem.use({ legacy: false });
+      }
     }
   }
-}
 });
 
 // Swap Tree Actor summons with Tiles
 Hooks.on("dnd5e.postSummon", (activity, _, spawn) => {
-if (activity.item.name == "Pluck a Tree") {
-  const tree = [];
-  tree.push(spawn[0]._id);
-  TileDocument.create({
-    x: spawn[0].x,
-    y: spawn[0].y,
-    width: 110,
-    height: 110,
-    "texture.src": spawn[0].texture.src,
-    "flags.summoner.giant": activity.actor.name
-  }, { parent: canvas.scene });
-
-  canvas.scene.deleteEmbeddedDocuments("Token", tree);
-}
+  if (activity.name == "Pluck a Tree") {
+    const tree = [];
+    tree.push(spawn[0]._id);
+    TileDocument.create({
+      x: spawn[0].x,
+      y: spawn[0].y,
+      width: 110,
+      height: 110,
+      "texture.src": spawn[0].texture.src,
+      "flags.summoner.giant": activity.actor.name
+      }, { parent: canvas.scene });
+    canvas.scene.deleteEmbeddedDocuments("Token", tree);
+  }
 })
 
 /// Count Trees when Combat is ended
@@ -278,7 +272,6 @@ Hooks.on("deleteCombat", async (combat) => {
 
   canvas.scene.tiles.forEach(tile => {
       const giantValue = tile.flags?.summoner?.giant;
-
       if (giantValues.includes(giantValue)) {
           if (!giantCount[giantValue]) {
               giantCount[giantValue] = 0;
@@ -314,10 +307,7 @@ Hooks.on("deleteCombat", async (combat) => {
       }
   });
 
-  messageContent += `
-        </article>
-        </div>
-    </div>`;
+  messageContent += `</article></div></div>`;
 
   await ChatMessage.create({
       content: messageContent,
