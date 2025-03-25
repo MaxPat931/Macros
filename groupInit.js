@@ -1,6 +1,13 @@
 // Use with a selected group of tokens.
 const tokenGroup = canvas.tokens.controlled;
 const roller = tokenGroup[0];
+// Make sure all tokens have the same actor name to use the system's initiative grouping
+const groupName = roller.actor.name;
+const allSameName = tokenGroup.every(token => token.actor.name === groupName);
+if (!allSameName) {
+    ui.notifications.warn("All selected tokens must have the same name to form a group.");
+    return;
+}
 //If the first selected token is not in itiative, roll init and add remaining selected tokens to that init value
 if (!roller.combatant) {
     await roller.document.toggleCombatant();
@@ -36,7 +43,7 @@ const effectData = {
 };
 
 for (const token of tokenGroup) {
-    const existingEffect = token.actor.effects.find(e => e.label === effectName);
+    const existingEffect = token.actor.effects.find(e => e.name === effectName);
     if (existingEffect) {
         existingEffect.update({ tint: color });
     } else {
