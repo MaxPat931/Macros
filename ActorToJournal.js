@@ -193,12 +193,12 @@ for (const actor of actorFolder.contents) {
 
     actor.items.forEach(item => {
         const itemName = item.name;
-        //console.log(item.name, item)
+        console.log(item.name, item)
         const desc = item.system.identified === false ? item.system.unidentified?.description : item.system.description.value;
         const system = item.system;
         const itemType = item.type;
         const labels = item.labels;
-        const period = CONFIG.DND5E.limitedUsePeriods[system.uses?.per]?.label
+        //const period = CONFIG.DND5E.limitedUsePeriods[system.uses?.per]?.label
         const schoolIcon = CONFIG.DND5E.spellSchools[system.school]?.icon
 
         let itemDesc = `<div class="fvtt advice"><figure class="icon"><img src="${item.img}" class="round"></figure><article  style="break-inside: avoid;">`;
@@ -208,7 +208,7 @@ for (const actor of actorFolder.contents) {
             itemDesc += `
             ${system.attunement === "required" || system.attunement === "optional" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''} 
             ${itemType === "weapon" || itemType == "equipment" ? `<i class="fa-regular fa-shield" style="float:right"></i>` : ''}
-            ${system.recharge?.value ? `<span style="float: right;">${system.recharge.value}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
+            ${system.uses?.recovery[0]?.period == "recharge" ? `<span style="float: right;">${system.uses.label}+ <i class="fa-solid fa-battery-empty fa-xl"> </i></span>` : ''}
             ${itemType == "spell" ? `<i class="fa-regular fa-sun" style="float:right"></i>` : ''}
             <details open><summary style="list-style: none"><span style="font-family: 'Modesto Condensed'; font-size: 2em;">${itemName} ${system.quantity > 1 ? ` (${system.quantity})` : ''}</span></summary>
             ${system.rarity ? `<br>Rarity: ${system.rarity.charAt(0).toUpperCase() + system.rarity.slice(1)}` : ''}
@@ -222,7 +222,7 @@ for (const actor of actorFolder.contents) {
                                 <i class="fa-regular fa-circle"></i>
                             `;
                 }
-                itemDesc += `<br>Uses: ${system.uses.max} ${period == "Charges" ? `Charges` : `per ${period}`} ${useMax}`
+                itemDesc += `<br>Uses: ${useMax} ${system.uses.label}`
             };
             if (itemType == "spell" && labels.properties && labels.properties.length > 0) {
                 itemDesc += `<br>`;
@@ -271,9 +271,9 @@ for (const actor of actorFolder.contents) {
                     ${labels.save ? `<br><strong>${labels.save} Saving Throw</strong>` : ''}
                     ${labels.toHit ? `<br><strong>${CONFIG.DND5E.itemActionTypes[system.actionType]}: ${labels.toHit}</strong>` : ''}
                 `;
-            if (labels.derivedDamage && labels.derivedDamage.length > 0) {
+            if (labels.damages && labels.damages.length > 0) {
                 itemDesc += `<br><strong>Damage: </strong>`
-                labels.derivedDamage.forEach((damage, index) => {
+                labels.damages.forEach((damage, index) => {
                     if (index > 0) {
                         itemDesc += ', ';
                     }
@@ -283,10 +283,10 @@ for (const actor of actorFolder.contents) {
                 });
                 itemDesc += `${system.scaling?.mode == "level" ? `<br>Upcasting: +${system.scaling.formula} for each slot level above ${CONFIG.DND5E.spellLevels[system.level]}` : ''}`
             }
-            if (item.system.damage?.versatile) {
-                itemDesc += `<br><strong>Versatile: ${system.damage.versatile}</strong>`
+            if (system.damage?.versatile?.number) {
+                itemDesc += `<br><strong>Versatile: ${system.damage.versatile.formula} +${labels.modifier} ${labels.damageTypes}</strong>`
             }
-            itemDesc += `<details open><summary style="list-style: none"><hr></summary>${desc}</details>`
+            itemDesc += `<details open ><summary style="list-style: none"><hr></summary>${desc}</details>`
             if (itemType != "spell" && labels.properties && labels.properties.length > 0) {
                 itemDesc += `<details open><summary style="list-style: none"><hr></summary>Properties: `
                 labels.properties.forEach((prop, index) => {
