@@ -121,10 +121,10 @@ for (const actor of actorFolder.contents) {
             let dieCount = '';
             for (let i = 0; i < hitd.system.levels; i++) {
                 dieCount += `
-                        <i class="fa-duotone fa-dice-${hitd.system.hitDice}"></i>
+                        <i class="fa-duotone fa-dice-${hitd.system.hd.denomination}"></i>
                     `;
             }
-            actorContent += `<h3>${hitd.name} ${hitd.system.hitDice} ${dieCount}</h3>`;
+            actorContent += `<h3>${hitd.name} ${hitd.system.hd.denomination} ${dieCount}</h3>`;
         });
     }
 
