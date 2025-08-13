@@ -61,12 +61,12 @@ Hooks.on("updateCombat", async (combat, changes) => {
       const content = `
   <div class="row">
       <div class="column">
-    <label><input type="radio" name="choice" value="Bonecruncher" checked> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/HillGiant.png'></label>
-    <label><input type="radio" name="choice" value="Lapis Tenebra"> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/ObsidianGiant.webp'></label>
+    <label><input type="radio" name="choice" value="Bonecruncher" checked> <img style='border: none; height: 150px' src='modules/mcdm-flee-mortals-where-evil-lives/assets/tokens/actor/hill-giant-clobberer-actor.webp'></label>
+    <label><input type="radio" name="choice" value="Lapis Tenebra"> <img style='border: none; height: 150px' src='modules/mcdm-flee-mortals-where-evil-lives/assets/tokens/actor/marble-stone-giant-actor.webp'></label>
       </div>
       <div class="column">
-    <label><input type="radio" name="choice" value="Ulf the Quick"> <img style='border: none; height: 150px' src='modules/flee-mortals/tokens/FrostGiantWindSprinter.png'></label>
-    <label><input type="radio" name="choice" value="Revna the Blue"> <img style='border: none; height: 150px' src='worlds/feefifofum/assets/FrostGiantStormHurler.png'></label>
+    <label><input type="radio" name="choice" value="Ulf the Quick"> <img style='border: none; height: 150px' src='modules/mcdm-flee-mortals-where-evil-lives/assets/tokens/actor/frost-giant-wind-sprinter-actor.webp'></label>
+    <label><input type="radio" name="choice" value="Revna the Blue"> <img style='border: none; height: 150px' src='modules/mcdm-flee-mortals-where-evil-lives/assets/tokens/actor/frost-giant-storm-hurler-actor.webp'></label>
     </div>
     </div>
   `;
